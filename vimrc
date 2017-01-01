@@ -28,5 +28,5 @@ noremap <Left> <NOP>
 noremap <Right> <NOP>
 
 " set background=dark         " for the light version
-" colorscheme Tomorrow-Night
+colorscheme Tomorrow-Night
 
