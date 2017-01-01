@@ -95,7 +95,6 @@ module.exports = {
   //   `project#1.0.1`
   plugins: [
     "hyper-blink",
-    "hyper-autohide-tabs",
     "hyperterm-cursor",
     "hypercwd",
     "hyperlinks"
