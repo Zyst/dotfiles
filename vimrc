@@ -20,6 +20,16 @@ call plug#end()
 " Shares system clipboard
 set clipboard=unnamedplus
 
+" LINES
+" Hightlight the current cursor line
+set cursorline
+" Wrap lines visually
+set wrap
+" Show line numbers
+set number
+" Minimum number of screen lines that you would like above and below the cursor
+set scrolloff=5
+
 " Habit bust: Using keys
 " Disables arrow keys
 noremap <Up> <NOP>
@@ -27,6 +37,7 @@ noremap <Down> <NOP>
 noremap <Left> <NOP>
 noremap <Right> <NOP>
 
-" set background=dark         " for the light version
+" Uncomment the one below for the one theme
+" set background=light         " for the light version
 colorscheme Tomorrow-Night
 
