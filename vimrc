@@ -7,6 +7,12 @@ endif
 
 " PLUGINS
 call plug#begin('~/.vim/plugged')
+" Core
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'bling/vim-airline'
+
+" Themes
+Plug 'chriskempson/vim-tomorrow-theme'
 Plug 'rakr/vim-one'
 call plug#end()
 
@@ -21,6 +27,6 @@ noremap <Down> <NOP>
 noremap <Left> <NOP>
 noremap <Right> <NOP>
 
-set background=dark         " for the light version
-colorscheme one
+" set background=dark         " for the light version
+" colorscheme Tomorrow-Night
 
