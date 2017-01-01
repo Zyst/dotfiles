@@ -12,6 +12,13 @@ Plug 'ctrlpvim/ctrlp.vim'
 Plug 'bling/vim-airline'
 Plug 'tpope/vim-fugitive'
 
+" Languages
+Plug 'othree/html5.vim'
+Plug 'hail2u/vim-css3-syntax'
+Plug 'pangloss/vim-javascript'
+Plug 'moll/vim-node'
+Plug 'mxw/vim-jsx'
+
 " Themes
 Plug 'chriskempson/vim-tomorrow-theme'
 Plug 'rakr/vim-one'
@@ -54,8 +61,6 @@ set undofile
 set undodir=~/.vim/undo_files//
 set directory=~/.vim/swap_files//
 set backupdir=~/.vim/backup_files//
-
-
 
 " Habit bust: Using keys
 " Disables arrow keys
