@@ -43,6 +43,8 @@ module.exports = {
     // the full list. if you're going to provide the full color palette,
     // including the 6 x 6 color cubes and the grayscale map, just provide
     // an array here instead of a color map object
+    // Based on Atom One Dark syntax theme, hyper theme here:
+    // https://github.com/mdo/hyperterm-atom-dark/blob/master/index.js
     colors: {
       black: '#282c34',
       red: '#e06c75',
