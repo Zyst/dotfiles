@@ -93,7 +93,13 @@ module.exports = {
   //   `hyperpower`
   //   `@company/project`
   //   `project#1.0.1`
-  plugins: ["hyper-blink", "hyper-autohide-tabs", "hyperterm-cursor"],
+  plugins: [
+    "hyper-blink",
+    "hyper-autohide-tabs",
+    "hyperterm-cursor",
+    "hypercwd",
+    "hyperlinks"
+  ],
 
   // in development, you can create a directory under
   // `~/.hyper_plugins/local/` and include it here
