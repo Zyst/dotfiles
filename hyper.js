@@ -13,10 +13,10 @@ module.exports = {
     cursorShape: 'BLOCK',
 
     // color of the text
-    foregroundColor: '#fff',
+    foregroundColor: '#abb2bf',
 
     // terminal background color
-    backgroundColor: '#000',
+    backgroundColor: '#282c34',
 
     // border color (window, tabs)
     borderColor: '#333',
