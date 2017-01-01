@@ -7,7 +7,7 @@ module.exports = {
     fontFamily: 'Operator Mono',
 
     // terminal cursor background color and opacity (hex, rgb, hsl, hsv, hwb or cmyk)
-    cursorColor: 'rgba(50,50,250,0.8)',
+    cursorColor: '#abb2bf',
 
     // `BEAM` for |, `UNDERLINE` for _, `BLOCK` for █
     cursorShape: 'BLOCK',
@@ -19,7 +19,7 @@ module.exports = {
     backgroundColor: '#282c34',
 
     // border color (window, tabs)
-    borderColor: '#333',
+    borderColor: '#282c34',
 
     // custom css to embed in the main window
     css: '',
