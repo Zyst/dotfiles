@@ -9,8 +9,8 @@ endif
 call plug#begin('~/.vim/plugged')
 " Core
 Plug 'ctrlpvim/ctrlp.vim'
-Plug 'bling/vim-airline'
-Plug 'tpope/vim-fugitive'
+" Plug 'bling/vim-airline'
+" Plug 'tpope/vim-fugitive'
 
 " Languages
 Plug 'othree/html5.vim'
