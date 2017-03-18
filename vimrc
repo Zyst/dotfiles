@@ -8,7 +8,7 @@ endif
 " PLUGINS
 call plug#begin('~/.vim/plugged')
 " Core
-Plug 'ctrlpvim/ctrlp.vim'
+Plug 'ctrlpvim/ctrlp.vim' 
 Plug 'tpope/vim-fugitive'
 Plug 'scrooloose/nerdtree'
 Plug 'airblade/vim-gitgutter'
@@ -131,4 +131,4 @@ set statusline=%=\ %f\ %m
 " Something something, vertical characters?
 set fillchars=vert:\ ,stl:\ ,stlnc:\ 
 
-set noshowmode
+set noshowmode 
