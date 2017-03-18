@@ -1,7 +1,7 @@
 module.exports = {
   config: {
     // default font size in pixels for all tabs
-    fontSize: 16,
+    fontSize: 22,
 
     // font family with optional fallbacks
     fontFamily: 'PowerlineSymbols, Operator Mono',
@@ -98,8 +98,13 @@ module.exports = {
     "hyper-blink",
     "hyperterm-cursor",
     "hypercwd",
-    "hyperlinks"
+    "hyperlinks",
+    "hyperclean"
   ],
+
+  hyperclean: {
+    hideTabs: true
+  },
 
   // in development, you can create a directory under
   // `~/.hyper_plugins/local/` and include it here

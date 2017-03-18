@@ -10,12 +10,14 @@ call plug#begin('~/.vim/plugged')
 " Core
 Plug 'ctrlpvim/ctrlp.vim'
 " Plug 'bling/vim-airline'
-" Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-fugitive'
+Plug 'scrooloose/nerdtree'
 
 " Languages
 Plug 'othree/html5.vim'
 Plug 'hail2u/vim-css3-syntax'
-Plug 'pangloss/vim-javascript'
+Plug 'othree/yajs.vim'
+Plug 'herringtondarkholme/yats.vim'
 Plug 'moll/vim-node'
 Plug 'mxw/vim-jsx'
 
@@ -23,6 +25,12 @@ Plug 'mxw/vim-jsx'
 Plug 'chriskempson/vim-tomorrow-theme'
 Plug 'rakr/vim-one'
 Plug 'NLKNguyen/papercolor-theme'
+Plug 'oguzbilgic/sexy-railscasts-theme'
+Plug 'jpo/vim-railscasts-theme'
+Plug 'mhartington/oceanic-next'
+Plug 'morhetz/gruvbox'
+Plug 'w0ng/vim-hybrid'
+Plug 'ajh17/spacegray.vim'
 call plug#end()
 
 " CLIPBOARD
@@ -72,8 +80,29 @@ noremap <Right> <NOP>
 " Airline show by default
 set laststatus=2
 let g:airline_powerline_fonts = 1
+let g:airline_theme='oceanicnext'
+
+
+ " Theme accuracy stuff
+syntax enable
+
+" for vim 7
+set t_Co=256
+
+" for vim 8
+if (has("termguicolors"))
+ set termguicolors
+endif
 
 " Uncomment the one below for the one theme
-" set background=dark         " for the light version
-colorscheme Tomorrow-Night
+" set background=dark         " for the light version 
+colorscheme hybrid
+
+" Change cursor shape depending on mode, in iTerm2
+let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+let &t_SR = "\<Esc>]50;CursorShape=2\x7"
+let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+
+" Italic comments
+highlight Comment cterm=italic
 
