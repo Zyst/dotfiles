@@ -68,6 +68,12 @@ set undodir=~/.vim/undo_files//
 set directory=~/.vim/swap_files//
 set backupdir=~/.vim/backup_files//
 
+" SPELLCHECKING
+set spelllang=en
+autocmd BufRead,BufNewFile *.md setlocal spell
+autocmd BufRead,BufNewFile *.txt setlocal spell
+autocmd BufRead,BufNewFile *.markdown setlocal spell
+
 " Habit bust: Using keys
 " Disables arrow keys
 noremap <Up> <NOP>
@@ -78,29 +84,34 @@ noremap <Right> <NOP>
 " Airline show by default
 set laststatus=2
 
- " Theme accuracy stuff
-syntax enable
-
+" THEMES
+" Theme accuracy stuff
+syntax enable 
 " for vim 7
-set t_Co=256
-
+set t_Co=256 
 " for vim 8
 if (has("termguicolors"))
  set termguicolors
-endif
-
+endif 
 " Uncomment the one below for the one theme
 " set background=dark         " for the light version 
 colorscheme gruvbox
 
+" CURSOR CHANGE (MODE DEPENDANT)
 " Change cursor shape depending on mode, in iTerm2
 let &t_SI = "\<Esc>]50;CursorShape=1\x7"
 let &t_SR = "\<Esc>]50;CursorShape=2\x7"
 let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 
+" CODE APPEARANCE
 " Italic comments
 highlight Comment cterm=italic 
 
+" EDITOR APPEARANCE
+" Statusline: On the Right side: File name,
+set statusline=%=\ %f\ %m 
+" Don't show a second statusline
+set noshowmode 
 " Vertical split color
 hi vertsplit ctermfg=238 ctermbg=235 
 " Line Nnumber color
@@ -113,22 +124,17 @@ hi StatusLineNC ctermfg=235 ctermbg=237
 hi Search ctermbg=58 ctermfg=15 
 " Sets the default hi to avoid overrides
 hi Default ctermfg=1
+" Changes the ~ sign color on empty lines
+hi EndOfBuffer ctermfg=237 ctermbg=235 
+" Something something, vertical characters?
+set fillchars=vert:\ ,stl:\ ,stlnc:\ 
 
+" GIT GUTTER APPEARANCE
 " Fix so Git Gutter looks clearer
 hi clear SignColumn
 hi SignColumn ctermbg=235
 hi GitGutterAdd ctermbg=235 ctermfg=245
 hi GitGutterChange ctermbg=235 ctermfg=245
 hi GitGutterDelete ctermbg=235 ctermfg=245
-hi GitGutterChangeDelete ctermbg=235 ctermfg=245
+hi GitGutterChangeDelete ctermbg=235 ctermfg=245 
 
-" Changes the ~ sign color on empty lines
-hi EndOfBuffer ctermfg=237 ctermbg=235 
-
-" On the Right side: File name,
-set statusline=%=\ %f\ %m
-
-" Something something, vertical characters?
-set fillchars=vert:\ ,stl:\ ,stlnc:\ 
-
-set noshowmode 
