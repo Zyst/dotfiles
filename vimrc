@@ -9,9 +9,10 @@ endif
 call plug#begin('~/.vim/plugged')
 " Core
 Plug 'ctrlpvim/ctrlp.vim'
-" Plug 'bling/vim-airline'
+Plug 'bling/vim-airline'
 Plug 'tpope/vim-fugitive'
 Plug 'scrooloose/nerdtree'
+Plug 'airblade/vim-gitgutter'
 
 " Languages
 Plug 'othree/html5.vim'
@@ -82,7 +83,6 @@ set laststatus=2
 let g:airline_powerline_fonts = 1
 let g:airline_theme='oceanicnext'
 
-
  " Theme accuracy stuff
 syntax enable
 
@@ -96,7 +96,7 @@ endif
 
 " Uncomment the one below for the one theme
 " set background=dark         " for the light version 
-colorscheme hybrid
+colorscheme gruvbox
 
 " Change cursor shape depending on mode, in iTerm2
 let &t_SI = "\<Esc>]50;CursorShape=1\x7"
@@ -104,5 +104,36 @@ let &t_SR = "\<Esc>]50;CursorShape=2\x7"
 let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 
 " Italic comments
-highlight Comment cterm=italic
+highlight Comment cterm=italic 
+
+" Vertical split color
+hi vertsplit ctermfg=238 ctermbg=235 
+" Line Nnumber color
+hi LineNr ctermfg=237 
+" StatusLine colors 
+hi StatusLine ctermfg=235 ctermbg=245 
+" StatusLine NC
+hi StatusLineNC ctermfg=235 ctermbg=237 
+" Search appearance
+hi Search ctermbg=58 ctermfg=15 
+" Sets the default hi to avoid overrides
+hi Default ctermfg=1
+
+" Fix so Git Gutter looks clearer
+hi clear SignColumn
+hi SignColumn ctermbg=235
+hi GitGutterAdd ctermbg=235 ctermfg=245
+hi GitGutterChange ctermbg=235 ctermfg=245
+hi GitGutterDelete ctermbg=235 ctermfg=245
+hi GitGutterChangeDelete ctermbg=235 ctermfg=245
+
+" Changes the ~ sign color on empty lines
+hi EndOfBuffer ctermfg=237 ctermbg=235 
+
+set statusline=%=&P\ %f\ %m
+
+" Something something, vertical characters?
+set fillchars=vert:\ ,stl:\ ,stlnc:\ 
+
+set noshowmode
 
