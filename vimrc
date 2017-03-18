@@ -9,7 +9,6 @@ endif
 call plug#begin('~/.vim/plugged')
 " Core
 Plug 'ctrlpvim/ctrlp.vim'
-Plug 'bling/vim-airline'
 Plug 'tpope/vim-fugitive'
 Plug 'scrooloose/nerdtree'
 Plug 'airblade/vim-gitgutter'
@@ -27,11 +26,9 @@ Plug 'chriskempson/vim-tomorrow-theme'
 Plug 'rakr/vim-one'
 Plug 'NLKNguyen/papercolor-theme'
 Plug 'oguzbilgic/sexy-railscasts-theme'
-Plug 'jpo/vim-railscasts-theme'
 Plug 'mhartington/oceanic-next'
 Plug 'morhetz/gruvbox'
 Plug 'w0ng/vim-hybrid'
-Plug 'ajh17/spacegray.vim'
 call plug#end()
 
 " CLIPBOARD
@@ -44,7 +41,7 @@ set cursorline
 " Wrap lines visually
 set wrap
 " Show line numbers
-set number
+" set number
 " Minimum number of screen lines that you would like above and below the cursor
 set scrolloff=1
 
@@ -80,8 +77,6 @@ noremap <Right> <NOP>
 
 " Airline show by default
 set laststatus=2
-let g:airline_powerline_fonts = 1
-let g:airline_theme='oceanicnext'
 
  " Theme accuracy stuff
 syntax enable
@@ -111,7 +106,7 @@ hi vertsplit ctermfg=238 ctermbg=235
 " Line Nnumber color
 hi LineNr ctermfg=237 
 " StatusLine colors 
-hi StatusLine ctermfg=235 ctermbg=245 
+hi StatusLine ctermfg=235 ctermbg=245 guifg=Background guibg=#686868
 " StatusLine NC
 hi StatusLineNC ctermfg=235 ctermbg=237 
 " Search appearance
@@ -130,10 +125,10 @@ hi GitGutterChangeDelete ctermbg=235 ctermfg=245
 " Changes the ~ sign color on empty lines
 hi EndOfBuffer ctermfg=237 ctermbg=235 
 
-set statusline=%=&P\ %f\ %m
+" On the Right side: File name,
+set statusline=%=\ %f\ %m
 
 " Something something, vertical characters?
 set fillchars=vert:\ ,stl:\ ,stlnc:\ 
 
 set noshowmode
-
