@@ -1,7 +1,10 @@
+" Zyst
+
+" PLUG {{{
 " Install vim-plug if it isn't installed already
 if empty(glob('~/.vim/autoload/plug.vim'))
   silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+        \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
   autocmd VimEnter * PlugInstall | source $MYVIMRC
 endif
 
@@ -34,6 +37,8 @@ Plug 'w0ng/vim-hybrid'
 Plug 'nanotech/jellybeans.vim' 
 Plug 'davidklsn/vim-sialoquent'
 call plug#end() 
+" }}}
+
 " Enable JSX in JS files
 let g:jsx_ext_required = 0
 
@@ -94,7 +99,7 @@ syntax enable
 set t_Co=256
 " for vim 8
 if (has("termguicolors"))
- set termguicolors
+  set termguicolors
 endif
 
 colorscheme onedark
