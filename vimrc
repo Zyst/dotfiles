@@ -1,4 +1,5 @@
 " Zyst 
+
 " PLUG {{{
 " Install vim-plug if it isn't installed already
 if empty(glob('~/.vim/autoload/plug.vim'))
@@ -82,14 +83,6 @@ autocmd BufRead,BufNewFile *.txt setlocal spell
 autocmd BufRead,BufNewFile *.markdown setlocal spell 
 " }}}
 
-" Habit bust keys {{{
-" Disables arrow keys
-noremap <Up> <NOP>
-noremap <Down> <NOP>
-noremap <Left> <NOP>
-noremap <Right> <NOP> 
-" }}}
-
 " THEMES {{{
 " Theme accuracy stuff
 syntax enable
@@ -117,13 +110,23 @@ set wrap
 " Show line numbers
 " set number
 " Minimum number of screen lines that you would like above and below the cursor
-set scrolloff=1
+set scrolloff=1 
+" this autocompletes commands with TAB
+set wildmenu 
+" Highlights the matching item like ({[]})
+set showmatch
 
 " CURSOR CHANGE (MODE DEPENDANT)
-" Change cursor shape depending on mode, in iTerm2
-let &t_SI = "\<Esc>]50;CursorShape=1\x7"
-let &t_SR = "\<Esc>]50;CursorShape=2\x7"
-let &t_EI = "\<Esc>]50;CursorShape=0\x7" 
+" Change cursor shape depending on mode
+if exists('$TMUX')
+  let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
+  let &t_SR = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=2\x7\<Esc>\\"
+  let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\" 
+else
+  let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+  let &t_SR = "\<Esc>]50;CursorShape=2\x7"
+  let &t_EI = "\<Esc>]50;CursorShape=0\x7" 
+endif
 
 " statusline: On the Right side: File name,
 set statusline=%=\ %f\ %m
@@ -158,7 +161,37 @@ hi GitGutterDelete ctermbg=235 ctermfg=245
 hi GitGutterChangeDelete ctermbg=235 ctermfg=245 
 " }}}
 
+" Search {{{
+" Search as you type characters
+set incsearch 
+" Ignore case while searching
+set ignorecase
+" }}}
+
+" Folding {{{
+" Enable folding
+set foldenable
+" Open 10 fold levels by default
+set foldlevelstart=10
+" Fold based on indent level
+set foldmethod=indent 
+" }}}
+
+" Key Remaps {{{
+" Disables arrow keys, habit bust
+noremap <Up> <NOP>
+noremap <Down> <NOP>
+noremap <Left> <NOP>
+noremap <Right> <NOP> 
+
+" Move by visual line rather than line line
+nnoremap j gj
+nnoremap k gk
+" }}}
+
 " Hotkeys {{{
 " Toggle Nerdtree with Ctrl + B
 map <C-b> :NERDTreeToggle<CR>
 " }}} 
+
+" vim:foldmethod=marker:foldlevel=0
