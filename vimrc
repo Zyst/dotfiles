@@ -39,7 +39,7 @@ Plug 'davidklsn/vim-sialoquent'
 call plug#end() 
 " }}}
 
-" Misc {{{
+" MISC {{{
 " Enable JSX in JS files
 let g:jsx_ext_required = 0
 
@@ -161,14 +161,14 @@ hi GitGutterDelete ctermbg=235 ctermfg=245
 hi GitGutterChangeDelete ctermbg=235 ctermfg=245 
 " }}}
 
-" Search {{{
+" SEARCH {{{
 " Search as you type characters
 set incsearch 
 " Ignore case while searching
 set ignorecase
 " }}}
 
-" Folding {{{
+" FOLDING {{{
 " Enable folding
 set foldenable
 " Open 10 fold levels by default
@@ -177,7 +177,7 @@ set foldlevelstart=10
 set foldmethod=indent 
 " }}}
 
-" Key Remaps {{{
+" KEY REMAPS {{{
 " Disables arrow keys, habit bust
 noremap <Up> <NOP>
 noremap <Down> <NOP>
@@ -189,9 +189,10 @@ nnoremap j gj
 nnoremap k gk
 " }}}
 
-" Hotkeys {{{
+" HOTKEYS {{{
 " Toggle Nerdtree with Ctrl + B
 map <C-b> :NERDTreeToggle<CR>
 " }}} 
 
+" This makes it so vim starts folded by markets (the {{{}}} stuff), and is all folded by default
 " vim:foldmethod=marker:foldlevel=0
