@@ -8,28 +8,34 @@ endif
 " PLUGINS
 call plug#begin('~/.vim/plugged')
 " Core
-Plug 'ctrlpvim/ctrlp.vim' 
-Plug 'tpope/vim-fugitive'
-Plug 'scrooloose/nerdtree'
-Plug 'airblade/vim-gitgutter'
+Plug 'ctrlpvim/ctrlp.vim' " File opening shenanigans
+Plug 'tpope/vim-fugitive' " Git integration, something something
+Plug 'scrooloose/nerdtree'  " Adds a navigation tree
+Plug 'airblade/vim-gitgutter' " Adds git changes markers
+Plug 'jiangmiao/auto-pairs' " Auto closes a lot of stuff with smart behavior
+Plug 'ap/vim-css-color' " Colorizes stuff
 
 " Languages
 Plug 'othree/html5.vim'
 Plug 'hail2u/vim-css3-syntax'
-Plug 'othree/yajs.vim'
-Plug 'herringtondarkholme/yats.vim'
+Plug 'pangloss/vim-javascript' " JS
+Plug 'herringtondarkholme/yats.vim' " TypeScript
 Plug 'moll/vim-node'
 Plug 'mxw/vim-jsx'
 
 " Themes
 Plug 'chriskempson/vim-tomorrow-theme'
-Plug 'rakr/vim-one'
+Plug 'Zyst/onedark.vim'
 Plug 'NLKNguyen/papercolor-theme'
 Plug 'oguzbilgic/sexy-railscasts-theme'
 Plug 'mhartington/oceanic-next'
 Plug 'morhetz/gruvbox'
 Plug 'w0ng/vim-hybrid'
-call plug#end()
+Plug 'nanotech/jellybeans.vim' 
+Plug 'davidklsn/vim-sialoquent'
+call plug#end() 
+" Enable JSX in JS files
+let g:jsx_ext_required = 0
 
 " CLIPBOARD
 " Shares system clipboard
@@ -79,20 +85,19 @@ autocmd BufRead,BufNewFile *.markdown setlocal spell
 noremap <Up> <NOP>
 noremap <Down> <NOP>
 noremap <Left> <NOP>
-noremap <Right> <NOP> 
+noremap <Right> <NOP>
 
 " THEMES
 " Theme accuracy stuff
-syntax enable 
+syntax enable
 " for vim 7
-set t_Co=256 
+set t_Co=256
 " for vim 8
 if (has("termguicolors"))
  set termguicolors
-endif 
-" Uncomment the one below for the one theme
-" set background=dark         " for the light version 
-colorscheme gruvbox
+endif
+
+colorscheme onedark
 
 " CURSOR CHANGE (MODE DEPENDANT)
 " Change cursor shape depending on mode, in iTerm2
@@ -102,29 +107,31 @@ let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 
 " CODE APPEARANCE
 " Italic comments
-highlight Comment cterm=italic 
+highlight Comment cterm=italic
 
 " EDITOR APPEARANCE
 " Statusline: On the Right side: File name,
-set statusline=%=\ %f\ %m 
+set statusline=%=\ %f\ %m
 " Don't show a second statusline
-set noshowmode 
+set noshowmode
 " Vertical split color
-hi vertsplit ctermfg=238 ctermbg=235 
+hi vertsplit ctermfg=238 ctermbg=235
 " Line Nnumber color
-hi LineNr ctermfg=237 
-" StatusLine colors 
-hi StatusLine ctermfg=235 ctermbg=245 guifg=Background guibg=#686868
+hi LineNr ctermfg=237
+" StatusLine colors
+hi StatusLine ctermfg=235 ctermbg=245 guifg=#5c6370 guibg=#262626
 " StatusLine NC
-hi StatusLineNC ctermfg=235 ctermbg=237 
+hi StatusLineNC ctermfg=235 ctermbg=237
 " Search appearance
-hi Search ctermbg=58 ctermfg=15 
+hi Search ctermbg=58 ctermfg=15
 " Sets the default hi to avoid overrides
 hi Default ctermfg=1
 " Changes the ~ sign color on empty lines
-hi EndOfBuffer ctermfg=237 ctermbg=235 
+hi EndOfBuffer ctermfg=237 ctermbg=235
+" Changes the background color
+hi Normal guibg=#262626
 " Something something, vertical characters?
-set fillchars=vert:\ ,stl:\ ,stlnc:\ 
+set fillchars=vert:\ ,stl:\ ,stlnc:\
 
 " GIT GUTTER APPEARANCE
 " Fix so Git Gutter looks clearer
@@ -133,7 +140,7 @@ hi SignColumn ctermbg=235
 hi GitGutterAdd ctermbg=235 ctermfg=245
 hi GitGutterChange ctermbg=235 ctermfg=245
 hi GitGutterDelete ctermbg=235 ctermfg=245
-hi GitGutterChangeDelete ctermbg=235 ctermfg=245 
+hi GitGutterChangeDelete ctermbg=235 ctermfg=245
 
 " CUSTOM HOTKEYS
 " Toggle Nerdtree with Ctrl + B
