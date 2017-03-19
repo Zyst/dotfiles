@@ -194,5 +194,4 @@ nnoremap k gk
 map <C-b> :NERDTreeToggle<CR>
 " }}} 
 
-" This makes it so vim starts folded by markets (the {{{}}} stuff), and is all folded by default
 " vim:foldmethod=marker:foldlevel=0
