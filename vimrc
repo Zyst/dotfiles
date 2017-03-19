@@ -1,5 +1,4 @@
-" Zyst
-
+" Zyst 
 " PLUG {{{
 " Install vim-plug if it isn't installed already
 if empty(glob('~/.vim/autoload/plug.vim'))
@@ -39,26 +38,20 @@ Plug 'davidklsn/vim-sialoquent'
 call plug#end() 
 " }}}
 
+" Misc {{{
 " Enable JSX in JS files
 let g:jsx_ext_required = 0
 
-" CLIPBOARD
-" Shares system clipboard
-set clipboard=unnamedplus
-
-" LINES
-" Hightlight the current cursor line
-set cursorline
-" Wrap lines visually
-set wrap
-" Show line numbers
-" set number
-" Minimum number of screen lines that you would like above and below the cursor
-set scrolloff=1
-
-" TABS
 " Allows backspace to work 'normally'
-set backspace=indent,eol,start
+set backspace=indent,eol,start 
+" }}}
+
+" CLIPBOARD {{{
+" Shares system clipboard
+set clipboard=unnamedplus 
+" }}}
+
+" SPACES & TABS {{{
 set smarttab
 " Makes tab insert spaces
 set expandtab
@@ -71,28 +64,33 @@ set shiftwidth=2
 " Does nothing more than copy the indentation from the previous line, when starting a new line
 set autoindent
 " Smart indent automatically inserts one extra level of indentation in some cases
-set smartindent
+set smartindent 
+" }}}
 
-" HISTORY
+" HISTORY {{{
 set undofile
 set undodir=~/.vim/undo_files//
 set directory=~/.vim/swap_files//
-set backupdir=~/.vim/backup_files//
+set backupdir=~/.vim/backup_files// 
+" }}}
 
-" SPELLCHECKING
+" SPELLCHECKING {{{
+" We spellcheck English and check markdown and text files
 set spelllang=en
 autocmd BufRead,BufNewFile *.md setlocal spell
 autocmd BufRead,BufNewFile *.txt setlocal spell
-autocmd BufRead,BufNewFile *.markdown setlocal spell
+autocmd BufRead,BufNewFile *.markdown setlocal spell 
+" }}}
 
-" Habit bust: Using keys
+" Habit bust keys {{{
 " Disables arrow keys
 noremap <Up> <NOP>
 noremap <Down> <NOP>
 noremap <Left> <NOP>
-noremap <Right> <NOP>
+noremap <Right> <NOP> 
+" }}}
 
-" THEMES
+" THEMES {{{
 " Theme accuracy stuff
 syntax enable
 " for vim 7
@@ -102,20 +100,32 @@ if (has("termguicolors"))
   set termguicolors
 endif
 
-colorscheme onedark
+colorscheme onedark 
+" }}}
+
+" CODE APPEARANCE {{{
+" Italic comments
+highlight Comment cterm=italic 
+" }}}
+
+" EDITOR APPEARANCE {{{
+" LINES
+" Hightlight the current cursor line
+set cursorline
+" Wrap lines visually
+set wrap
+" Show line numbers
+" set number
+" Minimum number of screen lines that you would like above and below the cursor
+set scrolloff=1
 
 " CURSOR CHANGE (MODE DEPENDANT)
 " Change cursor shape depending on mode, in iTerm2
 let &t_SI = "\<Esc>]50;CursorShape=1\x7"
 let &t_SR = "\<Esc>]50;CursorShape=2\x7"
-let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+let &t_EI = "\<Esc>]50;CursorShape=0\x7" 
 
-" CODE APPEARANCE
-" Italic comments
-highlight Comment cterm=italic
-
-" EDITOR APPEARANCE
-" Statusline: On the Right side: File name,
+" statusline: On the Right side: File name,
 set statusline=%=\ %f\ %m
 " Don't show a second statusline
 set noshowmode
@@ -145,8 +155,10 @@ hi SignColumn ctermbg=235
 hi GitGutterAdd ctermbg=235 ctermfg=245
 hi GitGutterChange ctermbg=235 ctermfg=245
 hi GitGutterDelete ctermbg=235 ctermfg=245
-hi GitGutterChangeDelete ctermbg=235 ctermfg=245
+hi GitGutterChangeDelete ctermbg=235 ctermfg=245 
+" }}}
 
-" CUSTOM HOTKEYS
+" Hotkeys {{{
 " Toggle Nerdtree with Ctrl + B
 map <C-b> :NERDTreeToggle<CR>
+" }}} 
