@@ -79,10 +79,7 @@ autocmd BufRead,BufNewFile *.markdown setlocal spell
 noremap <Up> <NOP>
 noremap <Down> <NOP>
 noremap <Left> <NOP>
-noremap <Right> <NOP>
-
-" Airline show by default
-set laststatus=2
+noremap <Right> <NOP> 
 
 " THEMES
 " Theme accuracy stuff
@@ -138,3 +135,6 @@ hi GitGutterChange ctermbg=235 ctermfg=245
 hi GitGutterDelete ctermbg=235 ctermfg=245
 hi GitGutterChangeDelete ctermbg=235 ctermfg=245 
 
+" CUSTOM HOTKEYS
+" Toggle Nerdtree with Ctrl + B
+map <C-b> :NERDTreeToggle<CR>
