@@ -75,17 +75,14 @@ let g:ale_linters = {
       \}
 
 " Make CtrlP 'listen' to .gitignore
-let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
+let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard'] 
 
-" Based on https://gist.github.com/epeli/7e9511cbd2ec806c5f8a6f96428352c2
-" This is a hack to make prettier configurable
-let g:neoformat_javascript_prettier = {
-    \ 'exe': 'prettier-config',
-    \ 'args': ['--stdin'],
-    \ 'stdin': 1,
-    \ } 
-let g:neoformat_enabled_javascript = ['prettier']
-autocmd BufWritePre *.js exe ":Neoformat"
+" neoformat: format javascript on save
+autocmd BufWritePre *.js Neoformat 
+" Use formatprg when available
+let g:neoformat_try_formatprg = 1
+
+autocmd FileType javascript set formatprg=prettier\ --stdin\ --parser\ flow\ --single-quote\ --trailing-comma\ es5
 " }}}
 
 " MISC {{{ 
@@ -253,7 +250,7 @@ noremap <Right> <NOP>
 noremap <C-h> <C-w>h
 noremap <C-j> <C-w>j
 noremap <C-k> <C-w>k
-noremap <C-l> <C-w>l
+noremap <C-l> <C-w>l 
 " }}}
 
 " HOTKEYS {{{
