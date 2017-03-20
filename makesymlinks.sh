@@ -9,7 +9,7 @@
 dir=~/Programming/dotfiles                   # dotfiles directory
 olddir=~/dotfiles_old                        # old dotfiles backup directory
 # list of files/folders to symlink in homedir
-files="vimrc zshrc hyper.js bash_profile tern-config prettier-config"   
+files="vimrc zshrc hyper.js bash_profile tern-config"   
 
 ##########
 
