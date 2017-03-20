@@ -10,23 +10,29 @@ endif
 
 " PLUGINS
 call plug#begin('~/.vim/plugged')
-" Core
+" Core {{{
 Plug 'ctrlpvim/ctrlp.vim' " File opening shenanigans
 Plug 'tpope/vim-fugitive' " Git integration, something something
 Plug 'scrooloose/nerdtree'  " Adds a navigation tree
 Plug 'airblade/vim-gitgutter' " Adds git changes markers
 Plug 'jiangmiao/auto-pairs' " Auto closes a lot of stuff with smart behavior
 Plug 'ap/vim-css-color' " Colorizes stuff
+Plug 'w0rp/ale' " Runs testy thingies and warns about errors
+Plug 'editorconfig/editorconfig-vim' " Grabs project-specific editor configurations 
+Plug 'heavenshell/vim-jsdoc'
+" }}}
 
-" Languages
+" Languages {{{
 Plug 'othree/html5.vim'
 Plug 'hail2u/vim-css3-syntax'
-Plug 'pangloss/vim-javascript' " JS
+Plug 'pangloss/vim-javascript'
 Plug 'herringtondarkholme/yats.vim' " TypeScript
 Plug 'moll/vim-node'
 Plug 'mxw/vim-jsx'
+Plug 'leshill/vim-json' 
+" }}}
 
-" Themes
+" Themes {{{
 Plug 'chriskempson/vim-tomorrow-theme'
 Plug 'Zyst/onedark.vim'
 Plug 'NLKNguyen/papercolor-theme'
@@ -36,15 +42,33 @@ Plug 'morhetz/gruvbox'
 Plug 'w0ng/vim-hybrid'
 Plug 'nanotech/jellybeans.vim' 
 Plug 'davidklsn/vim-sialoquent'
+Plug 'ajh17/Spacegray.vim' 
+" }}}
 call plug#end() 
 " }}}
 
-" MISC {{{
+" PLUGINS CONFIG {{{
 " Enable JSX in JS files
-let g:jsx_ext_required = 0
+let g:jsx_ext_required = 0 
 
+" Let NERDTree see dotfiles
+let NERDTreeShowHidden = 1
+
+" Enable flow syntax in vim-javascript
+let g:javascript_plugin_flow = 1
+
+" Editor config fix for fugitive
+let g:EditorConfig_exclude_patterns = ['fugitive://.*']
+"Editor config fix for ssh remote files
+let g:EditorConfig_exclude_patterns = ['scp://.*'] 
+" }}}
+
+" MISC {{{ 
 " Allows backspace to work 'normally'
 set backspace=indent,eol,start 
+
+" I wanna learn to use fold aggresively, so everything is folded by default
+set foldlevel=1
 " }}}
 
 " CLIPBOARD {{{
@@ -93,12 +117,29 @@ if (has("termguicolors"))
   set termguicolors
 endif
 
-colorscheme onedark 
+colorscheme onedark
 " }}}
 
 " CODE APPEARANCE {{{
 " Italic comments
+highlight Comment gui=italic
 highlight Comment cterm=italic 
+
+" Italic HTML Args
+highlight htmlArg gui=italic
+highlight htmlArg cterm=italic 
+
+" Types
+highlight Type gui=italic
+highlight Type cterm=italic
+
+" XML Args (For JSX)
+highlight xmlAttrib gui=italic
+highlight xmlAttrib cterm=italic
+
+"JS 'this'
+highlight jsthis gui=italic
+highlight jsthis cterm=italic
 " }}}
 
 " EDITOR APPEARANCE {{{
@@ -148,8 +189,6 @@ hi Default ctermfg=1
 hi EndOfBuffer ctermfg=237 ctermbg=235
 " Changes the background color
 hi Normal guibg=#262626
-" Something something, vertical characters?
-set fillchars=vert:\ ,stl:\ ,stlnc:\
 
 " GIT GUTTER APPEARANCE
 " Fix so Git Gutter looks clearer
@@ -192,6 +231,8 @@ nnoremap k gk
 " HOTKEYS {{{
 " Toggle Nerdtree with Ctrl + B
 map <C-b> :NERDTreeToggle<CR>
+" Toggle the current fold
+nnoremap <s-tab> za
 " }}} 
 
 " vim:foldmethod=marker:foldlevel=0
