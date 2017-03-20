@@ -22,6 +22,7 @@ Plug 'editorconfig/editorconfig-vim' " Grabs project-specific editor configurati
 Plug 'heavenshell/vim-jsdoc' " You can add JS Docs with the JsDoc command
 Plug 'valloric/youcompleteme'  " Autocomplete shimalading
 Plug 'ternjs/tern_for_vim', { 'do': 'npm install' } " Intellisense type stuff
+Plug 'sbdchd/neoformat' " Does formatting for many languages
 " }}}
 
 " Languages {{{
@@ -53,11 +54,15 @@ call plug#end()
 " Enable JSX in JS files
 let g:jsx_ext_required = 0 
 
+" Enable JSDocs highlighting
+let g:javascript_plugin_jsdoc = 1
+" Enable NGDoc(?) highlighting
+let g:javascript_plugin_ngdoc = 1
+" Enable flow syntax in vim-javascript
+let g:javascript_plugin_flow = 1 
+
 " Let NERDTree see dotfiles
 let NERDTreeShowHidden = 1
-
-" Enable flow syntax in vim-javascript
-let g:javascript_plugin_flow = 1
 
 " Editor config fix for fugitive
 let g:EditorConfig_exclude_patterns = ['fugitive://.*']
@@ -71,6 +76,16 @@ let g:ale_linters = {
 
 " Make CtrlP 'listen' to .gitignore
 let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
+
+" Based on https://gist.github.com/epeli/7e9511cbd2ec806c5f8a6f96428352c2
+" This is a hack to make prettier configurable
+let g:neoformat_javascript_prettier = {
+    \ 'exe': 'prettier-config',
+    \ 'args': ['--stdin'],
+    \ 'stdin': 1,
+    \ } 
+let g:neoformat_enabled_javascript = ['prettier']
+autocmd BufWritePre *.js exe ":Neoformat"
 " }}}
 
 " MISC {{{ 
@@ -78,7 +93,7 @@ let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standar
 set backspace=indent,eol,start 
 
 " I wanna learn to use fold aggresively, so everything is folded by default
-set foldlevel=1
+set foldlevelstart=1
 " }}}
 
 " CLIPBOARD {{{
@@ -232,6 +247,13 @@ noremap <Up> <NOP>
 noremap <Down> <NOP>
 noremap <Left> <NOP>
 noremap <Right> <NOP> 
+
+" These make it so you can move between Vim Windows, without having to restart
+" them and the like
+noremap <C-h> <C-w>h
+noremap <C-j> <C-w>j
+noremap <C-k> <C-w>k
+noremap <C-l> <C-w>l
 " }}}
 
 " HOTKEYS {{{
