@@ -8,7 +8,8 @@
 
 dir=~/Programming/dotfiles                   # dotfiles directory
 olddir=~/dotfiles_old                        # old dotfiles backup directory
-files="vimrc zshrc hyper.js bash_profile"    # list of files/folders to symlink in homedir
+# list of files/folders to symlink in homedir
+files="vimrc zshrc hyper.js bash_profile tern-config"   
 
 ##########
 
