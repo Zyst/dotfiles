@@ -68,6 +68,9 @@ let g:EditorConfig_exclude_patterns = ['scp://.*']
 let g:ale_linters = {
       \  'javascript': ['eslint', 'flow'],
       \}
+
+" Make CtrlP 'listen' to .gitignore
+let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
 " }}}
 
 " MISC {{{ 
@@ -229,10 +232,6 @@ noremap <Up> <NOP>
 noremap <Down> <NOP>
 noremap <Left> <NOP>
 noremap <Right> <NOP> 
-
-" Move by visual line rather than line line
-nnoremap j gj
-nnoremap k gk 
 " }}}
 
 " HOTKEYS {{{
