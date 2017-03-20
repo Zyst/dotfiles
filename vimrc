@@ -19,7 +19,9 @@ Plug 'jiangmiao/auto-pairs' " Auto closes a lot of stuff with smart behavior
 Plug 'ap/vim-css-color' " Colorizes stuff
 Plug 'w0rp/ale' " Runs testy thingies and warns about errors
 Plug 'editorconfig/editorconfig-vim' " Grabs project-specific editor configurations 
-Plug 'heavenshell/vim-jsdoc'
+Plug 'heavenshell/vim-jsdoc' " You can add JS Docs with the JsDoc command
+Plug 'valloric/youcompleteme'  " Autocomplete shimalading
+Plug 'ternjs/tern_for_vim', { 'do': 'npm install' } " Intellisense type stuff
 " }}}
 
 " Languages {{{
@@ -61,6 +63,11 @@ let g:javascript_plugin_flow = 1
 let g:EditorConfig_exclude_patterns = ['fugitive://.*']
 "Editor config fix for ssh remote files
 let g:EditorConfig_exclude_patterns = ['scp://.*'] 
+
+" Only use certain linters for JS
+let g:ale_linters = {
+      \  'javascript': ['eslint', 'flow'],
+      \}
 " }}}
 
 " MISC {{{ 
@@ -225,7 +232,7 @@ noremap <Right> <NOP>
 
 " Move by visual line rather than line line
 nnoremap j gj
-nnoremap k gk
+nnoremap k gk 
 " }}}
 
 " HOTKEYS {{{
