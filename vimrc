@@ -95,7 +95,7 @@ set foldlevelstart=1
 
 " CLIPBOARD {{{
 " Shares system clipboard
-set clipboard=unnamedplus 
+set clipboard=unnamed
 " }}}
 
 " SPACES & TABS {{{
