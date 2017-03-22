@@ -1,4 +1,4 @@
-" Zyst 
+" Zyst
 
 " PLUG {{{
 " Install vim-plug if it isn't installed already
@@ -18,11 +18,20 @@ Plug 'airblade/vim-gitgutter' " Adds git changes markers
 Plug 'jiangmiao/auto-pairs' " Auto closes a lot of stuff with smart behavior
 Plug 'ap/vim-css-color' " Colorizes stuff
 Plug 'w0rp/ale' " Runs testy thingies and warns about errors
-Plug 'editorconfig/editorconfig-vim' " Grabs project-specific editor configurations 
+Plug 'editorconfig/editorconfig-vim' " Grabs project-specific editor configurations
 Plug 'heavenshell/vim-jsdoc' " You can add JS Docs with the JsDoc command
 Plug 'valloric/youcompleteme'  " Autocomplete shimalading
 Plug 'ternjs/tern_for_vim', { 'do': 'npm install' } " Intellisense type stuff
 Plug 'sbdchd/neoformat' " Does formatting for many languages
+Plug 'flowtype/vim-flow', {
+            \ 'autoload': {
+            \     'filetypes': 'javascript'
+            \ },
+            \ 'build': {
+            \     'mac': 'npm install -g flow-bin',
+            \     'unix': 'npm install -g flow-bin'
+            \ }}
+Plug 'thaerkh/vim-workspace' " Workspace-like features for vim, auto session tracking etc
 " }}}
 
 " Languages {{{
@@ -32,7 +41,7 @@ Plug 'pangloss/vim-javascript'
 Plug 'herringtondarkholme/yats.vim' " TypeScript
 Plug 'moll/vim-node'
 Plug 'mxw/vim-jsx'
-Plug 'leshill/vim-json' 
+Plug 'leshill/vim-json'
 " }}}
 
 " Themes {{{
@@ -43,23 +52,23 @@ Plug 'oguzbilgic/sexy-railscasts-theme'
 Plug 'mhartington/oceanic-next'
 Plug 'morhetz/gruvbox'
 Plug 'w0ng/vim-hybrid'
-Plug 'nanotech/jellybeans.vim' 
+Plug 'nanotech/jellybeans.vim'
 Plug 'davidklsn/vim-sialoquent'
-Plug 'ajh17/Spacegray.vim' 
+Plug 'ajh17/Spacegray.vim'
 " }}}
-call plug#end() 
+call plug#end()
 " }}}
 
 " PLUGINS CONFIG {{{
 " Enable JSX in JS files
-let g:jsx_ext_required = 0 
+let g:jsx_ext_required = 0
 
 " Enable JSDocs highlighting
 let g:javascript_plugin_jsdoc = 1
 " Enable NGDoc(?) highlighting
 let g:javascript_plugin_ngdoc = 1
 " Enable flow syntax in vim-javascript
-let g:javascript_plugin_flow = 1 
+let g:javascript_plugin_flow = 1
 
 " Let NERDTree see dotfiles
 let NERDTreeShowHidden = 1
@@ -67,7 +76,7 @@ let NERDTreeShowHidden = 1
 " Editor config fix for fugitive
 let g:EditorConfig_exclude_patterns = ['fugitive://.*']
 "Editor config fix for ssh remote files
-let g:EditorConfig_exclude_patterns = ['scp://.*'] 
+let g:EditorConfig_exclude_patterns = ['scp://.*']
 
 " Only use certain linters for JS
 let g:ale_linters = {
@@ -75,19 +84,23 @@ let g:ale_linters = {
       \}
 
 " Make CtrlP 'listen' to .gitignore
-let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard'] 
+let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
 
 " neoformat: format javascript on save
-autocmd BufWritePre *.js Neoformat 
+" autocmd BufWritePre *.js Neoformat
 " Use formatprg when available
 let g:neoformat_try_formatprg = 1
-
+" Configure prettier with formatprg
 autocmd FileType javascript set formatprg=prettier\ --stdin\ --parser\ flow\ --single-quote\ --trailing-comma\ es5
+
+" Flow stuff
+" Automatically closes flow error pane
+let g:flow#autoclose = 1
 " }}}
 
-" MISC {{{ 
+" MISC {{{
 " Allows backspace to work 'normally'
-set backspace=indent,eol,start 
+set backspace=indent,eol,start
 
 " I wanna learn to use fold aggresively, so everything is folded by default
 set foldlevelstart=1
@@ -111,14 +124,14 @@ set shiftwidth=2
 " Does nothing more than copy the indentation from the previous line, when starting a new line
 set autoindent
 " Smart indent automatically inserts one extra level of indentation in some cases
-set smartindent 
+set smartindent
 " }}}
 
 " HISTORY {{{
 set undofile
 set undodir=~/.vim/undo_files//
 set directory=~/.vim/swap_files//
-set backupdir=~/.vim/backup_files// 
+set backupdir=~/.vim/backup_files//
 " }}}
 
 " SPELLCHECKING {{{
@@ -126,7 +139,7 @@ set backupdir=~/.vim/backup_files//
 set spelllang=en
 autocmd BufRead,BufNewFile *.md setlocal spell
 autocmd BufRead,BufNewFile *.txt setlocal spell
-autocmd BufRead,BufNewFile *.markdown setlocal spell 
+autocmd BufRead,BufNewFile *.markdown setlocal spell
 " }}}
 
 " THEMES {{{
@@ -145,11 +158,11 @@ colorscheme onedark
 " CODE APPEARANCE {{{
 " Italic comments
 highlight Comment gui=italic
-highlight Comment cterm=italic 
+highlight Comment cterm=italic
 
 " Italic HTML Args
 highlight htmlArg gui=italic
-highlight htmlArg cterm=italic 
+highlight htmlArg cterm=italic
 
 " Types
 highlight Type gui=italic
@@ -173,9 +186,9 @@ set wrap
 " Show line numbers
 " set number
 " Minimum number of screen lines that you would like above and below the cursor
-set scrolloff=1 
+set scrolloff=1
 " this autocompletes commands with TAB
-set wildmenu 
+set wildmenu
 " Highlights the matching item like ({[]})
 set showmatch
 
@@ -184,11 +197,11 @@ set showmatch
 if exists('$TMUX')
   let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
   let &t_SR = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=2\x7\<Esc>\\"
-  let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\" 
+  let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
 else
   let &t_SI = "\<Esc>]50;CursorShape=1\x7"
   let &t_SR = "\<Esc>]50;CursorShape=2\x7"
-  let &t_EI = "\<Esc>]50;CursorShape=0\x7" 
+  let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 endif
 
 " statusline: On the Right side: File name,
@@ -219,12 +232,12 @@ hi SignColumn ctermbg=235
 hi GitGutterAdd ctermbg=235 ctermfg=245
 hi GitGutterChange ctermbg=235 ctermfg=245
 hi GitGutterDelete ctermbg=235 ctermfg=245
-hi GitGutterChangeDelete ctermbg=235 ctermfg=245 
+hi GitGutterChangeDelete ctermbg=235 ctermfg=245
 " }}}
 
 " SEARCH {{{
 " Search as you type characters
-set incsearch 
+set incsearch
 " Ignore case while searching
 set ignorecase
 " }}}
@@ -235,7 +248,7 @@ set foldenable
 " Open 10 fold levels by default
 set foldlevelstart=10
 " Fold based on indent level
-set foldmethod=indent 
+set foldmethod=indent
 " }}}
 
 " KEY REMAPS {{{
@@ -243,14 +256,14 @@ set foldmethod=indent
 noremap <Up> <NOP>
 noremap <Down> <NOP>
 noremap <Left> <NOP>
-noremap <Right> <NOP> 
+noremap <Right> <NOP>
 
 " These make it so you can move between Vim Windows, without having to restart
 " them and the like
 noremap <C-h> <C-w>h
 noremap <C-j> <C-w>j
 noremap <C-k> <C-w>k
-noremap <C-l> <C-w>l 
+noremap <C-l> <C-w>l
 " }}}
 
 " HOTKEYS {{{
@@ -258,6 +271,9 @@ noremap <C-l> <C-w>l
 map <C-b> :NERDTreeToggle<CR>
 " Toggle the current fold
 nnoremap <s-tab> za
-" }}} 
+
+" Enables workspace
+nnoremap <leader>s :ToggleWorkspace<CR>
+" }}}
 
 " vim:foldmethod=marker:foldlevel=0
