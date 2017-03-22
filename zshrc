@@ -25,5 +25,6 @@ alias sleep="pmset displaysleepnow"
 
 # Hub makes you better at Github
 alias git=hub 
+alias gst="git status"
 
 prompt pure

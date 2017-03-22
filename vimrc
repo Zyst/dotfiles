@@ -31,7 +31,6 @@ Plug 'flowtype/vim-flow', {
             \     'mac': 'npm install -g flow-bin',
             \     'unix': 'npm install -g flow-bin'
             \ }}
-Plug 'thaerkh/vim-workspace' " Workspace-like features for vim, auto session tracking etc
 " }}}
 
 " Languages {{{
@@ -87,7 +86,7 @@ let g:ale_linters = {
 let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
 
 " neoformat: format javascript on save
-" autocmd BufWritePre *.js Neoformat
+autocmd BufWritePre *.js Neoformat
 " Use formatprg when available
 let g:neoformat_try_formatprg = 1
 " Configure prettier with formatprg
@@ -260,9 +259,9 @@ noremap <Right> <NOP>
 
 " These make it so you can move between Vim Windows, without having to restart
 " them and the like
-noremap <C-h> <C-w>h
-noremap <C-j> <C-w>j
-noremap <C-k> <C-w>k
+noremap <C-h> <C-w>h 
+noremap <C-j> <C-w>j 
+noremap <C-k> <C-w>k 
 noremap <C-l> <C-w>l
 " }}}
 
@@ -270,10 +269,7 @@ noremap <C-l> <C-w>l
 " Toggle Nerdtree with Ctrl + B
 map <C-b> :NERDTreeToggle<CR>
 " Toggle the current fold
-nnoremap <s-tab> za
-
-" Enables workspace
-nnoremap <leader>s :ToggleWorkspace<CR>
+nnoremap <s-tab> za 
 " }}}
 
 " vim:foldmethod=marker:foldlevel=0
