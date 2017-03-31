@@ -31,6 +31,8 @@ Plug 'flowtype/vim-flow', {
             \     'mac': 'npm install -g flow-bin',
             \     'unix': 'npm install -g flow-bin'
             \ }}
+Plug 'tpope/vim-surround' " Adds thingies to add sorrounding stuff like ''
+Plug 'easymotion/vim-easymotion' " Lets you move around faster
 " }}}
 
 " Languages {{{
@@ -95,6 +97,15 @@ autocmd FileType javascript set formatprg=prettier\ --stdin\ --parser\ flow\ --s
 " Flow stuff
 " Automatically closes flow error pane
 let g:flow#autoclose = 1
+
+" Easy motion
+" Search for a single char
+nmap <Space> <Plug>(easymotion-overwin-f2) 
+" Turn on case insensitive feature
+let g:EasyMotion_smartcase = 1 
+" JK motions: Line motions
+map <Leader>j <Plug>(easymotion-j)
+map <Leader>k <Plug>(easymotion-k)
 " }}}
 
 " MISC {{{
