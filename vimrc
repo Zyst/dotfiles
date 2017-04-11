@@ -34,6 +34,7 @@ Plug 'flowtype/vim-flow', {
 Plug 'tpope/vim-surround' " Adds thingies to add sorrounding stuff like ''
 Plug 'easymotion/vim-easymotion' " Lets you move around faster
 Plug 'junegunn/goyo.vim'
+Plug 'tpope/vim-projectionist'
 " }}}
 
 " Languages {{{
@@ -200,7 +201,7 @@ set wrap
 " Show line numbers
 " set number
 " Minimum number of screen lines that you would like above and below the cursor
-set scrolloff=1
+set scrolloff=5
 " this autocompletes commands with TAB
 set wildmenu
 " Highlights the matching item like ({[]})
@@ -292,10 +293,13 @@ map <C-b> :NERDTreeToggle<CR>
 nnoremap <s-tab> za 
 
 " Edit Vimrc
-nnoremap <leader>ev :vsp <CR>
+nnoremap <leader>ev :vsp $MYVIMRC<CR>
 
 " Hi under cursor
 " echo synIDattr(synID(line("."),col("."),1),"name")
+
+" Goyo (Zen mode-ish) custom
+nnoremap <C-z> :Goyo 82x100%<CR>
 " }}}
 
 " vim:foldmethod=marker:foldlevel=0
