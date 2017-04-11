@@ -18,7 +18,7 @@ Plug 'airblade/vim-gitgutter' " Adds git changes markers
 Plug 'jiangmiao/auto-pairs' " Auto closes a lot of stuff with smart behavior
 Plug 'ap/vim-css-color' " Colorizes stuff
 Plug 'w0rp/ale' " Runs testy thingies and warns about errors
-Plug 'editorconfig/editorconfig-vim' " Grabs project-specific editor configurations
+Plug 'editorconfig/editorconfig-vim' " Grabs project editor configurations
 Plug 'heavenshell/vim-jsdoc' " You can add JS Docs with the JsDoc command
 Plug 'valloric/youcompleteme'  " Autocomplete shimalading
 Plug 'ternjs/tern_for_vim', { 'do': 'npm install' } " Intellisense type stuff
@@ -33,6 +33,7 @@ Plug 'flowtype/vim-flow', {
             \ }}
 Plug 'tpope/vim-surround' " Adds thingies to add sorrounding stuff like ''
 Plug 'easymotion/vim-easymotion' " Lets you move around faster
+Plug 'junegunn/goyo.vim'
 " }}}
 
 " Languages {{{
@@ -106,6 +107,9 @@ let g:EasyMotion_smartcase = 1
 " JK motions: Line motions
 map <Leader>j <Plug>(easymotion-j)
 map <Leader>k <Plug>(easymotion-k)
+
+" You Complete me don't pop the suggestion pane thing open
+let g:ycm_add_preview_to_completeopt = 0
 " }}}
 
 " MISC {{{
@@ -113,7 +117,7 @@ map <Leader>k <Plug>(easymotion-k)
 set backspace=indent,eol,start
 
 " I wanna learn to use fold aggresively, so everything is folded by default
-set foldlevelstart=1
+set foldlevelstart=0
 " }}}
 
 " CLIPBOARD {{{
@@ -243,6 +247,10 @@ hi GitGutterAdd ctermbg=235 ctermfg=245
 hi GitGutterChange ctermbg=235 ctermfg=245
 hi GitGutterDelete ctermbg=235 ctermfg=245
 hi GitGutterChangeDelete ctermbg=235 ctermfg=245
+
+" This makes the background red when we pass the 80th column, beautiful stuff
+highlight OverLength ctermbg=red ctermfg=white guibg=#592929
+match OverLength /\%81v.\+/
 " }}}
 
 " SEARCH {{{
@@ -279,8 +287,15 @@ noremap <C-l> <C-w>l
 " HOTKEYS {{{
 " Toggle Nerdtree with Ctrl + B
 map <C-b> :NERDTreeToggle<CR>
+
 " Toggle the current fold
 nnoremap <s-tab> za 
+
+" Edit Vimrc
+nnoremap <leader>ev :vsp <CR>
+
+" Hi under cursor
+" echo synIDattr(synID(line("."),col("."),1),"name")
 " }}}
 
 " vim:foldmethod=marker:foldlevel=0
