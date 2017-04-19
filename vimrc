@@ -11,7 +11,7 @@ endif
 " PLUGINS
 call plug#begin('~/.vim/plugged')
 " Core {{{
-Plug 'ctrlpvim/ctrlp.vim' " File opening shenanigans
+Plug 'kien/ctrlp.vim' " File opening shenanigans
 Plug 'tpope/vim-fugitive' " Git integration, something something
 Plug 'scrooloose/nerdtree'  " Adds a navigation tree
 Plug 'airblade/vim-gitgutter' " Adds git changes markers
@@ -33,8 +33,10 @@ Plug 'flowtype/vim-flow', {
             \ }}
 Plug 'tpope/vim-surround' " Adds thingies to add sorrounding stuff like ''
 Plug 'easymotion/vim-easymotion' " Lets you move around faster
-Plug 'junegunn/goyo.vim'
-Plug 'tpope/vim-projectionist'
+Plug 'junegunn/goyo.vim' " Zen mode
+Plug 'tpope/vim-projectionist' " Lets you open 'alternate files', like tests
+Plug 'mattn/emmet-vim' " Tag expansion in super cool ways
+Plug 'Xuyuanp/nerdtree-git-plugin' " Shows git diffs-ish in nerdtree
 " }}}
 
 " Languages {{{
@@ -75,6 +77,8 @@ let g:javascript_plugin_flow = 1
 
 " Let NERDTree see dotfiles
 let NERDTreeShowHidden = 1
+" If Nerdtree is the only buffer left auto close vim
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
 " Editor config fix for fugitive
 let g:EditorConfig_exclude_patterns = ['fugitive://.*']
@@ -102,7 +106,7 @@ let g:flow#autoclose = 1
 
 " Easy motion
 " Search for a single char
-nmap <Space> <Plug>(easymotion-overwin-f2) 
+nmap <Leader>f <Plug>(easymotion-overwin-f2) 
 " Turn on case insensitive feature
 let g:EasyMotion_smartcase = 1 
 " JK motions: Line motions
@@ -111,6 +115,26 @@ map <Leader>k <Plug>(easymotion-k)
 
 " You Complete me don't pop the suggestion pane thing open
 let g:ycm_add_preview_to_completeopt = 0
+
+" Change on nerd tree to these
+let g:NERDTreeIndicatorMapCustom = {
+    \ "Modified"  : "*",
+    \ "Staged"    : "✚",
+    \ "Untracked" : "✭",
+    \ "Renamed"   : "➜",
+    \ "Unmerged"  : "═",
+    \ "Deleted"   : "✖",
+    \ "Dirty"     : "✗",
+    \ "Clean"     : "✔︎",
+    \ 'Ignored'   : '☒',
+    \ "Unknown"   : "?"
+    \ }
+
+" Emmet expands with Ctrl + E
+let user_emmet_expandabbr_key = '<c-e>'
+
+" Colorscheme Zyst/onedark stuff
+let g:onedark_terminal_italics=1
 " }}}
 
 " MISC {{{
@@ -199,7 +223,7 @@ set cursorline
 " Wrap lines visually
 set wrap
 " Show line numbers
-" set number
+set number
 " Minimum number of screen lines that you would like above and below the cursor
 set scrolloff=5
 " this autocompletes commands with TAB
@@ -248,6 +272,9 @@ hi GitGutterAdd ctermbg=235 ctermfg=245
 hi GitGutterChange ctermbg=235 ctermfg=245
 hi GitGutterDelete ctermbg=235 ctermfg=245
 hi GitGutterChangeDelete ctermbg=235 ctermfg=245
+
+hi clear NERDTreeGitStatusModified
+hi NERDTreeGitStatusModified ctermbg=235 ctermfg=245
 
 " This makes the background red when we pass the 80th column, beautiful stuff
 highlight OverLength ctermbg=red ctermfg=white guibg=#592929
@@ -300,6 +327,11 @@ nnoremap <leader>ev :vsp $MYVIMRC<CR>
 
 " Goyo (Zen mode-ish) custom
 nnoremap <C-z> :Goyo 82x100%<CR>
+
+" Make space not go forward
+nnoremap <SPACE> <Nop>
+" Leader is the spacebar
+let mapleader="\<Space>"
 " }}}
 
 " vim:foldmethod=marker:foldlevel=0
