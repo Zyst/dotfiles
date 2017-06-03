@@ -41,6 +41,7 @@ Plug 'Xuyuanp/nerdtree-git-plugin' " Shows git diffs-ish in nerdtree
 
 " Languages {{{
 Plug 'othree/html5.vim'
+Plug 'othree/html5-syntax.vim'
 Plug 'hail2u/vim-css3-syntax'
 Plug 'pangloss/vim-javascript'
 Plug 'herringtondarkholme/yats.vim' " TypeScript
@@ -146,6 +147,12 @@ set backspace=indent,eol,start
 
 " I wanna learn to use fold aggresively, so everything is folded by default
 set foldlevelstart=0
+
+" Autoreloads when vimrc is changed
+augroup myvimrc
+    au!
+    au BufWritePost .vimrc,_vimrc,vimrc,.gvimrc,_gvimrc,gvimrc so $MYVIMRC | if has('gui_running') | so $MYGVIMRC | endif
+augroup END
 " }}}
 
 " CLIPBOARD {{{
@@ -226,7 +233,7 @@ set cursorline
 " Wrap lines visually
 set wrap
 " Show line numbers
-set number
+" set number
 " Minimum number of screen lines that you would like above and below the cursor
 set scrolloff=5
 " this autocompletes commands with TAB
