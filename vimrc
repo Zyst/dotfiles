@@ -135,6 +135,9 @@ let user_emmet_expandabbr_key = '<c-e>'
 
 " Colorscheme Zyst/onedark stuff
 let g:onedark_terminal_italics=1
+
+" ternjs autocloses when we complete 
+autocmd CompleteDone * pclose
 " }}}
 
 " MISC {{{
