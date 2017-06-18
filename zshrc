@@ -27,4 +27,7 @@ alias sleep="pmset displaysleepnow"
 alias git=hub 
 alias gst="git status"
 
+# update stuff
+alias update="brew update && brew upgrade && npm update -g"
+
 prompt pure
