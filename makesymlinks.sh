@@ -8,10 +8,21 @@
 
 dir=~/Programming/dotfiles                   # dotfiles directory
 olddir=~/dotfiles_old                        # old dotfiles backup directory
+
+# vim folders
+vimundo=~/.vim/undo_files
+vimswap=~/.vim/swap_files
+vimbak=~/.vim/backup_files
+
 # list of files/folders to symlink in homedir
-files="vimrc zshrc hyper.js bash_profile tern-config eslintrc.js tmux.conf tern-config"   
+files="vimrc zshrc hyper.js bash_profile tern-config eslintrc.js tmux.conf tern-config"
 
 ##########
+
+# Create vim folders
+mkdir -p vimundo
+mkdir -p vimswap
+mkdir -p vimbak
 
 # create dotfiles_old in homedir
 echo -n "Creating $olddir for backup of any existing dotfiles in ~ ..."
