@@ -336,7 +336,8 @@ nnoremap <leader>ev :vsp $MYVIMRC<CR>
 " echo synIDattr(synID(line("."),col("."),1),"name")
 
 " Goyo (Zen mode-ish) custom
-nnoremap <C-z> :Goyo 82x100%<CR>
+" nnoremap <C-z> :Goyo 82x100%<CR>
+nnoremap <C-z> :Goyo<CR>
 
 " Make space not go forward
 nnoremap <SPACE> <Nop>

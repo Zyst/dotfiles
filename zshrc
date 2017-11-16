@@ -1,5 +1,5 @@
 # Path to your oh-my-zsh installation.
-export ZSH=/Users/zyst/.oh-my-zsh
+export ZSH=~/.oh-my-zsh
 
 ZSH_THEME=""
 
@@ -11,6 +11,8 @@ plugins=(git)
 source $ZSH/oh-my-zsh.sh
 
 alias ls='ls -GFh'
+
+alias whost='sudo vim /mnt/c/Windows/System32/drivers/etc/hosts'
 
 # go things
 export GOPATH=$HOME/.go
@@ -24,7 +26,6 @@ alias go="grc go"
 alias sleep="pmset displaysleepnow"
 
 # Hub makes you better at Github
-alias git=hub 
 alias gst="git status"
 
 # update stuff
