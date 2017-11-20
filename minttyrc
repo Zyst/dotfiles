@@ -1,0 +1,25 @@
+BoldAsFont=-1
+Font=Operator Mono Medium
+FontHeight=13
+FontWeight=350
+
+ForegroundColour=208,208,208
+BackgroundColour=40,44,52
+CursorColour=97,175,239
+
+Black=40,44,52
+BoldBlack=128,128,128
+Red=224,108,117
+BoldRed=224,108,117
+Green=152,195,121
+BoldGreen=152,195,121
+Yellow=229,192,123
+BoldYellow=229,192,123
+Blue=97,175,239
+BoldBlue=97,175,239
+Magenta=209,154,102
+BoldMagenta=209,154,102
+Cyan=86,182,194
+BoldCyan=86,182,194
+White=208,208,208
+BoldWhite=245,245,245
