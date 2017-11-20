@@ -20,7 +20,6 @@ Plug 'ap/vim-css-color' " Colorizes stuff
 Plug 'w0rp/ale' " Runs testy thingies and warns about errors
 Plug 'editorconfig/editorconfig-vim' " Grabs project editor configurations
 Plug 'heavenshell/vim-jsdoc' " You can add JS Docs with the JsDoc command
-Plug 'valloric/youcompleteme'  " Autocomplete shimalading
 Plug 'ternjs/tern_for_vim', { 'do': 'npm install' } " Intellisense type stuff
 Plug 'sbdchd/neoformat' " Does formatting for many languages
 Plug 'flowtype/vim-flow', {

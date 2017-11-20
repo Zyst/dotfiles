@@ -1,7 +1,7 @@
 # Path to your oh-my-zsh installation.
 export ZSH=~/.oh-my-zsh
 
-ZSH_THEME=""
+ZSH_THEME="babun"
 
 # Pure prompt configuration
 autoload -U promptinit; promptinit
@@ -30,5 +30,3 @@ alias gst="git status"
 
 # update stuff
 alias update="brew update && brew upgrade && npm update -g"
-
-prompt pure
