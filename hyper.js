@@ -7,17 +7,16 @@ module.exports = {
     fontFamily: "PowerlineSymbols, Operator Mono",
 
     // terminal cursor background color and opacity (hex, rgb, hsl, hsv, hwb or cmyk)
-    cursorColor: "#528bff",
+    cursorColor: "#61afef",
 
     // `BEAM` for |, `UNDERLINE` for _, `BLOCK` for █
     cursorShape: "BLOCK",
 
     // color of the text
-    foregroundColor: "#abb2bf",
+    foregroundColor: "#d0d0d0",
 
     // terminal background color
-    // backgroundColor: '#282c34',
-    backgroundColor: "#262626",
+    backgroundColor: "#282c34",
 
     // border color (window, tabs)
     borderColor: "#282c34",
