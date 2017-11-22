@@ -1,7 +1,4 @@
-# bash -c zsh 
-if [ -t 1 ]; then
-  exec zsh
-fi
+bash -c zsh > /dev/null 2>&1
 
 # Color stuff!
 export PS1="\[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h\033[m\]:\[\033[35m\]\w\[\033[m\]\$ "
