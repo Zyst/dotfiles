@@ -27,6 +27,3 @@ alias sleep="pmset displaysleepnow"
 
 # Hub makes you better at Github
 alias gst="git status"
-
-# update stuff
-alias update="brew update && brew upgrade && npm update -g"
