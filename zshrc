@@ -25,5 +25,10 @@ alias go="grc go"
 # Turn off Display
 alias sleep="pmset displaysleepnow"
 
+if [ -r ~/.nvm  ]; then
+  export NVM_DIR="$HOME/.nvm"
+    [ -s "$NVM_DIR/nvm.sh"  ] && . "$NVM_DIR/nvm.sh"
+fi
+
 # Hub makes you better at Github
 alias gst="git status"
