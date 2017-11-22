@@ -1,3 +1,8 @@
+# bash -c zsh 
+if [ -t 1 ]; then
+  exec zsh
+fi
+
 # Color stuff!
 export PS1="\[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h\033[m\]:\[\033[35m\]\w\[\033[m\]\$ "
 export CLICOLOR=1
