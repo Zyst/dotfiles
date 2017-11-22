@@ -17,6 +17,8 @@ alias go="grc go"
 # Turn off Display
 alias sleep="pmset displaysleepnow"
 
+alias gst="git status"
+
 alias aci="C:/Users/erick.romero/AppData/Roaming/nvm/v8.7.0/node.exe C:/Users/erick.romero/dev/jenkins-ci/index.js"
 
 alias node8="C:/Users/erick.romero/AppData/Roaming/nvm/v8.7.0/node.exe"

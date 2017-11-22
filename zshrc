@@ -31,3 +31,20 @@ if [ -r ~/.nvm  ]; then
 fi
 
 alias gst="git status"
+
+alias aci="C:/Users/erick.romero/AppData/Roaming/nvm/v8.7.0/node.exe C:/Users/erick.romero/dev/jenkins-ci/index.js"
+
+alias node8="C:/Users/erick.romero/AppData/Roaming/nvm/v8.7.0/node.exe"
+
+alias tci="npm run test:ci"
+alias tw="npm run test:watch"
+alias t="npm run test"
+alias sl="npm run start:local"
+alias s="npm run start"
+alias l="npm run lint"
+alias lci="npm run lint:ci"
+alias lf="npm run lint:fix"
+alias vtp="cd ~/dev/amp-vtp"
+alias vtps="cd ~/dev/amp-vtp/packages/amp-vtp-server"
+alias vtpui="cd ~/dev/amp-vtp/packages/amp-vtp-ui"
+alias pctest="npm run lint:ci && npm run test:ci && npm run build"
