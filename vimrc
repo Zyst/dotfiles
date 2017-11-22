@@ -339,8 +339,14 @@ nnoremap <C-z> :Goyo<CR>
 
 " Make space not go forward
 nnoremap <SPACE> <Nop>
+
 " Leader is the spacebar
 let mapleader="\<Space>"
+
+" Ctrl + \, Ctrl + n map to Escape, for neovim terminals
+if has("nvim")
+  tnoremap <Esc> <C-\><C-n>
+endif
 " }}}
 
 " vim:foldmethod=marker:foldlevel=0
