@@ -6,7 +6,7 @@
 
 ########## Variables
 
-dir=~/Programming/dotfiles                   # dotfiles directory
+dir=~/dev/dotfiles                   # dotfiles directory
 olddir=~/dotfiles_old                        # old dotfiles backup directory
 
 # vim folders

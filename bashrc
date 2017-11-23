@@ -15,7 +15,9 @@ alias go="grc go"
 # Turn off Display
 alias sleep="pmset displaysleepnow"
 
-alias aci="C:/Users/erick.romero/AppData/Roaming/nvm/v8.7.0/node.exe C:/Users/erick.romero/Programming/jenkins-ci/index.js"
+alias gst="git status"
+
+alias aci="C:/Users/erick.romero/AppData/Roaming/nvm/v8.7.0/node.exe C:/Users/erick.romero/dev/jenkins-ci/index.js"
 
 alias node8="C:/Users/erick.romero/AppData/Roaming/nvm/v8.7.0/node.exe"
 
@@ -27,6 +29,7 @@ alias s="npm run start"
 alias l="npm run lint"
 alias lci="npm run lint:ci"
 alias lf="npm run lint:fix"
-alias vtp="cd ~/Programming/amp-vtp"
-alias vtps="cd ~/Programming/amp-vtp/packages/amp-vtp-server"
-alias vtpui="cd ~/Programming/amp-vtp/packages/amp-vtp-ui"
+alias vtp="cd ~/dev/amp-vtp"
+alias vtps="cd ~/dev/amp-vtp/packages/amp-vtp-server"
+alias vtpui="cd ~/dev/amp-vtp/packages/amp-vtp-ui"
+alias pctest="npm run lint:ci && npm run test:ci && npm run build"

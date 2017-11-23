@@ -4,74 +4,67 @@ module.exports = {
     fontSize: 22,
 
     // font family with optional fallbacks
-    fontFamily: 'PowerlineSymbols, Operator Mono',
+    fontFamily: "PowerlineSymbols, Operator Mono",
 
     // terminal cursor background color and opacity (hex, rgb, hsl, hsv, hwb or cmyk)
-    cursorColor: '#528bff',
+    cursorColor: "#61afef",
 
     // `BEAM` for |, `UNDERLINE` for _, `BLOCK` for █
-    cursorShape: 'BEAM',
+    cursorShape: "BLOCK",
 
     // color of the text
-    foregroundColor: '#abb2bf',
+    foregroundColor: "#d0d0d0",
 
     // terminal background color
-    // backgroundColor: '#282c34',
-    backgroundColor: '#262626',
+    backgroundColor: "#282c34",
 
     // border color (window, tabs)
-    borderColor: '#282c34',
+    borderColor: "#282c34",
 
     // custom css to embed in the main window
-    css: '',
+    css: "",
 
     // custom css to embed in the terminal window
-    termCSS: '',
+    termCSS: "",
 
     // set to `true` if you're using a Linux set up
     // that doesn't shows native menus
     // default: `false` on Linux, `true` on Windows (ignored on macOS)
-    showHamburgerMenu: '',
+    showHamburgerMenu: "",
 
     // set to `false` if you want to hide the minimize, maximize and close buttons
     // additionally, set to `'left'` if you want them on the left, like in Ubuntu
     // default: `true` on windows and Linux (ignored on macOS)
-    showWindowControls: '',
+    showWindowControls: "",
 
-    // custom padding (css format, i.e.: `top right bottom left`)
-    padding: '12px 14px',
+    padding: "12px 14px",
 
-    // the full list. if you're going to provide the full color palette,
-    // including the 6 x 6 color cubes and the grayscale map, just provide
-    // an array here instead of a color map object
-    // Based on Atom One Dark syntax theme, hyper theme here:
-    // https://github.com/mdo/hyperterm-atom-dark/blob/master/index.js
     colors: {
-      black: '#282c34',
-      red: '#e06c75',
-      green: '#98c379',
-      yellow: '#d19a66',
-      blue: '#56b6c2',
-      magenta: '#c678dd',
-      cyan: '#56b6c2',
-      white: '#d0d0d0',
-      lightBlack: '#808080',
-      lightRed: '#e06c75',
-      lightGreen: '#98c379',
-      lightYellow: '#d19a66',
-      lightBlue: '#56b6c2',
-      lightMagenta: '#c678dd',
-      lightCyan: '#56b6c2',
-      lightWhite: '#ffffff'
+      black: "#282c34",
+      lightBlack: "#808080",
+      red: "#e06c75",
+      lightRed: "#e06c75",
+      green: "#98c379",
+      lightGreen: "#98c379",
+      yellow: "#e5c07b",
+      lightYellow: "#e5c07b",
+      blue: "#61afef",
+      lightBlue: "#61afef",
+      magenta: "#d19a66",
+      lightMagenta: "#d19a66",
+      cyan: "#56b6c2",
+      lightCyan: "#56b6c2",
+      white: "#d0d0d0",
+      lightWhite: "#f5f5f5"
     },
 
     // the shell to run when spawning a new session (i.e. /usr/local/bin/fish)
     // if left empty, your system's login shell will be used by default
-    shell: '',
+    shell: "C:\\Program Files\\Git\\bin\\bash.exe",
 
     // for setting shell arguments (i.e. for using interactive shellArgs: ['-i'])
     // by default ['--login'] will be used
-    shellArgs: ['--login'],
+    shellArgs: [],
 
     // for environment variables
     env: {},
@@ -80,12 +73,7 @@ module.exports = {
     bell: false,
 
     // if true, selected text will automatically be copied to the clipboard
-    copyOnSelect: false
-
-    // URL to custom bell
-    // bellSoundURL: 'http://example.com/bell.mp3',
-
-    // for advanced config flags please refer to https://hyper.is/#cfg
+    copyOnSelect: true
   },
 
   // a list of plugins to fetch and install from npm

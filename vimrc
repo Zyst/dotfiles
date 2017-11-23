@@ -242,13 +242,41 @@ set showmatch
 " CURSOR CHANGE (MODE DEPENDANT)
 " Change cursor shape depending on mode
 if exists('$TMUX')
-  let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
-  let &t_SR = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=2\x7\<Esc>\\"
-  let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+  if has("unix")
+    let s:uname = system("uname -s")
+    " If we are on OS X
+    if s:uname == "Darwin"
+      " iTerm2
+      let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
+      let &t_SR = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=2\x7\<Esc>\\"
+      let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+    endif
+  endif
 else
-  let &t_SI = "\<Esc>]50;CursorShape=1\x7"
-  let &t_SR = "\<Esc>]50;CursorShape=2\x7"
-  let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+  if has("unix")
+    let s:uname = system("uname -s")
+    " If we are on OS X
+    if s:uname == "Darwin"
+      " iTerm2
+      let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+      let &t_SR = "\<Esc>]50;CursorShape=2\x7"
+      let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+    else
+      " Windows subsystem, Mintty
+      let &t_ti.="\e[1 q"
+      let &t_SI.="\e[5 q"
+      let &t_EI.="\e[1 q"
+      let &t_te.="\e[0 q"
+    endif
+  endif
+
+  if has("win32")
+    " Mintty
+    let &t_ti.="\e[1 q"
+    let &t_SI.="\e[5 q"
+    let &t_EI.="\e[1 q"
+    let &t_te.="\e[0 q"
+  endif
 endif
 
 " statusline: On the Right side: File name,
@@ -339,8 +367,14 @@ nnoremap <C-z> :Goyo<CR>
 
 " Make space not go forward
 nnoremap <SPACE> <Nop>
+
 " Leader is the spacebar
 let mapleader="\<Space>"
+
+" Ctrl + \, Ctrl + n map to Escape, for neovim terminals
+if has("nvim")
+  tnoremap <Esc> <C-\><C-n>
+endif
 " }}}
 
 " vim:foldmethod=marker:foldlevel=0
