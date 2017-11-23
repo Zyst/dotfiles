@@ -2,6 +2,11 @@
 export PS1="\[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h\033[m\]:\[\033[35m\]\w\[\033[m\]\$ "
 export CLICOLOR=1
 export LSCOLORS=ExFxBxDxCxegedabagacad
+
+# Can't use $USER in git bash apparently
+username=$(whoami)
+
+# Default ls I enjoy more
 alias ls='ls -GFh'
 
 # go things
@@ -12,14 +17,14 @@ export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
 # GRC go test
 alias go="grc go"
 
-# Turn off Display
+# Turn off Display (OS X)
 alias sleep="pmset displaysleepnow"
 
 alias gst="git status"
 
-alias aci="C:/Users/erick.romero/AppData/Roaming/nvm/v8.7.0/node.exe C:/Users/erick.romero/dev/jenkins-ci/index.js"
+alias aci="C:/Users/$username/AppData/Roaming/nvm/v8.9.1/node.exe C:/Users/$username/dev/jenkins-ci/index.js"
 
-alias node8="C:/Users/erick.romero/AppData/Roaming/nvm/v8.7.0/node.exe"
+alias node8="C:/Users/erick.romero/AppData/Roaming/nvm/v8.9.1/node.exe"
 
 alias tci="npm run test:ci"
 alias tw="npm run test:watch"
