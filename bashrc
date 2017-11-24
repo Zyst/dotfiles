@@ -22,9 +22,9 @@ alias sleep="pmset displaysleepnow"
 
 alias gst="git status"
 
-alias aci="C:/Users/$username/AppData/Roaming/nvm/v8.9.1/node.exe C:/Users/$username/dev/jenkins-ci/index.js"
+alias aci="C:/Users/$username/AppData/Roaming/nvm/v8.9.1/node64.exe C:/Users/$username/dev/jenkins-ci/index.js"
 
-alias node8="C:/Users/erick.romero/AppData/Roaming/nvm/v8.9.1/node.exe"
+alias node8="C:/Users/erick.romero/AppData/Roaming/nvm/v8.9.1/node64.exe"
 
 alias tci="npm run test:ci"
 alias tw="npm run test:watch"
