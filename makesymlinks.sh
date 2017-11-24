@@ -7,7 +7,7 @@
 ########## Variables
 
 dir=~/dev/dotfiles                   # dotfiles directory
-olddir=~/dotfiles_old                        # old dotfiles backup directory
+olddir=~/dotfiles_old                # old dotfiles backup directory
 
 # vim folders
 vimundo=~/.vim/undo_files
