@@ -2,10 +2,12 @@
 
 " PLUG {{{
 " Install vim-plug if it isn't installed already
-if empty(glob('~/.vim/autoload/plug.vim'))
-  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-        \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  autocmd VimEnter * PlugInstall | source $MYVIMRC
+if !has("win32")
+  if empty(glob('~/.vim/autoload/plug.vim'))
+    silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+          \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    autocmd VimEnter * PlugInstall | source $MYVIMRC
+  endif
 endif
 
 " PLUGINS
@@ -105,9 +107,9 @@ let g:flow#autoclose = 1
 
 " Easy motion
 " Search for a single char
-nmap <Leader>f <Plug>(easymotion-overwin-f2) 
+nmap <Leader>f <Plug>(easymotion-overwin-f2)
 " Turn on case insensitive feature
-let g:EasyMotion_smartcase = 1 
+let g:EasyMotion_smartcase = 1
 " JK motions: Line motions
 map <Leader>j <Plug>(easymotion-j)
 map <Leader>k <Plug>(easymotion-k)
@@ -135,7 +137,7 @@ let user_emmet_expandabbr_key = '<c-e>'
 " Colorscheme Zyst/onedark stuff
 let g:onedark_terminal_italics=1
 
-" ternjs autocloses when we complete 
+" ternjs autocloses when we complete
 autocmd CompleteDone * pclose
 " }}}
 
@@ -342,9 +344,9 @@ noremap <Right> <NOP>
 
 " These make it so you can move between Vim Windows, without having to restart
 " them and the like
-noremap <C-h> <C-w>h 
-noremap <C-j> <C-w>j 
-noremap <C-k> <C-w>k 
+noremap <C-h> <C-w>h
+noremap <C-j> <C-w>j
+noremap <C-k> <C-w>k
 noremap <C-l> <C-w>l
 " }}}
 
@@ -353,7 +355,7 @@ noremap <C-l> <C-w>l
 map <C-b> :NERDTreeToggle<CR>
 
 " Toggle the current fold
-nnoremap <s-tab> za 
+nnoremap <s-tab> za
 
 " Edit Vimrc
 nnoremap <leader>ev :vsp $MYVIMRC<CR>
