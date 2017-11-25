@@ -37,6 +37,14 @@ Plug 'junegunn/goyo.vim' " Zen mode
 Plug 'tpope/vim-projectionist' " Lets you open 'alternate files', like tests
 Plug 'mattn/emmet-vim' " Tag expansion in super cool ways
 Plug 'Xuyuanp/nerdtree-git-plugin' " Shows git diffs-ish in nerdtree
+if has('nvim')
+  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+else
+  Plug 'Shougo/deoplete.nvim'
+  Plug 'roxma/nvim-yarp'
+  Plug 'roxma/vim-hug-neovim-rpc'
+endif
+Plug 'Shougo/echodoc.vim' " Shows inline documentation
 " }}}
 
 " Languages {{{
@@ -233,7 +241,7 @@ set cursorline
 " Wrap lines visually
 set wrap
 " Show line numbers
-" set number
+set number
 " Minimum number of screen lines that you would like above and below the cursor
 set scrolloff=5
 " this autocompletes commands with TAB
@@ -286,7 +294,7 @@ set statusline=%=\ %f\ %m
 " Don't show a second statusline
 set noshowmode
 " Vertical split color
-hi vertsplit ctermfg=238 ctermbg=235
+hi vertsplit ctermfg=238 ctermbg=235 guifg=#5c6370 guibg=#262626
 " Line Nnumber color
 hi LineNr ctermfg=237
 " StatusLine colors
@@ -300,7 +308,7 @@ hi Default ctermfg=1
 " Changes the ~ sign color on empty lines
 hi EndOfBuffer ctermfg=237 ctermbg=235
 " Changes the background color
-hi Normal guibg=#262626
+hi Normal guibg=#282c34
 
 " GIT GUTTER APPEARANCE
 " Fix so Git Gutter looks clearer
