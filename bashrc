@@ -21,6 +21,7 @@ alias go="grc go"
 alias sleep="pmset displaysleepnow"
 
 alias gst="git status"
+alias glg="git log --oneline --decorate --graph"
 
 alias aci="C:/Users/$username/AppData/Roaming/nvm/v8.9.1/node64.exe C:/Users/$username/dev/amp-vtp-tools/jenkins-ci/index.js"
 
