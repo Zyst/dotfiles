@@ -39,12 +39,10 @@ Plug 'mattn/emmet-vim' " Tag expansion in super cool ways
 Plug 'Xuyuanp/nerdtree-git-plugin' " Shows git diffs-ish in nerdtree
 if has('nvim')
   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-else
-  Plug 'Shougo/deoplete.nvim'
-  Plug 'roxma/nvim-yarp'
-  Plug 'roxma/vim-hug-neovim-rpc'
+  Plug 'autozimu/LanguageClient-neovim', { 'do': ':UpdateRemotePlugins' }
+  Plug 'Shougo/echodoc.vim' " Shows inline documentation
 endif
-Plug 'Shougo/echodoc.vim' " Shows inline documentation
+Plug 'wakatime/vim-wakatime' " Code statistics
 " }}}
 
 " Languages {{{
@@ -147,6 +145,10 @@ let g:onedark_terminal_italics=1
 
 " ternjs autocloses when we complete
 autocmd CompleteDone * pclose
+
+" Language Server
+" Required for operations modifying multiple buffers like rename.
+set hidden
 " }}}
 
 " MISC {{{
@@ -387,4 +389,4 @@ if has("nvim")
 endif
 " }}}
 
-" vim:foldmethod=marker:foldlevel=0
+" vim:foldmethod=marker
