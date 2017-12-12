@@ -58,6 +58,14 @@ const moveItem = (path, target) => {
   try {
     renameSync(path, target);
   } catch (err) {
+    if (err.code === "EPERM") {
+      // If I ever have more than one folder I symlink I promise I'll write
+      // code to delete folders recursively. But in the meantime this will do.
+      throw new Error(
+        `Can't move ${path} to ${target}. Try removing both folders and try running this script again`
+      );
+    }
+
     if (err.code !== "ENOENT") {
       throw err;
     }
@@ -101,4 +109,4 @@ files.forEach(({ name, path, type }) => {
   createSymlink(name, path, type);
 });
 
-console.log("\nFinished creating symlinks!\n");
+console.log("\nFinished creating symlinks!");
