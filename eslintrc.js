@@ -1,11 +1,13 @@
 module.exports = {
-  extends: ['eslint:recommended'],
+  extends: ["eslint:recommended"],
 
   env: {
     browser: true,
     es6: true,
-    node: true,
+    node: true
   },
 
-  rules: {},
+  rules: {
+    "no-console": "off"
+  }
 };
