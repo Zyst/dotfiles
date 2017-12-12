@@ -56,8 +56,6 @@ createFolders(folders);
 
 const moveItem = (path, target) => {
   try {
-    console.log(path);
-
     renameSync(path, target);
   } catch (err) {
     if (err.code !== "ENOENT") {
