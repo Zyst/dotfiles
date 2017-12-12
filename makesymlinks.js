@@ -10,7 +10,7 @@ const makeDirectory = path => {
   try {
     mkdirSync(path);
 
-    console.log(`${path} created.`);
+    console.log(`${path} created`);
   } catch (err) {
     if (err.code !== "EEXIST") {
       throw err;
@@ -21,7 +21,7 @@ const makeDirectory = path => {
 };
 
 // The dir of the repository
-const dir = [home, "dev", "dotfiles"];
+const dir = createPath([home, "dev", "dotfiles"]);
 const oldDir = [home, "dotfiles_old"];
 
 // Folder where we will create/link MPV
@@ -56,7 +56,8 @@ createFolders(folders);
 
 const moveItem = (path, target) => {
   try {
-    console.log(path)
+    console.log(path);
+
     renameSync(path, target);
   } catch (err) {
     if (err.code !== "ENOENT") {
@@ -74,14 +75,12 @@ const createSymlink = (
 ) => {
   moveItem(path, `${createPath(oldDir)}${sep}.${target}`);
 
-  console.log(`Target is ${target}`)
-
-  symlinkSync(`.\/${target}`, path, type);
+  symlinkSync(`${dir}${sep}${target}`, path, type);
 
   console.log(`Created ${path} symlink`);
 };
 
-// Files we will symlink in homedir
+// Files we will symlink
 const files = [
   { name: "vimrc" },
   { name: "zshrc" },
