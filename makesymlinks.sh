@@ -15,7 +15,7 @@ vimswap=~/.vim/swap_files
 vimbak=~/.vim/backup_files
 
 # list of files/folders to symlink in homedir
-files="vimrc zshrc hyper.js tern-config eslintrc.js tmux.conf tern-config bashrc minttyrc"
+files="vimrc zshrc hyper.js tern-config eslintrc.js tmux.conf bashrc minttyrc"
 
 #############
 
