@@ -25,12 +25,11 @@ alias glg="git log --oneline --decorate --graph"
 
 alias aci="C:/Users/$username/AppData/Roaming/nvm/v8.9.1/node64.exe C:/Users/$username/dev/amp-vtp-tools/jenkins-ci/index.js"
 
-alias node8="C:/Users/erick.romero/AppData/Roaming/nvm/v8.9.1/node64.exe"
-
 alias tci="npm run test:ci"
 alias tw="npm run test:watch"
 alias t="npm run test"
-alias sl="npm run start:local"
+# alias sl="npm run start:local"
+alias sl="./start.sh development"
 alias s="npm run start"
 alias l="npm run lint"
 alias lci="npm run lint:ci"
