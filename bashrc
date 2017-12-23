@@ -38,3 +38,6 @@ alias vtp="cd ~/dev/amp-vtp"
 alias vtps="cd ~/dev/amp-vtp/packages/amp-vtp-server"
 alias vtpui="cd ~/dev/amp-vtp/packages/amp-vtp-ui"
 alias pctest="npm run lint:ci && npm run test:ci && npm run build"
+
+# Game
+alias tron="ssh sshtron.zachlatta.com"
