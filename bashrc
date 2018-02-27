@@ -37,7 +37,16 @@ alias lf="npm run lint:fix"
 alias vtp="cd ~/dev/amp-vtp"
 alias vtps="cd ~/dev/amp-vtp/packages/amp-vtp-server"
 alias vtpui="cd ~/dev/amp-vtp/packages/amp-vtp-ui"
+alias fota="cd ~/dev/amp-fota-v2"
+alias fotas="cd ~/dev/amp-fota-v2/packages/amp-fota-server"
+alias fotaui="cd ~/dev/amp-fota-v2/packages/amp-fota-ui"
 alias pctest="npm run lint:ci && npm run test:ci && npm run build"
 
 # Game
 alias tron="ssh sshtron.zachlatta.com"
+
+alias ni="npm install && npm prune"
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
