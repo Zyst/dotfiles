@@ -42,7 +42,6 @@ if has('nvim')
   Plug 'autozimu/LanguageClient-neovim', { 'do': ':UpdateRemotePlugins' }
   Plug 'Shougo/echodoc.vim' " Shows inline documentation
 endif
-Plug 'wakatime/vim-wakatime' " Code statistics
 " }}}
 
 " Languages {{{
