@@ -37,11 +37,6 @@ Plug 'junegunn/goyo.vim' " Zen mode
 Plug 'tpope/vim-projectionist' " Lets you open 'alternate files', like tests
 Plug 'mattn/emmet-vim' " Tag expansion in super cool ways
 Plug 'Xuyuanp/nerdtree-git-plugin' " Shows git diffs-ish in nerdtree
-if has('nvim')
-  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-  Plug 'autozimu/LanguageClient-neovim', { 'do': ':UpdateRemotePlugins' }
-  Plug 'Shougo/echodoc.vim' " Shows inline documentation
-endif
 " }}}
 
 " Languages {{{
