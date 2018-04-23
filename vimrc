@@ -24,13 +24,13 @@ Plug 'editorconfig/editorconfig-vim' " Grabs project editor configurations
 Plug 'heavenshell/vim-jsdoc' " You can add JS Docs with the JsDoc command
 Plug 'sbdchd/neoformat' " Does formatting for many languages
 Plug 'flowtype/vim-flow', {
-            \ 'autoload': {
-            \     'filetypes': 'javascript'
-            \ },
-            \ 'build': {
-            \     'mac': 'npm install -g flow-bin',
-            \     'unix': 'npm install -g flow-bin'
-            \ }}
+      \ 'autoload': {
+      \     'filetypes': 'javascript'
+      \ },
+      \ 'build': {
+      \     'mac': 'npm install -g flow-bin',
+      \     'unix': 'npm install -g flow-bin'
+      \ }}
 Plug 'tpope/vim-surround' " Adds thingies to add sorrounding stuff like ''
 Plug 'easymotion/vim-easymotion' " Lets you move around faster
 Plug 'junegunn/goyo.vim' " Zen mode
@@ -51,16 +51,7 @@ Plug 'leshill/vim-json'
 " }}}
 
 " Themes {{{
-Plug 'chriskempson/vim-tomorrow-theme'
 Plug 'Zyst/onedark.vim'
-Plug 'NLKNguyen/papercolor-theme'
-Plug 'oguzbilgic/sexy-railscasts-theme'
-Plug 'mhartington/oceanic-next'
-Plug 'morhetz/gruvbox'
-Plug 'w0ng/vim-hybrid'
-Plug 'nanotech/jellybeans.vim'
-Plug 'davidklsn/vim-sialoquent'
-Plug 'ajh17/Spacegray.vim'
 " }}}
 call plug#end()
 " }}}
@@ -119,17 +110,17 @@ let g:ycm_add_preview_to_completeopt = 0
 
 " Change on nerd tree to these
 let g:NERDTreeIndicatorMapCustom = {
-    \ "Modified"  : "*",
-    \ "Staged"    : "✚",
-    \ "Untracked" : "✭",
-    \ "Renamed"   : "➜",
-    \ "Unmerged"  : "═",
-    \ "Deleted"   : "✖",
-    \ "Dirty"     : "✗",
-    \ "Clean"     : "✔︎",
-    \ 'Ignored'   : '☒',
-    \ "Unknown"   : "?"
-    \ }
+      \ "Modified"  : "*",
+      \ "Staged"    : "✚",
+      \ "Untracked" : "✭",
+      \ "Renamed"   : "➜",
+      \ "Unmerged"  : "═",
+      \ "Deleted"   : "✖",
+      \ "Dirty"     : "✗",
+      \ "Clean"     : "✔︎",
+      \ 'Ignored'   : '☒',
+      \ "Unknown"   : "?"
+      \ }
 
 " Emmet expands with Ctrl + E
 let user_emmet_expandabbr_key = '<c-e>'
@@ -143,6 +134,14 @@ autocmd CompleteDone * pclose
 " Language Server
 " Required for operations modifying multiple buffers like rename.
 set hidden
+
+if executable('rg')
+  set grepprg=rg\ --color=never
+  let g:ctrlp_user_command = 'rg -L %s --files --color=never --glob ""'
+  let g:ctrlp_use_caching = 0
+else
+  let g:ctrlp_clear_cache_on_exit = 0
+endif
 " }}}
 
 " MISC {{{
@@ -154,9 +153,16 @@ set foldlevelstart=0
 
 " Autoreloads when vimrc is changed
 augroup myvimrc
-    au!
-    au BufWritePost .vimrc,_vimrc,vimrc,.gvimrc,_gvimrc,gvimrc so $MYVIMRC | if has('gui_running') | so $MYGVIMRC | endif
+  au!
+  au BufWritePost .vimrc,_vimrc,vimrc,.gvimrc,_gvimrc,gvimrc so $MYVIMRC | if has('gui_running') | so $MYGVIMRC | endif
 augroup END
+
+" Sets terminal for neovim
+if has("nvim")
+  if (has("win32"))
+    nnoremap <leader>t :term "C:\Program Files\Git\bin\bash.exe" <CR>
+  endif
+endif
 " }}}
 
 " CLIPBOARD {{{
@@ -236,8 +242,16 @@ highlight jsthis cterm=italic
 set cursorline
 " Wrap lines visually
 set wrap
+
 " Show line numbers
 set number
+" Switch off relative number on non focus
+augroup numbertoggle
+  autocmd!
+  autocmd BufEnter,FocusGained,WinEnter * if &nu | set rnu   | endif
+  autocmd BufLeave,FocusLost,WinLeave   * if &nu | set nornu | endif
+augroup END
+
 " Minimum number of screen lines that you would like above and below the cursor
 set scrolloff=5
 " this autocompletes commands with TAB
@@ -290,11 +304,11 @@ set statusline=%=\ %f\ %m
 " Don't show a second statusline
 set noshowmode
 " Vertical split color
-hi vertsplit ctermfg=238 ctermbg=235 guifg=#5c6370 guibg=#262626
+hi vertsplit ctermfg=238 ctermbg=235 guifg=#282c34 guibg=#282c34
 " Line Nnumber color
 hi LineNr ctermfg=237
 " StatusLine colors
-hi StatusLine ctermfg=235 ctermbg=245 guifg=#5c6370 guibg=#262626
+hi StatusLine ctermfg=235 ctermbg=245 guifg=#262626 guibg=#9da5b4
 " StatusLine NC
 hi StatusLineNC ctermfg=235 ctermbg=237
 " Search appearance
@@ -362,7 +376,7 @@ map <C-b> :NERDTreeToggle<CR>
 nnoremap <s-tab> za
 
 " Edit Vimrc
-nnoremap <leader>ev :vsp $MYVIMRC<CR>
+nnoremap <leader>ev :vsp ~/.vimrc<CR>
 
 " Hi under cursor
 " echo synIDattr(synID(line("."),col("."),1),"name")
@@ -383,4 +397,4 @@ if has("nvim")
 endif
 " }}}
 
-" vim:foldmethod=marker
+" vim:set foldmethod=marker foldlevel=0
