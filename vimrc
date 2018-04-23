@@ -137,7 +137,7 @@ set hidden
 
 if executable('rg')
   set grepprg=rg\ --color=never
-  let g:ctrlp_user_command = 'rg -L %s --files --color=never --glob ""'
+  let g:ctrlp_user_command = 'rg %s --files --color=never --glob ""'
   let g:ctrlp_use_caching = 0
 else
   let g:ctrlp_clear_cache_on_exit = 0
@@ -163,6 +163,27 @@ if has("nvim")
     nnoremap <leader>t :term "C:\Program Files\Git\bin\bash.exe" <CR>
   endif
 endif
+
+" Buffer switching using Tab/Shift-Tab
+nnoremap <C-tab>   :bnext<CR>
+nnoremap <C-S-tab> :bprevious<CR>
+
+" Shift+Arrow left/right changes tab
+nnoremap <S-Left>  :tabprevious<CR>
+nnoremap <S-Right> :tabnext<CR>
+inoremap <S-Left>  <Esc>:tabprevious<CR>i
+inoremap <S-Right> <Esc>:tabnext<CR>i
+
+" Ctrl + T Opens a new tab
+nnoremap <C-t> :tabnew<CR>
+inoremap <C-t> <Esc>:tabnew<CR>
+
+" J and K move lines in visual mode
+vnoremap <S-j> :m '>+1<CR>gv=gv
+vnoremap <S-k> :m '<-2<CR>gv=gv
+
+" Close buffer without closing the window
+nnoremap <C-c> :bp\|bd #<CR> 
 " }}}
 
 " CLIPBOARD {{{
