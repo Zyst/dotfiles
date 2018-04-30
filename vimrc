@@ -184,6 +184,9 @@ vnoremap <S-k> :m '<-2<CR>gv=gv
 
 " Close buffer without closing the window
 nnoremap <C-c> :bp\|bd #<CR> 
+
+" Double escape removes search highlight
+nmap <Esc><Esc> :noh<CR><Esc>
 " }}}
 
 " CLIPBOARD {{{
@@ -421,7 +424,7 @@ endif
 " nvim GUI stuff
 if has("nvim")
   if exists('g:GuiLoaded')
-    Guifont Operator Mono Medium:h14
+    Guifont! Operator Mono Medium:h15
   endif
 endif
 
