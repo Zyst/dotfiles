@@ -51,7 +51,7 @@ Plug 'leshill/vim-json'
 " }}}
 
 " Themes {{{
-Plug 'Zyst/onedark.vim'
+Plug 'Zyst/egoist-one.vim'
 " }}}
 call plug#end()
 " }}}
@@ -420,12 +420,4 @@ if has("nvim")
   tnoremap <Esc> <C-\><C-n>
 endif
 " }}}
-
-" nvim GUI stuff
-if has("nvim")
-  if exists('g:GuiLoaded')
-    Guifont! Operator Mono Medium:h15
-  endif
-endif
-
 " vim:set foldmethod=marker foldlevel=0
