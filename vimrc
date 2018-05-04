@@ -11,7 +11,12 @@ if !has("win32")
 endif
 
 " PLUGINS
-call plug#begin('~/.vim/plugged')
+if has('nvim')
+  call plug#begin('~/.config/nvim/plugged')
+else
+  call plug#begin('~/.vim/plugged')
+endif
+
 " Core {{{
 Plug 'kien/ctrlp.vim' " File opening shenanigans
 Plug 'tpope/vim-fugitive' " Git integration, something something
@@ -183,7 +188,7 @@ vnoremap <S-j> :m '>+1<CR>gv=gv
 vnoremap <S-k> :m '<-2<CR>gv=gv
 
 " Close buffer without closing the window
-nnoremap <C-c> :bp\|bd #<CR> 
+nnoremap <C-c> :bp\|bd #<CR>
 
 " Double escape removes search highlight
 nmap <Esc><Esc> :noh<CR><Esc>
