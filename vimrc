@@ -406,6 +406,10 @@ nnoremap <s-tab> za
 
 " Edit Vimrc
 nnoremap <leader>ev :vsp ~/.vimrc<CR>
+if has("win32")
+" Edit hosts
+nnoremap <leader>eh :vsp C:\Windows\System32\drivers\etc\hosts<CR>
+endif
 
 " Hi under cursor
 " echo synIDattr(synID(line("."),col("."),1),"name")
