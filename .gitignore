@@ -2,3 +2,7 @@
 *.swp
 .DS_Store
 *.log
+.config/configstore
+.config/git
+.config/nvim
+.config/nvim-gtk
