@@ -1,4 +1,13 @@
-const { symlinkSync, mkdirSync, renameSync } = require("fs");
+const {
+  symlinkSync,
+  mkdirSync,
+  renameSync,
+  existsSync,
+  readdirSync,
+  lstatSync,
+  unlinkSync,
+  rmdirSync
+} = require("fs");
 const { sep } = require("path");
 const { homedir, platform } = require("os");
 
@@ -30,6 +39,8 @@ const mpvFolder =
     ? [home, "AppData", "Roaming", "mpv"]
     : [home, ".config", "mpv"];
 
+const getShitDoneFolder = [home, ".config"];
+
 // Folders we will create
 const folders = {
   vim: [
@@ -39,8 +50,29 @@ const folders = {
     [home, ".vim", "backup_files"]
   ],
   mpv: [mpvFolder],
-  backup: [oldDir]
+  backup: [oldDir],
+  getShitDone: [getShitDoneFolder]
 };
+
+const deleteFolderRecursive = path => {
+  if (existsSync(path)) {
+    readdirSync(path).forEach(file => {
+      const curPath = `${path}${sep}${file}`;
+
+      if (lstatSync(curPath).isDirectory()) {
+        // recurse
+        deleteFolderRecursive(curPath);
+      } else {
+        // delete file
+        unlinkSync(curPath);
+      }
+    });
+
+    rmdirSync(path);
+  }
+};
+
+deleteFolderRecursive(createPath(oldDir));
 
 const createFolders = folders => {
   console.log("Creating folders...\n");
@@ -99,6 +131,11 @@ const files = [
   {
     name: "mpv",
     path: createPath(mpvFolder),
+    type: "dir"
+  },
+  {
+    name: ".config",
+    path: createPath(getShitDoneFolder),
     type: "dir"
   }
 ];
