@@ -41,6 +41,7 @@ alias fota="cd ~/dev/amp-fota-v2"
 alias fotas="cd ~/dev/amp-fota-v2/packages/amp-fota-server"
 alias fotaui="cd ~/dev/amp-fota-v2/packages/amp-fota-ui"
 alias pctest="npm run lint:ci && npm run test:ci && npm run build"
+alias dot="cd ~/dev/dotfiles"
 
 # Game
 alias tron="ssh sshtron.zachlatta.com"
