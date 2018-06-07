@@ -1,5 +1,5 @@
 module.exports = {
-  extends: ["eslint:recommended"],
+  extends: ['eslint:recommended'],
 
   env: {
     browser: true,
@@ -8,6 +8,7 @@ module.exports = {
   },
 
   rules: {
-    "no-console": "off"
+    'no-console': 'off',
+    'props-inline': 'off'
   }
 };
