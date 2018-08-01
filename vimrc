@@ -351,12 +351,19 @@ hi Normal guibg=#282c34
 
 " GIT GUTTER APPEARANCE
 " Fix so Git Gutter looks clearer
-hi clear SignColumn
-hi SignColumn ctermbg=235
-hi GitGutterAdd ctermbg=235 ctermfg=245
-hi GitGutterChange ctermbg=235 ctermfg=245
-hi GitGutterDelete ctermbg=235 ctermfg=245
-hi GitGutterChangeDelete ctermbg=235 ctermfg=245
+" hi clear SignColumn
+" hi SignColumn ctermbg=235
+" hi GitGutterAdd ctermbg=235 ctermfg=245
+" hi GitGutterChange ctermbg=235 ctermfg=245
+" hi GitGutterDelete ctermbg=235 ctermfg=245
+" hi GitGutterChangeDelete ctermbg=235 ctermfg=245
+
+" Custom Git Gutter signs
+let g:gitgutter_sign_added='┃'
+let g:gitgutter_sign_modified='┃'
+let g:gitgutter_sign_removed='◢'
+let g:gitgutter_sign_removed_first_line='◥'
+let g:gitgutter_sign_modified_removed='◢'
 
 hi clear NERDTreeGitStatusModified
 hi NERDTreeGitStatusModified ctermbg=235 ctermfg=245
