@@ -53,6 +53,12 @@ values."
      syntax-checking
      version-control
      scheme
+     (erc :variables
+          erc-server-list
+          '(("irc.rizon.net"
+             :port "6697"
+             :ssl t
+             :nick "Zyst")))
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
