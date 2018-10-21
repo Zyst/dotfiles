@@ -22,6 +22,7 @@ alias sleep="pmset displaysleepnow"
 
 alias gst="git status"
 alias glg="git log --oneline --decorate --graph"
+alias gw="git log --follow -p --"
 
 alias rgg="rg --files -g"
 
