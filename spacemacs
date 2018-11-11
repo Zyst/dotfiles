@@ -65,7 +65,16 @@ values."
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
    dotspacemacs-additional-packages '(org-pomodoro
-                                      org-beautify-theme)
+                                      org-beautify-theme
+                                      gruvbox-theme
+                                      color-theme-sanityinc-tomorrow
+                                      flucui-themes
+                                      flatland-theme
+                                      busybee-theme
+                                      mustang-theme
+                                      atom-one-dark-theme
+                                      solarized-theme
+                                      prettier-js)
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
    ;; A list of packages that will not be installed and loaded.
@@ -102,7 +111,7 @@ values."
    ;; when the current branch is not `develop'. Note that checking for
    ;; new versions works via git commands, thus it calls GitHub services
    ;; whenever you start Emacs. (default nil)
-   dotspacemacs-check-for-update nil
+   dotspacemacs-check-for-update t
    ;; If non-nil, a form that evaluates to a package directory. For example, to
    ;; use different package directories for different Emacs versions, set this
    ;; to `emacs-version'.
@@ -149,10 +158,10 @@ values."
                                 :width normal
                                 :powerline-scale 1.1)
                                ("Operator Mono"
-                               :size 34
-                               :weight normal
-                               :width normal
-                               :powerline-scale 1.1)
+                                :size 34
+                                :weight normal
+                                :width normal
+                                :powerline-scale 1.1)
                                ("Consolas"
                                 :size 34
                                 :weight normal
