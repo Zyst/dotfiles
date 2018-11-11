@@ -66,14 +66,6 @@ values."
    ;; configuration in `dotspacemacs/user-config'.
    dotspacemacs-additional-packages '(org-pomodoro
                                       org-beautify-theme
-                                      gruvbox-theme
-                                      color-theme-sanityinc-tomorrow
-                                      flucui-themes
-                                      flatland-theme
-                                      busybee-theme
-                                      mustang-theme
-                                      atom-one-dark-theme
-                                      solarized-theme
                                       prettier-js)
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
