@@ -65,13 +65,18 @@ values."
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
    dotspacemacs-additional-packages '(org-pomodoro
-                                      org-beautify-theme
-                                      prettier-js)
+                                      prettier-js
+                                      all-the-icons
+                                      rainbow-mode
+                                      (atom-one-dark-theme
+                                       :location (recipe
+                                                  :fetcher github
+                                                  :repo "Zyst/egoist-one-theme"))
+                                      )
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
    ;; A list of packages that will not be installed and loaded.
-   dotspacemacs-excluded-packages '(org-bullets
-                                    rainbow-delimiters)
+   dotspacemacs-excluded-packages '(rainbow-delimiters)
    ;; Defines the behaviour of Spacemacs when installing packages.
    ;; Possible values are `used-only', `used-but-keep-unused' and `all'.
    ;; `used-only' installs only explicitly used packages and uninstall any
@@ -139,7 +144,7 @@ values."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(doom-one)
+   dotspacemacs-themes '()
    ;; If non nil the cursor color matches the state color in GUI Emacs.
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
@@ -344,8 +349,15 @@ you should place your code here."
   ;; Hide stars before the current one
   (setq org-hide-leading-stars t)
 
-  (load-theme 'org-beautify)
-  (load-theme 'doom-one)
+  ;; Make neotree use icons
+  (setq neo-theme
+        (if (display-graphic-p) 'icons 'arrow))
+
+  ;; Fixes org-bullets
+  (setq inhibit-compacting-font-caches t)
+
+  ;; (load-theme 'org-beautify)
+  (load-theme 'atom-one-dark)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
