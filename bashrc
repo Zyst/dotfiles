@@ -9,13 +9,8 @@ username=$(whoami)
 # Default ls I enjoy more
 alias ls='ls -GFh'
 
-# go things
-export GOPATH=$HOME/.go
-export GOROOT=/usr/local/opt/go/libexec
-export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
-
 # GRC go test
-alias go="grc go"
+# alias go="grc go"
 
 # Turn off Display (OS X)
 alias sleep="pmset displaysleepnow"
