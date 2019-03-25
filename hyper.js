@@ -30,7 +30,7 @@ module.exports = {
     // set to `true` if you're using a Linux set up
     // that doesn't shows native menus
     // default: `false` on Linux, `true` on Windows (ignored on macOS)
-    showHamburgerMenu: "",
+    showHamburgerMenu: false,
 
     // set to `false` if you want to hide the minimize, maximize and close buttons
     // additionally, set to `'left'` if you want them on the left, like in Ubuntu
@@ -60,7 +60,7 @@ module.exports = {
 
     // the shell to run when spawning a new session (i.e. /usr/local/bin/fish)
     // if left empty, your system's login shell will be used by default
-    shell: "C:\\Program Files\\Git\\bin\\bash.exe",
+    shell: "C:\\Users\\erick.romero\\go\\bin\\elvish.exe",
 
     // for setting shell arguments (i.e. for using interactive shellArgs: ['-i'])
     // by default ['--login'] will be used
