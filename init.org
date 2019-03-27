@@ -16,7 +16,6 @@ This is my Emacs configuration file.
 
 This file is written in [[http://www.howardism.org/Technical/Emacs/literate-programming-tutorial.html][literate programming style]] using [[https://orgmode.org/][org-mode]]. See [[file:init.el][init.el]] for the generated file.
 
-
 * References
 
 This is all Based on [[https://github.com/zzamboni][zzamboni's]] [[https://github.com/zzamboni/dot-emacs][dot-emacs]]. Huge props to them!
