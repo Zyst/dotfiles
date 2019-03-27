@@ -112,8 +112,10 @@
 
 (setq evil-want-C-u-scroll t)
 
-(require 'evil)
-(evil-mode 1)
+(use-package evil
+  :ensure t)
+
+(evil-mode t)
 
 (use-package org
   :bind

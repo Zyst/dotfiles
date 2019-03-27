@@ -302,14 +302,16 @@ The main advantage of using this over =define-key= or =global-set-key= is that y
 Make Ctrl-u page up as usual.
 
 #+begin_src emacs-lisp
-(setq evil-want-C-u-scroll t)
+  (setq evil-want-C-u-scroll t)
 #+end_src
 
-Initialize evil mode.
+Install, and initialize evil mode.
 
 #+begin_src emacs-lisp
-(require 'evil)
-(evil-mode 1)
+  (use-package evil
+    :ensure t)
+
+  (evil-mode t)
 #+end_src
 
 * Org mode
