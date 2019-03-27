@@ -108,15 +108,15 @@ const moveItem = (path, target) => {
   }
 };
 
-const createSymlink = (
-  target,
-  path = `${home}${sep}.${target}`,
+const createSymlink = ({
+  name,
+  path = `${home}${sep}.${name}`,
   type = 'file',
   dotfile = true
-) => {
-  moveItem(path, `${createPath(oldDir)}${sep}${dotfile ? '.' : ''}${target}`);
+}) => {
+  moveItem(path, `${createPath(oldDir)}${sep}${dotfile ? '.' : ''}${name}`);
 
-  symlinkSync(`${dir}${sep}${target}`, path, type);
+  symlinkSync(`${dir}${sep}${name}`, path, type);
 
   console.log(`Created ${path} symlink`);
 };
@@ -144,15 +144,12 @@ const files = [
   {
     name: 'init.el',
     path: createPath([...emacsFolder, 'init.el']),
-    type: 'file',
     dotfile: false
   }
 ];
 
 console.log('Creating symlinks...\n');
 
-files.forEach(({ name, path, type, dotfile }) => {
-  createSymlink(name, path, type, dotfile);
-});
+files.forEach(createSymlink);
 
 console.log('\nFinished creating symlinks!');
