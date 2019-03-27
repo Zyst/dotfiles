@@ -260,39 +260,7 @@ Some settings maybe OS-specific, and this is where we set them. For now I only u
 :header-args:emacs-lisp: :tangle no :noweb-ref Mac settings
 :END:
 
-First, we set the key modifiers correctly to my preferences: Make Command (⌘) act as Meta, Option as Alt, right-Option as Super
-
-#+begin_src emacs-lisp
-  (customize-set-variable 'mac-command-modifier 'meta)
-  (customize-set-variable 'mac-option-modifier 'alt)
-  (customize-set-variable 'mac-right-option-modifier 'super)
-#+end_src
-
-We also make it possible to use the familiar ~⌘-+~ and ~⌘--~ to increase and decrease the font size. ~⌘-=~ is also bound to "increase" because it's on the same key in an English keyboard.
-
-#+begin_src emacs-lisp
-  (bind-key "M-+" 'text-scale-increase)
-  (bind-key "M-=" 'text-scale-increase)
-  (bind-key "M--" 'text-scale-decrease)
-#+end_src
-
-Somewhat surprisingly, there seems to be no "reset" function, so I define my own and bind it to =⌘-0=.
-
-#+begin_src emacs-lisp
-  (defun zz/text-scale-reset ()
-    (interactive)
-    (text-scale-set 0))
-  (bind-key "M-0" 'zz/text-scale-reset)
-#+end_src
-
-We also use the =exec-path-from-shell= to make sure the path settings from the shell are loaded into Emacs (usually it starts up with the default system-wide path).
-
-#+begin_src emacs-lisp
-  (use-package exec-path-from-shell
-    :defer nil
-    :config
-    (exec-path-from-shell-initialize))
-#+end_src
+There are no Mac-specific settings for now.
 
 ** Linux
 :PROPERTIES:
@@ -320,40 +288,6 @@ The main advantage of using this over =define-key= or =global-set-key= is that y
 
 ** Miscellaneous keybindings
 
-- =M-g= interactively asks for a line number and jump to it (=goto-line)=.
-
-  #+begin_src emacs-lisp
-    (bind-key "M-g" 'goto-line)
-  #+end_src
-
-- =M-`= focuses the next frame, if multiple ones are active (emulate the Mac "next app window" keybinding)
-
-  #+begin_src emacs-lisp
-    (bind-key "M-`" 'other-frame)
-  #+end_src
-
-- Interactive search key bindings -  [[https://github.com/benma/visual-regexp-steroids.el][visual-regexp-steroids]] provides sane regular expressions and visual incremental search. We make ~C-s~ and ~C-r~ run the visual-regexp functions. We leave ~C-M-s~ and ~C-M-r~ to run the default =isearch-forward/backward= functions, as a fallback. I use the =pcre2el= package to support PCRE-style regular expressions.
-
-  #+begin_src emacs-lisp
-    (use-package pcre2el)
-    (use-package visual-regexp-steroids
-      :custom
-      (vr/engine 'pcre2el "Use PCRE regular expressions")
-      :bind
-      ("C-c r" . vr/replace)
-      ("C-c q" . vr/query-replace)
-      ("C-r"   . vr/isearch-backward)
-      ("C-S-s" . vr/isearch-forward)
-      ("C-M-s" . isearch-forward)
-      ("C-M-r" . isearch-backward))
-  #+end_src
-
-- Key binding to use "[[http://www.emacswiki.org/emacs/HippieExpand][hippie expand]]" for text autocompletion
-
-  #+begin_src emacs-lisp
-    (bind-key "M-/" 'hippie-expand)
-  #+end_src
-
 - The [[https://github.com/justbur/emacs-which-key][which-key]] package makes Emacs functionality much easier to discover and explore: in short, after you start the input of a command and stop, pondering what key must follow, it will automatically open a non-intrusive buffer at the bottom of the screen offering you suggestions for completing the command, that's it, nothing else. It's beautiful.
 
   #+begin_src emacs-lisp
@@ -364,62 +298,19 @@ The main advantage of using this over =define-key= or =global-set-key= is that y
       (which-key-mode))
   #+end_src
 
-** Emulating vi's =%= key
+* Evil mode
 
-One of the few things I missed in Emacs from vi was the =%= key, which jumps to the parenthesis, bracket or brace which matches the one below the cursor. This function implements the functionality. Inspired by [[http://www.emacswiki.org/emacs/NavigatingParentheses]], but modified to use =smartparens= instead of the default commands, and to work on brackets and braces.
+Make Ctrl-u page up as usual.
 
 #+begin_src emacs-lisp
-  (defun zz/goto-match-paren (arg)
-    "Go to the matching paren/bracket, otherwise (or if ARG is not nil) insert %.
-    vi style of % jumping to matching brace."
-    (interactive "p")
-    (if (not (memq last-command '(set-mark
-                                  cua-set-mark
-                                  zz/goto-match-paren
-                                  down-list
-                                  up-list
-                                  end-of-defun
-                                  beginning-of-defun
-                                  backward-sexp
-                                  forward-sexp
-                                  backward-up-list
-                                  forward-paragraph
-                                  backward-paragraph
-                                  end-of-buffer
-                                  beginning-of-buffer
-                                  backward-word
-                                  forward-word
-                                  mwheel-scroll
-                                  backward-word
-                                  forward-word
-                                  mouse-start-secondary
-                                  mouse-yank-secondary
-                                  mouse-secondary-save-then-kill
-                                  move-end-of-line
-                                  move-beginning-of-line
-                                  backward-char
-                                  forward-char
-                                  scroll-up
-                                  scroll-down
-                                  scroll-left
-                                  scroll-right
-                                  mouse-set-point
-                                  next-buffer
-                                  previous-buffer
-                                  previous-line
-                                  next-line
-                                  back-to-indentation
-                                  )))
-        (self-insert-command (or arg 1))
-      (cond ((looking-at "\\s\(") (sp-forward-sexp) (backward-char 1))
-            ((looking-at "\\s\)") (forward-char 1) (sp-backward-sexp))
-            (t (self-insert-command (or arg 1))))))
+(setq evil-want-C-u-scroll t)
 #+end_src
 
-We bind this function to the =%= key.
+Initialize evil mode.
 
 #+begin_src emacs-lisp
-  (bind-key "%" 'zz/goto-match-paren)
+(require 'evil)
+(evil-mode 1)
 #+end_src
 
 * Org mode
@@ -437,8 +328,6 @@ I use =use-package= to load the =org= package, and put its configuration inside 
 
 #+begin_src emacs-lisp :noweb yes
   (use-package org
-    :pin manual
-    :load-path ("lisp/org-mode/lisp" "lisp/org-mode/lisp/contrib/lisp")
     :bind
       <<org-mode-keybindings>>
     :custom
