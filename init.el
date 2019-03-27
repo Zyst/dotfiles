@@ -22,7 +22,7 @@
 (load custom-file)
 
 (customize-set-variable 'package-archives
-                        '(;;("gnu"       . "https://elpa.gnu.org/packages/")
+                        '(("gnu"       . "https://elpa.gnu.org/packages/")
                           ("marmalade" . "https://marmalade-repo.org/packages/")
                           ("melpa"     . "https://melpa.org/packages/")))
 
@@ -46,6 +46,21 @@
 (use-package auto-compile
   :defer nil
   :config (auto-compile-on-load-mode))
+
+(if (require 'quelpa nil t)
+    (quelpa-self-upgrade)
+(with-temp-buffer
+    (url-insert-file-contents
+    "https://framagit.org/steckerhalter/quelpa/raw/master/bootstrap.el")
+    (eval-buffer)))
+
+(quelpa
+'(quelpa-use-package
+:fetcher git
+:url "https://framagit.org/steckerhalter/quelpa-use-package.git"
+:stable nil))
+
+(require 'quelpa-use-package)
 
 (customize-set-variable 'mouse-yank-at-point t)
 
@@ -241,9 +256,12 @@
 ;;(use-package solarized-theme)
 ;;(use-package darktooth-theme)
 ;;(use-package kaolin-themes)
-(use-package gruvbox-theme)
-;;(atom-one-dark-theme :location (recipe :fetcher github :repo "Zyst/egoist-one-theme"))
-(load-theme 'gruvbox)
+;;(use-package gruvbox-theme)
+(use-package atom-one-dark-theme
+  :quelpa (atom-one-dark-theme
+    :fetcher github
+    :repo "Zyst/egoist-one-theme"))
+(load-theme 'atom-one-dark t)
 
 (use-package desktop
   :defer nil

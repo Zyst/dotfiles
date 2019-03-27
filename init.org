@@ -81,7 +81,7 @@ First, we declare the package repositories to use.
 
 #+begin_src emacs-lisp
   (customize-set-variable 'package-archives
-                          '(;;("gnu"       . "https://elpa.gnu.org/packages/")
+                          '(("gnu"       . "https://elpa.gnu.org/packages/")
                             ("marmalade" . "https://marmalade-repo.org/packages/")
                             ("melpa"     . "https://melpa.org/packages/")))
 #+end_src
@@ -131,6 +131,29 @@ This variable tells Emacs to prefer the =.el= file if it's newer, even if there 
   (use-package auto-compile
     :defer nil
     :config (auto-compile-on-load-mode))
+#+end_src
+
+- We bootstrap [[https://github.com/quelpa/quelpa][quelpa]] which is useful to install personal packages, or build some from source if necessary.
+
+#+begin_src emacs-lisp
+    (if (require 'quelpa nil t)
+        (quelpa-self-upgrade)
+    (with-temp-buffer
+        (url-insert-file-contents
+        "https://framagit.org/steckerhalter/quelpa/raw/master/bootstrap.el")
+        (eval-buffer)))
+#+end_src
+
+- Finally, we install [[https://github.com/quelpa/quelpa-use-package][quelpa-use-package]], which will allow us to install our private dependencies:
+
+#+begin_src emacs-lisp
+  (quelpa
+  '(quelpa-use-package
+  :fetcher git
+  :url "https://framagit.org/steckerhalter/quelpa-use-package.git"
+  :stable nil))
+
+  (require 'quelpa-use-package)
 #+end_src
 
 * Settings
@@ -627,13 +650,18 @@ The =diminish= package makes it possible to remove clutter from the modeline. He
 
 I have been playing with different themes, and I have settled for now in =gruvbox=. Some of my other favorites are also here so I don't forget about them.
 
+*Figure out how to fetch my theme from github*:
+
 #+begin_src emacs-lisp
   ;;(use-package solarized-theme)
   ;;(use-package darktooth-theme)
   ;;(use-package kaolin-themes)
-  (use-package gruvbox-theme)
-  ;;(atom-one-dark-theme :location (recipe :fetcher github :repo "Zyst/egoist-one-theme"))
-  (load-theme 'gruvbox)
+  ;;(use-package gruvbox-theme)
+  (use-package atom-one-dark-theme
+    :quelpa (atom-one-dark-theme
+      :fetcher github
+      :repo "Zyst/egoist-one-theme"))
+  (load-theme 'atom-one-dark t)
 #+end_src
 
 Enable desktop-save mode, which saves the current buffer configuration on exit and reloads it on restart.
