@@ -364,65 +364,7 @@ By default, =org-indent= produces an indicator ="Ind"= in the modeline. We use d
 
 ** Miscellaneous org functions
 
-Utility =org-get-keyword= function (from the org-mode mailing list) to get the value of file-level properties.
-
-#+begin_src emacs-lisp
-  (defun org-get-keyword (key)
-    (org-element-map (org-element-parse-buffer 'element) 'keyword
-      (lambda (k)
-        (when (string= key (org-element-property :key k))
-          (org-element-property :value k)))
-      nil t))
-#+end_src
-
 ** Keybindings
-
-Set up =C-c l= to store a link to the current org object, in counterpart to the default =C-c C-l= to insert a link.
-
-#+begin_src emacs-lisp :tangle no :noweb-ref org-mode-keybindings
-  ("C-c l" . org-store-link)
-#+end_src
-
-Set up =C-c a= to call up agenda mode.
-
-#+begin_src emacs-lisp :tangle no :noweb-ref org-mode-keybindings
-  ("C-c a" . org-agenda)
-#+end_src
-
-The default keybinding for =org-mark-element= is =M-h=, which in macOS hides the current application, so I bind it to =A-h=.
-
-#+begin_src emacs-lisp :tangle no :noweb-ref org-mode-keybindings
-  ("A-h" . org-mark-element)
-#+end_src
-
-Default setup and keybinding for =org-capture=.
-
-#+begin_src emacs-lisp :tangle no :noweb-ref org-mode-keybindings
-  ("C-c c" . org-capture)
-#+end_src
-
-Enable [[https://orgmode.org/manual/Speed-keys.html][Speed Keys]], which allows quick single-key commands when the cursor is placed on a heading. Usually the cursor needs to be at the beginning of a headline line, but defining it with this function makes them active on any of the asterisks at the beginning of the line (useful with the font highlighting I use, as all but the last asterisk are sometimes not visible).
-
-#+begin_src emacs-lisp :tangle no :noweb-ref org-mode-custom-vars
-  (org-use-speed-commands (lambda () (and (looking-at org-outline-regexp) (looking-back "^\**"))))
-#+end_src
-
-** Building presentations with org-mode
-
-[[https://github.com/yjwen/org-reveal][org-reveal]] is an awesome package for building presentations with org-mode. The MELPA version of the package gives me a conflict with my hand-installed version of org-mode, so I also install it by hand and load it directly from its checked-out repository.
-
-#+begin_src emacs-lisp
-  (use-package ox-reveal
-    :load-path ("lisp/org-reveal")
-    :defer 3
-    :after org
-    :custom
-    (org-reveal-note-key-char nil)
-    (org-reveal-root "file:///Users/taazadi1/Dropbox/org/reveal.js"))
-  (use-package htmlize
-    :defer 3
-    :after ox-reveal)
-#+end_src
 
 ** Various exporters
 
@@ -467,112 +409,6 @@ One of the big strengths of org-mode is the ability to export a document in many
       :after org)
   #+end_src
 
-- AsciiDoc
-
-  #+begin_src emacs-lisp
-    (use-package ox-asciidoc
-      :defer 3
-      :after org)
-  #+end_src
-
-- TexInfo. I have found that the best way to produce a PDF from an org file is to export it to a =.texi= file, and then use =texi2pdf= to produce the PDF.
-
-  #+begin_src emacs-lisp
-    (use-package ox-texinfo
-      :load-path "lisp/org-mode/lisp"
-      :defer 3
-      :ensure nil
-      :after org)
-  #+end_src
-
-#+NAME: latex-exporter-settings
-- Some customizations for the LaTeX exporter. =ox-latex= gets loaded automatically, but we use =use-package= anyway so that the config code is only executed after the package is loaded. I add a pseudo-class which uses the document class =book= but without parts (only chapters at the top level).
-
-  #+begin_src emacs-lisp
-    (use-package ox-latex
-      :load-path "lisp/org-mode/lisp"
-      :ensure nil
-      :demand
-      :after org
-      :custom
-      (org-latex-compiler "xelatex")
-      (org-latex-pdf-process '("%latex -shell-escape -interaction nonstopmode -output-directory %o %f" "%latex -interaction nonstopmode -output-directory %o %f" "%latex -interaction nonstopmode -output-directory %o %f"))
-      :config
-      (setq org-latex-listings 'minted)
-      (add-to-list 'org-latex-packages-alist '("newfloat" "minted"))
-      (add-to-list 'org-latex-minted-langs '(lua "lua"))
-      (add-to-list 'org-latex-minted-langs '(shell "shell"))
-      (add-to-list 'org-latex-classes '("book-no-parts" "\\documentclass[11pt,letterpaper]{book}"
-                                        ("\\chapter{%s}" . "\\chapter*{%s}")
-                                        ("\\section{%s}" . "\\section*{%s}")
-                                        ("\\subsection{%s}" . "\\subsection*{%s}")
-                                        ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-                                        ("\\paragraph{%s}" . "\\paragraph*{%s}")))
-      (add-to-list 'org-latex-classes '("awesome-cv" "\\documentclass{awesome-cv}"
-                                        ("\\cvsection{%s}" . "\\cvsection{%s}")
-                                        ("\\cvsubsection{%s}" . "\\cvsubsection{%s}")
-                                        ("\\subsection{%s}" . "\\subsection*{%s}")
-                                        ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-                                        ("\\cvparagraph{%s}" . "\\cvparagraph{%s}")))
-      ;; Necessary for LuaLaTeX to work - see https://tex.stackexchange.com/a/374391/10680
-      (setenv "LANG" "en_US.UTF-8"))
-  #+end_src
-
-** Blogging with Hugo
-
-[[https://ox-hugo.scripter.co/][ox-hugo]] is an awesome way to blog from org-mode. It makes it possible for posts in org-mode format to be kept separate, and it generates the Markdown files for Hugo. Hugo [[https://gohugo.io/content-management/formats/][supports org files]], but using ox-hugo has multiple advantages:
-
-- Parsing is done by org-mode natively, not by an external library. Although goorgeous (used by Hugo) is very good, it still lacks in many areas, which leads to text being interpreted differently as by org-mode.
-- Hugo is left to parse a native Markdown file, which means that many of its features such as shortcodes, TOC generation, etc., can still be used on the generated file.
-- I am intrigued by ox-hugo's "one post per org subtree" proposed structure. So far I've always had one file per post, but with org-mode's structuring features, it might make sense to give it a try.
-
-#+begin_src emacs-lisp
-  (use-package ox-hugo
-    :defer 3
-    :after org)
-#+end_src
-
-Configure a capture template for creating new ox-hugo blog posts, from [[https://ox-hugo.scripter.co/doc/org-capture-setup][ox-hugo's Org Capture Setup]].
-
-#+begin_src emacs-lisp
-  (use-package org-capture
-    :ensure nil
-    :config
-    (defun org-hugo-new-subtree-post-capture-template ()
-      "Returns `org-capture' template string for new Hugo post.
-    See `org-capture-templates' for more information."
-      (let* ((title (read-from-minibuffer "Post Title: ")) ;Prompt to enter the post title
-             (fname (org-hugo-slug title)))
-        (mapconcat #'identity
-                   `(,(concat "* TODO " title)
-                     ":PROPERTIES:"
-                     ,(concat ":EXPORT_HUGO_BUNDLE: " fname)
-                     ":EXPORT_FILE_NAME: index"
-                     ":END:"
-                     "%?\n")                ;Place the cursor here finally
-                   "\n")))
-    (add-to-list 'org-capture-templates
-                 '("z"                ;`org-capture' binding + z
-                   "zzamboni.org post"
-                   entry
-                   ;; It is assumed that below file is present in `org-directory'
-                   ;; and that it has an "Ideas" heading. It can even be a
-                   ;; symlink pointing to the actual location of all-posts.org!
-                   (file+olp "zzamboni.org" "Ideas")
-                   (function org-hugo-new-subtree-post-capture-template))))
-#+end_src
-
-** Keeping a Journal
-
-I use [[http://750words.com/][750words]] for my personal Journal, and I usually write my entries locally using Scrivener. I have been playing with =org-journal= for this, but I am not fully convinced yet.
-
-#+begin_src emacs-lisp
-  (use-package org-journal
-    :after org
-    :custom
-    (org-journal-dir "~/Documents/logbook"))
-#+end_src
-
 ** Literate programming using org-babel
 
 Org-mode is the first literate programming tool that seems practical and useful, since it's easy to edit, execute and document code from within the same tool (Emacs) using all of its existing capabilities (i.e. each code block can be edited in its native Emacs mode, taking full advantage of indentation, completion, etc.)
@@ -580,31 +416,8 @@ Org-mode is the first literate programming tool that seems practical and useful,
 Plain literate programming is built-in, but the =ob-*= packages provide the ability to execute code in different languages, beyond those included with org-mode.
 
 #+begin_src emacs-lisp
-  (use-package ob-cfengine3
-    :after org)
-#+end_src
-
-#+begin_src emacs-lisp
   (use-package ob-elvish
     :after org)
-#+end_src
-
-For [[http://plantuml.com/][PlantUML]] graph language, we install first the general =plantuml-mode= and the associated =org-babel= mode. We determine the location of the PlantUML jar file automatically from the installed Homebrew formula, and use it to configure both =ob-plantuml= and =plantuml-mode=.
-
-#+begin_src emacs-lisp
-  (require 'subr-x)
-  (setq homebrew-plantuml-jar-path
-        (expand-file-name (string-trim (shell-command-to-string "brew list plantuml | grep jar"))))
-
-  (use-package plantuml-mode
-    :custom
-    (plantuml-jar-path homebrew-plantuml-jar-path))
-
-  (use-package ob-plantuml
-    :ensure nil
-    :after org
-    :custom
-    (org-plantuml-jar-path homebrew-plantuml-jar-path))
 #+end_src
 
 Define =shell-script-mode= as an alias for =console-mode=, so that =console= src blocks can be edited and are fontified correctly.
@@ -618,11 +431,7 @@ We configure the languages for which to load org-babel support.
 #+begin_src emacs-lisp :tangle no :noweb-ref org-mode-config
   (org-babel-do-load-languages
    'org-babel-load-languages
-   '((cfengine3 . t)
-     (ruby      . t)
-     (latex     . t)
-     (plantuml  . t)
-     (python    . t)
+   '((python    . t)
      (shell     . t)
      (elvish    . t)
      (calc      . t)))
@@ -630,8 +439,10 @@ We configure the languages for which to load org-babel support.
 
 This is potentially dangerous: it suppresses the query before executing code from within org-mode. I use it because I am very careful and only press =C-c C-c= on blocks I absolutely understand.
 
+Disabled while I know if I'm actually very careful, lmao.
+
 #+begin_src emacs-lisp :tangle no :noweb-ref org-mode-custom-vars
-  (org-confirm-babel-evaluate nil)
+  ;; (org-confirm-babel-evaluate nil)
 #+end_src
 
 This makes it so that code within =src= blocks is fontified according to their corresponding Emacs mode, making the file much more readable.
@@ -701,7 +512,8 @@ We choose a nice font for the document title and the section headings. The first
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-mode-config
   (let* ((variable-tuple
-          (cond ((x-list-fonts   "Source Sans Pro") '(:font   "Source Sans Pro"))
+          (cond ((x-list-fonts   "Roboto")          '(:font   "Roboto"))
+                ((x-list-fonts   "Source Sans Pro") '(:font   "Source Sans Pro"))
                 ((x-list-fonts   "Lucida Grande")   '(:font   "Lucida Grande"))
                 ((x-list-fonts   "Verdana")         '(:font   "Verdana"))
                 ((x-family-fonts "Sans Serif")      '(:family "Sans Serif"))
@@ -724,15 +536,16 @@ We choose a nice font for the document title and the section headings. The first
 
 I use proportional fonts in org-mode for the text, while keeping fixed-width fonts for blocks, so that source code, tables, etc. are shown correctly. These settings include:
 
-- Setting up the =variable-pitch= face to the proportional font I like to use. I'm currently alternating between my two favorites, [[https://en.wikipedia.org/wiki/Source_Sans_Pro][Source Sans Pro]] and [[https://en.wikipedia.org/wiki/Avenir_(typeface)][Avenir Next]].
+- Setting up the =variable-pitch= face to the proportional font I like to use. I myself use [[https://fonts.google.com/specimen/Roboto][Roboto]]. I'm leaving in the entries from the author who enjoys, [[https://en.wikipedia.org/wiki/Source_Sans_Pro][Source Sans Pro]] and [[https://en.wikipedia.org/wiki/Avenir_(typeface)][Avenir Next]].
   #+begin_src emacs-lisp :tangle no :noweb-ref org-mode-faces
-    (variable-pitch ((t (:family "Source Sans Pro" :height 160 :weight light))))
-    ;;(variable-pitch ((t (:family "Avenir Next" :height 160 :weight light))))
+    (variable-pitch ((t (:family "Roboto" :height 180 :weight light))))
+    ;; (variable-pitch ((t (:family "Source Sans Pro" :height 180 :weight light))))
+    ;; (variable-pitch ((t (:family "Avenir Next" :height 180 :weight light))))
   #+end_src
 
-- Setting up the =fixed-pitch= face to be the same as my usual =default= face. My current one is [[https://en.wikipedia.org/wiki/Inconsolata][Inconsolata]].
+- Setting up the =fixed-pitch= face to be the same as my usual =default= face.
   #+begin_src emacs-lisp :tangle no :noweb-ref org-mode-faces
-    (fixed-pitch ((t (:family "Inconsolata"))))
+    (fixed-pitch ((t (:family "Operator Mono Medium"))))
   #+end_src
 
 - Configure =org-indent= to inherit from =fixed-pitch= to fix the vertical spacing in code blocks. Thanks to Ben for the tip!
@@ -784,19 +597,6 @@ Note that this breaks HTML export by default, as the links generated by =toc-org
     (org-mode . toc-org-enable))
 #+end_src
 
-** Grabbing links from different Mac applications
-
-=org-mac-link= (included in contrib) implements the ability to grab links from different Mac apps and insert them in the file. Bind =C-c g= to call =org-mac-grab-link= to choose an application and insert a link.
-
-#+begin_src emacs-lisp
-  (use-package org-mac-link
-    :ensure nil
-    :load-path "lisp/org-mode/contrib/lisp"
-    :after org
-    :bind (:map org-mode-map
-                ("C-c g" . org-mac-grab-link)))
-#+end_src
-
 ** Reformatting an org buffer
 
 I picked up this little gem in the org mailing list. A function that reformats the current buffer by regenerating the text from its internal parsed representation. Quite amazing.
@@ -811,171 +611,6 @@ I picked up this little gem in the org mailing list. A function that reformats t
         (goto-char (point-min)))))
 #+end_src
 
-Remove a link. For some reason this is not part of org-mode. From https://emacs.stackexchange.com/a/10714/11843, I bind it to ~C-c~ ~C-M-u~.
-
-#+begin_src emacs-lisp
-  (defun afs/org-replace-link-by-link-description ()
-      "Replace an org link by its description or if empty its address"
-    (interactive)
-    (if (org-in-regexp org-bracket-link-regexp 1)
-        (let ((remove (list (match-beginning 0) (match-end 0)))
-          (description (if (match-end 3)
-                   (org-match-string-no-properties 3)
-                   (org-match-string-no-properties 1))))
-      (apply 'delete-region remove)
-      (insert description))))
-  (bind-key "C-c C-M-u" 'afs/org-replace-link-by-link-description)
-#+end_src
-
-** Code for org-mode macros
-
-Here I define functions which get used in some of my org-mode macros
-
-This function receives three arguments, and returns the org-mode code for a link to the Hammerspoon API documentation for the =link= module, optionally to a specific =function=. If =desc= is passed, it is used as the display text, otherwise =section.function= is used.
-
-#+begin_src emacs-lisp
-  (defun zz/org-macro-hsapi-code (link function desc)
-    (let* ((link-1 (concat link (if (org-string-nw-p function) (concat "#" function) "")))
-           (link-2 (concat link (if (org-string-nw-p function) (concat "." function) "")))
-           (desc-1 (or (org-string-nw-p desc) (concat "=" link-2 "="))))
-      (concat "[[https://www.hammerspoon.org/docs/" link-1 "][" desc-1 "]]")))
-#+end_src
-
-Split STR at spaces and wrap each element with =~= char, separated by =+=. Zero-width spaces are inserted around the plus signs so that they get formatted correctly.
-
-#+begin_src emacs-lisp
-  (defun zz/org-macro-keys-code-outer (str)
-    (mapconcat (lambda (s)
-                 (concat "~" s "~"))
-               (split-string str)
-               (concat (string ?\u200B) "+" (string ?\u200B))))
-  (defun zz/org-macro-keys-code-inner (str)
-    (concat "~" (mapconcat (lambda (s)
-                             (concat s))
-                           (split-string str)
-                           (concat (string ?\u200B) "-" (string ?\u200B)))
-            "~"))
-  (defun zz/org-macro-keys-code (str)
-    (zz/org-macro-keys-code-inner str))
-#+end_src
-
-Links to a specific section/function of the Lua manual.
-
-#+begin_src emacs-lisp
-  (defun zz/org-macro-luadoc-code (func section desc)
-    (let* ((anchor (or (org-string-nw-p section) func))
-           (desc-1 (or (org-string-nw-p desc) func)))
-      (concat "[[https://www.lua.org/manual/5.3/manual.html#" anchor "][" desc-1 "]]")))
-#+end_src
-
-#+begin_src emacs-lisp
-  (defun zz/org-macro-luafun-code (func desc)
-    (let* ((anchor (concat "pdf-" func))
-           (desc-1 (or (org-string-nw-p desc) (concat "=" func "()="))))
-      (concat "[[https://www.lua.org/manual/5.3/manual.html#" anchor "][" desc-1 "]]")))
-#+end_src
-
-** Publishing project configuration
-
-Define a publishing function based on =org-latex-publish-to-pdf= but which opens the resulting file at the end.
-
-#+begin_src emacs-lisp
-  (defun org-latex-publish-to-latex-and-open (plist file pub-dir)
-    (org-open-file (org-latex-publish-to-pdf plist file pub-dir)))
-#+end_src
-
-Sample project configuration - disabled for now because this configuration has been incorporated into the =structure.tex= file and in the general =ox-latex= configuration, but kept here as a sample.
-
-#+begin_src emacs-lisp :tangle no :noweb-ref none
-  (org-publish-project-alist
-   '(("mac-automation"
-      :base-directory "~/Personal/writing/mac-automation/"
-      :publishing-directory "~/Personal/writing/mac-automation/build/"
-      :base-extension "org"
-      :publishing-function org-latex-publish-to-latex-and-open
-      :latex-compiler "xelatex"
-      :latex-classes '("book-no-parts" "\\documentclass[11pt]{book}"
-                        ("\\chapter{%s}" . "\\chapter*{%s}")
-                        ("\\section{%s}" . "\\section*{%s}")
-                        ("\\subsection{%s}" . "\\subsection*{%s}")
-                        ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-                        ("\\paragraph{%s}" . "\\paragraph*{%s}"))
-      :latex-class "book-no-parts"
-      :latex-title-command "\\makeatletter\\begingroup
-    \\thispagestyle{empty}
-    \\begin{tikzpicture}[remember picture,overlay]
-    \\node[inner sep=0pt] (background) at (current page.center) {\\includegraphics[width=\\paperwidth]{background}};
-    \\draw (current page.center) node [fill=ocre!30!white,fill opacity=0.6,text opacity=1,inner sep=1cm]{\\Huge\\centering\\bfseries\\sffamily\\parbox[c][][t]{\\paperwidth}{\\centering \\@title \\\\[15pt]
-    {\\Large \\@subtitle }\\\\[20pt]
-    {\\huge \\@author }}};
-    \\end{tikzpicture}
-    \\vfill
-    \\endgroup\\makeatother
-    \\chapterimage{chapter_head_1.pdf}"
-      :latex-toc-command "\\pagestyle{empty}
-  \\tableofcontents
-  \\cleardoublepage
-  \\pagestyle{fancy}"
-      )))
-#+end_src
-
-** Publishing to LeanPub
-
-I use [[https://leanpub.com/][LeanPub]] for self-publishing my books [[https://leanpub.com/learning-hammerspoon/][Learning Hammerspoon]] and [[https://leanpub.com/learning-cfengine/][Learning CFEngine]]. Fortunately, it is possible to export from org-mode to LeanPub-flavored Markdown.
-
-Some references:
-- [[http://juanreyero.com/open/ox-leanpub/index.html][Description of ox-leanpub.el]] ([[https://github.com/juanre/ox-leanpub][GitHub repo]]) by [[http://juanreyero.com/about/][Juan Reyero]]
-- [[https://medium.com/@lakshminp/publishing-a-book-using-org-mode-9e817a56d144][Publishing a book using org-mode]] by [[https://medium.com/@lakshminp/publishing-a-book-using-org-mode-9e817a56d144][Lakshmi Narasimhan]]
-- [[https://web.archive.org/web/20170816044305/http://anbasile.github.io/writing/2017/04/08/orgleanpub.html][Writing a book with emacs org-mode and Leanpub]] by Angelo Basile (the link goes to an archive copy of the post, as it is not live on his website anymore)
-- [[http://irreal.org/blog/?p=5313][Publishing a Book with Leanpub and Org Mode]] by Jon Snader (from where I found the links to the above)
-
-First, load =ox-leanpub-markdown=. This is based on Juan's =ox-leanpub=, but with many changes of my own, including a rename.  You can get it from my fork at https://github.com/zzamboni/ox-leanpub/tree/book-and-markua.
-
-#+begin_src emacs-lisp
-  (use-package ox-leanpub-markdown
-    :defer 1
-    :after org
-    :load-path "lisp/ox-leanpub")
-#+end_src
-
-#+begin_src emacs-lisp
-  (use-package ox-leanpub-markua
-    :defer 1
-    :after org
-    :load-path "lisp/ox-leanpub")
-#+end_src
-
-Next, load my =ox-leanpub-book= module (also available at  https://github.com/zzamboni/ox-leanpub/tree/book-and-markua). It defines a new export backend called =leanpub-book=, which adds three additional items in the LeanPub export section:
-
-- "Multifile: Whole book", which exports the whole book as one-file-per-chapter;
-- "Multifile: Subset", which exports only the chapters that should be included in =Subset.txt= (if any), according to the rules listed below. I use this together with =#+LEANPUB_WRITE_SUBSET: current= in my files to quickly export only the current chapter, to be able to quickly preview it using [[https://leanpub.com/help/manual#subsetpreview][LeanPub's subset-preview feature]];
-- "Multifile: Current chapter" to explicitly export only the current chapter to its own file. This also updates =Subset.txt=, so it can be used to preview the current chapter without having to set =#+LEANPUB_WRITE_SUBSET: current=.
-
-The book files are populated as follows:
-
-- =Book.txt= with all chapters, except those tagged with =noexport=.
-- =Sample.txt= with all chapters tagged with =sample=.
-- =Subset.txt= with chapters depending on the value of the =#+LEANPUB_WRITE_SUBSET= file property (if set):
-  - Default or =none=: not created.
-  - =tagged=: use all chapters tagged =subset=.
-  - =all=: use the same chapters as =Book.txt=.
-  - =sample=: use same chapters as =Sample.txt=.
-  - =current=: export the current chapter (where the cursor is at the moment of the export) as the contents of =Subset.txt=.
-
-If a heading has the =frontmatter=, =mainmatter= or =backmatter= tags, the corresponding markup is inserted in the output, before the headline. This way, you only need to tag the first chapter of the front, main, and backmatter, respectively.
-
-Note that the =org-leanpub-book-setup-menu-markdown= function gets called in the =:config= section. This is because I am working on =ox-markua= to export Leanpub's new [[https://leanpub.com/markua/read][Markua]] format, and I plan for =ox-leanpub-book= to also support it.
-
-#+begin_src emacs-lisp
-  (use-package ox-leanpub-book
-    :defer 1
-    :after ox-leanpub-markdown
-    :load-path "lisp/ox-leanpub"
-    :config
-    (progn (org-leanpub-book-setup-menu-markdown)
-           (org-leanpub-book-setup-menu-markua)))
-#+end_src
-
 * Appearance, buffer/file management and theming
 
 Here we take care of all the visual, UX and desktop-management settings.
@@ -988,7 +623,6 @@ Emacs 26 (which I am trying now) introduces pixel-level scrolling.
   (when (>= emacs-major-version 26)
     (pixel-scroll-mode))
 #+end_src
-
 
 The =diminish= package makes it possible to remove clutter from the modeline. Here we just load it, it gets enabled for individual packages in their corresponding declarations.
 
@@ -1649,16 +1283,6 @@ Many other programming languages are well served by a single mode, without so mu
 
 In addition to coding, I configure some modes that can be used for text editing.
 
-- [[http://asciidoctor.org/docs/user-manual/][AsciiDoc]], which I use for [[http://cf-learn.info/][my book]] and some other text. I also set up =visual-line-mode= and =variable-pitch-mode= here. =adoc-mode= is not so granular as =org-mode= with respect to face assignments, so the variable/fixed distinction does not always work, but it's still pretty good for long-text editing.
-
-  #+begin_src emacs-lisp
-    (use-package adoc-mode
-      :mode "\\.asciidoc\\'"
-      :hook
-      (adoc-mode . visual-line-mode)
-      (adoc-mode . variable-pitch-mode))
-  #+end_src
-
 - [[https://daringfireball.net/projects/markdown/syntax][Markdown]], generally useful. I also set up variable pitch and visual line mode.
 
   #+begin_src emacs-lisp
@@ -1667,55 +1291,6 @@ In addition to coding, I configure some modes that can be used for text editing.
       (markdown-mode . visual-line-mode)
       (markdown-mode . variable-pitch-mode))
   #+end_src
-
-- When [[https://www.emacswiki.org/emacs/TypographicalPunctuationMarks][typopunct]] is enabled (needs to be enabled by hand), automatically inserts “pretty” quotes of the appropriate type.
-
-  #+begin_src emacs-lisp
-    (use-package typopunct
-      :config
-      (typopunct-change-language 'english t))
-  #+end_src
-
-* Cheatsheet and experiments
-
-Playground and how to do different things, not necessarily used in my Emacs config but useful sometimes.
-
-This is how we get a global header property in org-mode
-
-#+begin_src emacs-lisp :tangle no
-  (alist-get :tangle
-             (org-babel-parse-header-arguments
-              (org-entry-get-with-inheritance "header-args")))
-#+end_src
-
-Testing formatting org snippets to look like noweb-rendered output.
-
-#+begin_src emacs-lisp :tangle no
-  (customize-set-variable 'org-entities-user
-                          '(("llangle" "\\llangle" t "&lang;&lang;" "<<" "<<" "《")
-                            ("rrangle" "\\rrangle" t "&rang;&rang;" ">>" ">>" "》")))
-  (setq org-babel-exp-code-template
-        (concat "\n@@latex:\\noindent@@\\llangle​/%name/​\\rrangle\\equiv\n"
-                org-babel-exp-code-template))
-#+end_src
-
-An experiment to reduce file tangle time, from https://www.wisdomandwonder.com/article/10630/how-fast-can-you-tangle-in-org-mode. In my tests it doesn't have a noticeable impact.
-
-#+begin_src emacs-lisp :tangle no
-  (setq help/default-gc-cons-threshold gc-cons-threshold)
-  (defun help/set-gc-cons-threshold (&optional multiplier notify)
-    "Set `gc-cons-threshold' either to its default value or a
-     `multiplier' thereof."
-    (let* ((new-multiplier (or multiplier 1))
-           (new-threshold (* help/default-gc-cons-threshold
-                             new-multiplier)))
-      (setq gc-cons-threshold new-threshold)
-      (when notify (message "Setting `gc-cons-threshold' to %s"
-                            new-threshold))))
-  (defun help/double-gc-cons-threshold () "Double `gc-cons-threshold'." (help/set-gc-cons-threshold 10))
-  (add-hook 'org-babel-pre-tangle-hook #'help/double-gc-cons-threshold)
-  (add-hook 'org-babel-post-tangle-hook #'help/set-gc-cons-threshold)
-#+end_src
 
 * Epilogue
 
