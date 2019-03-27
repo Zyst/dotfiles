@@ -412,13 +412,6 @@ One of the big strengths of org-mode is the ability to export a document in many
 
 Org-mode is the first literate programming tool that seems practical and useful, since it's easy to edit, execute and document code from within the same tool (Emacs) using all of its existing capabilities (i.e. each code block can be edited in its native Emacs mode, taking full advantage of indentation, completion, etc.)
 
-Plain literate programming is built-in, but the =ob-*= packages provide the ability to execute code in different languages, beyond those included with org-mode.
-
-#+begin_src emacs-lisp
-  (use-package ob-elvish
-    :after org)
-#+end_src
-
 Define =shell-script-mode= as an alias for =console-mode=, so that =console= src blocks can be edited and are fontified correctly.
 
 #+begin_src emacs-lisp
@@ -432,7 +425,6 @@ We configure the languages for which to load org-babel support.
    'org-babel-load-languages
    '((python    . t)
      (shell     . t)
-     (elvish    . t)
      (calc      . t)))
 #+end_src
 
@@ -636,13 +628,9 @@ I have been playing with different themes, and I have settled for now in =gruvbo
   ;;(use-package solarized-theme)
   ;;(use-package darktooth-theme)
   ;;(use-package kaolin-themes)
-  ;;(use-package gruvbox-theme)
-  (atom-one-dark-theme 
-    :location
-    (recipe 
-      :fetcher github 
-      :repo "Zyst/egoist-one-theme"))
-  (load-theme 'atom-one-dark)
+  (use-package gruvbox-theme)
+  ;;(atom-one-dark-theme :location (recipe :fetcher github :repo "Zyst/egoist-one-theme"))
+  (load-theme 'gruvbox)
 #+end_src
 
 Enable desktop-save mode, which saves the current buffer configuration on exit and reloads it on restart.
