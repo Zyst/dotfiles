@@ -93,13 +93,13 @@
 (customize-set-variable 'ad-redefinition-action 'accept)
 
 (cond ((eq system-type 'darwin)
-       
+
        )
       ((eq system-type 'windows-nt)
-       
+
        )
       ((eq system-type 'gnu/linux)
-       
+
        ))
 
 (require 'bind-key)
@@ -117,7 +117,7 @@
 
 (use-package org
   :bind
-    
+
   :custom
     (org-log-done t)
     (org-startup-indented t)
@@ -154,7 +154,6 @@
      'org-babel-load-languages
      '((python    . t)
        (shell     . t)
-       (elvish    . t)
        (calc      . t)))
     (font-lock-add-keywords 'org-mode
                             '(("^ *\\([-]\\) "
@@ -168,7 +167,7 @@
                   (nil (warn "Cannot find a Sans Serif Font.  Install Source Sans Pro."))))
            (base-font-color (face-foreground 'default nil 'default))
            (headline       `(:inherit default :weight bold :foreground ,base-font-color)))
-    
+
       (custom-theme-set-faces
        'user
        `(org-level-8        ((t (,@headline ,@variable-tuple))))
@@ -210,9 +209,6 @@
   :ensure nil
   :after org)
 
-(use-package ob-elvish
-  :after org)
-
 (defalias 'console-mode 'shell-script-mode)
 
 (use-package org-bullets
@@ -243,10 +239,10 @@
 ;;(use-package darktooth-theme)
 ;;(use-package kaolin-themes)
 ;;(use-package gruvbox-theme)
-(atom-one-dark-theme 
+(atom-one-dark-theme
   :location
-  (recipe 
-    :fetcher github 
+  (recipe
+    :fetcher github
     :repo "Zyst/egoist-one-theme"))
 (load-theme 'atom-one-dark)
 
