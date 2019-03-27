@@ -637,33 +637,13 @@ I have been playing with different themes, and I have settled for now in =gruvbo
   ;;(use-package solarized-theme)
   ;;(use-package darktooth-theme)
   ;;(use-package kaolin-themes)
-  (use-package gruvbox-theme)
-  (load-theme 'gruvbox)
-#+end_src
-
-Install [[https://github.com/Malabarba/smart-mode-line][smart-mode-line]] for modeline goodness, including configurable abbreviation of directories, and other things.
-
-#+begin_src emacs-lisp
-  (use-package smart-mode-line
-    :defer 2
-    :config
-    (sml/setup)
-    :custom
-    (sml/theme 'dark)
-    (sml/replacer-regexp-list
-     '(("^~/\\.emacs\\.d/elpa/"                            ":ELPA:")
-       ("^~/\\.emacs\\.d/"                                 ":ED:")
-       ("^/sudo:.*:"                                       ":SU:")
-       ("^~/Documents/"                                    ":Doc:")
-       ("^:\\([^:]*\\):Documento?s/"                       ":\\1/Doc:")
-       ("^~/Dropbox/"                                      ":DB:")
-       ("^:DB:org"                                         ":Org:")
-       ("^:DB:Personal/"                                   ":P:")
-       ("^:DB:Personal/writing/"                           ":Write:")
-       ("^:P:devel/"                                       ":Dev:")
-       ("^:Write:learning-cfengine-3/learning-cfengine-3/" ":cf-learn:")
-       ("^:Dev:go/src/github.com/elves/elvish/"            ":elvish:")
-       ("^:Dev:zzamboni.org/zzamboni.org/"                 ":zz.org:"))))
+  ;;(use-package gruvbox-theme)
+  (atom-one-dark-theme 
+    :location
+    (recipe 
+      :fetcher github 
+      :repo "Zyst/egoist-one-theme"))
+  (load-theme 'atom-one-dark)
 #+end_src
 
 Enable desktop-save mode, which saves the current buffer configuration on exit and reloads it on restart.
@@ -732,24 +712,6 @@ I also use =recentf= to keep a list of recently open buffers. These are visible 
     (recentf-mode))
 #+end_src
 
-The [[http://martinowen.net/blog/2010/02/03/tips-for-emacs-ibuffer.html][ibuffer]] package allows all sort of useful operations on the list of open buffers. I haven't customized it yet, but I have a keybinding to open it. (Disabled for now as I am using helm's =helm-buffer-list=).
-
-#+begin_src emacs-lisp
-  (use-package ibuffer
-    :disabled
-    :bind
-    ("C-x C-b" . ibuffer))
-#+end_src
-
-The [[https://github.com/nonsequitur/smex][smex]] package is incredibly useful, adding IDO integration and some other very nice features to =M-x=, which make it easier to discover and use Emacs commands. Highly recommended. (Disabled for now as I'm using helm's =helm-M-x=).
-
-#+begin_src emacs-lisp
-  (use-package smex
-    :disabled
-    :bind (("M-x" . smex))
-    :config (smex-initialize))
-#+end_src
-
 [[https://www.emacswiki.org/emacs/MidnightMode][midnight-mode]] purges buffers which haven't been displayed in 3 days. We configure the period so that the cleanup happens every 2 hours (7200 seconds).
 
 #+begin_src emacs-lisp
@@ -766,7 +728,7 @@ For distraction-free writing, I'm testing out =writeroom-mode=.
   (use-package writeroom-mode)
 #+end_src
 
-[[https://github.com/jaypei/emacs-neotree][NeoTree]] shows a navigation tree on a sidebar, and allows a number of operations on the files and directories. I'm not much of a fan of this type of interface in Emacs, but I have set it up to check it out.
+[[https://github.com/jaypei/emacs-neotree][NeoTree]] shows a navigation tree on a sidebar, and allows a number of operations on the files and directories.
 
 #+begin_src emacs-lisp
   (use-package neotree
@@ -790,13 +752,6 @@ For distraction-free writing, I'm testing out =writeroom-mode=.
     ([f8] . neotree-project-dir))
 #+end_src
 
-=wc-mode= allows counting characters and words, both on demand and continuously. It also allows setting up a word/character goal.
-
-#+begin_src emacs-lisp
-  (use-package wc-mode
-    :defer 3)
-#+end_src
-
 The =all-the-icons= package provides a number of useful icons.
 
 #+begin_src emacs-lisp
@@ -804,34 +759,7 @@ The =all-the-icons= package provides a number of useful icons.
     :defer 3)
 #+end_src
 
-** Completion: IDO or Helm?
-
-The [[https://tuhdo.github.io/helm-intro.html][battle]] [[https://news.ycombinator.com/item?id=11100312][rages]] [[https://www.reddit.com/r/emacs/comments/3o36sc/what_do_you_prefer_ido_or_helm/][on]] - [[https://github.com/emacs-helm/helm][helm]] or [[https://www.emacswiki.org/emacs/InteractivelyDoThings][IDO]]? Both are nice completion frameworks for Emacs, and both integrate nicely with most main Emacs functions, including file opening, command and buffer selection, etc. I was using IDO for some time but are now giving helm a try. Both my configs are shown below, but only Helm is enabled at the moment.
-
-Should I also look at [[https://sam217pa.github.io/2016/09/13/from-helm-to-ivy/][ivy]]?
-
-*** IDO
-
-I use [[https://www.masteringemacs.org/article/introduction-to-ido-mode][IDO mode]] to get better matching capabilities everywhere in Emacs (disabled while I give helm a try, see below).
-
-#+begin_src emacs-lisp
-  (use-package ido
-    :disabled
-    :config
-    (ido-mode t)
-    (ido-everywhere 1)
-    (setq ido-use-virtual-buffers t)
-    (setq ido-enable-flex-matching t)
-    (setq ido-use-filename-at-point nil)
-    (setq ido-auto-merge-work-directories-length -1))
-
-  (use-package ido-completing-read+
-    :disabled
-    :config
-    (ido-ubiquitous-mode 1))
-#+end_src
-
-*** Helm
+** Completion
 
 This config came originally from [[https://github.com/daedreth/UncleDavesEmacs#user-content-ido-and-why-i-started-using-helm][Uncle Dave's Emacs config]], thought I have tweaked it a bit.
 
@@ -890,30 +818,9 @@ This config came originally from [[https://github.com/daedreth/UncleDavesEmacs#u
 
 * Coding
 
-Coding is one of my primary uses for Emacs, although lately it has shifted toward more general writing. This used to be the largest section in my config until [[Org mode][Org mode]] overtook it :)
+Coding is my primary use for Emacs, here's my configuration.
 
 ** General settings and modules
-
-When enabled, =subword= allows navigating "sub words" individually in CamelCaseIdentifiers. For now I only enable it in =clojure-mode=.
-
-#+begin_src emacs-lisp
-  (use-package subword
-    :hook
-    (clojure-mode . subword-mode))
-#+end_src
-
-With =aggressive-indent=, indentation is always kept up to date in the whole buffer. Sometimes it gets in the way, but in general it's nice and saves a lot of work, so I enable it for all programming modes except for Python mode, where I explicitly disable as it often gets the indentation wrong and messes up existing code.
-
-Disabled for now while I test how much I miss it (I often find it gets in the way, but I'm not sure how often it helps and I don't even notice it)
-
-#+begin_src emacs-lisp
-  (use-package aggressive-indent
-    :disabled
-    :diminish aggressive-indent-mode
-    :hook
-    (prog-mode . aggressive-indent-mode)
-    (python-mode . (lambda () (aggressive-indent-mode -1))))
-#+end_src
 
 With =company-mode=, we get automatic completion - when there are completions available, a popup menu will appear when you stop typing for a moment, and you can either continue typing or accept the completion using the Enter key. I enable it globally.
 
@@ -934,26 +841,6 @@ With =company-mode=, we get automatic completion - when there are completions av
     (projectile-global-mode))
 #+end_src
 
-I find =iedit= absolutely indispensable when coding. In short: when you hit =Ctrl-:=, all occurrences of the symbol under the cursor (or the current selection) are highlighted, and any changes you make on one of them will be automatically applied to all others. It's great for renaming variables in code.
-
-#+begin_src emacs-lisp
-  (use-package iedit
-    :custom
-    (iedit-toggle-key-default (kbd "C-;"))
-    :config
-    (set-face-background 'iedit-occurrence "Magenta"))
-#+end_src
-
-Turn on the online documentation mode for all programming modes (not all of them support it) and for the Clojure REPL =cider= mode.
-
-#+begin_src emacs-lisp
-  (use-package eldoc
-    :diminish
-    :hook
-    (prog-mode       . turn-on-eldoc-mode)
-    (cider-repl-mode . turn-on-eldoc-mode))
-#+end_src
-
 On-the-fly spell checking. I enable it for all text modes.
 
 #+begin_src emacs-lisp
@@ -966,302 +853,10 @@ On-the-fly spell checking. I enable it for all text modes.
                 ([mouse-3]      . #'undefined)))
 #+end_src
 
-** Clojure and LISP coding
-
-I dabble in Clojure and Emacs LISP, and Emacs has some fantastic support for them. There's a number of packages and configuration related to this, so I have a whole section for it.
-
-The centerpiece is of course =clojure-mode=. In addition to files ending in =.clj=, I bind it automatically to =.boot= files (both by extension and by [[https://github.com/boot-clj/boot/wiki/For-Emacs-Users][shebang line]]) and to the [[http://riemann.io/][Riemann]] config files.
-
-#+begin_src emacs-lisp
-  (use-package clojure-mode
-    :mode "\\.clj.*$"
-    :mode "riemann.config"
-    :mode "\\.boot"
-    :config
-    (add-to-list 'magic-mode-alist '(".* boot" . clojure-mode)))
-#+end_src
-
-Enable some additional fontification for Clojure code.
-
-#+begin_src emacs-lisp
-  (use-package clojure-mode-extra-font-locking)
-#+end_src
-
-The =cider= package provides a fantastic REPL built into Emacs. We configure a few aspects, including pretty printing, fontification, history size and others.
-
-#+begin_src emacs-lisp
-  (use-package cider
-    :custom
-    ;; nice pretty printing
-    (cider-repl-use-pretty-printing nil)
-    ;; nicer font lock in REPL
-    (cider-repl-use-clojure-font-lock t)
-    ;; result prefix for the REPL
-    (cider-repl-result-prefix "; => ")
-    ;; never ending REPL history
-    (cider-repl-wrap-history t)
-    ;; looong history
-    (cider-repl-history-size 5000)
-    ;; persistent history
-    (cider-repl-history-file "~/.emacs.d/cider-history")
-    ;; error buffer not popping up
-    (cider-show-error-buffer nil)
-    ;; go right to the REPL buffer when it's finished connecting
-    (cider-repl-pop-to-buffer-on-connect t))
-#+end_src
-
-We use =clj-refactor= for supporting advanced code refactoring in Clojure.
-
-#+begin_src emacs-lisp
-  (use-package clj-refactor
-    :config
-    (defun my-clojure-mode-hook ()
-      (clj-refactor-mode 1)
-      (yas-minor-mode 1) ; for adding require/use/import statements
-      ;; This choice of keybinding leaves cider-macroexpand-1 unbound
-      (cljr-add-keybindings-with-prefix "C-c C-m"))
-    :hook
-    (clojure-mode . my-clojure-mode-hook))
-#+end_src
-
-When coding in LISP-like languages, =rainbow-delimiters= is a must-have - it marks each concentric pair of parenthesis with different colors, which makes it much easier to understand expressions and spot mistakes.
-
-#+begin_src emacs-lisp
-  (use-package rainbow-delimiters
-    :hook
-    ((prog-mode cider-repl-mode) . rainbow-delimiters-mode))
-#+end_src
-
-Another useful addition for LISP coding - =smartparens= enforces parenthesis to match, and adds a number of useful operations for manipulating parenthesized expressions. I map =M-(= to enclose the next expression as in =paredit= using a custom function. Prefix argument can be used to indicate how many expressions to enclose instead of just 1. E.g. =C-u 3 M-(= will enclose the next 3 sexps.
-
-#+begin_src emacs-lisp
-    (defun zz/sp-enclose-next-sexp (num) (interactive "p") (insert-parentheses (or num 1)))
-    (use-package smartparens
-      :diminish smartparens-mode
-      :config
-      (require 'smartparens-config)
-      :custom
-      (sp-base-key-bindings 'paredit)
-      :hook
-      ((clojure-mode
-        emacs-lisp-mode
-        lisp-mode
-        cider-repl-mode
-        racket-mode
-        racket-repl-mode) . smartparens-strict-mode)
-      (smartparens-mode  . sp-use-paredit-bindings)
-      (smartparens-mode  . (lambda () (local-set-key (kbd "M-(") 'zz/sp-enclose-next-sexp))))
-#+end_src
-
-Minor mode for highlighting the current sexp in LISP modes.
-
-#+begin_src emacs-lisp
-  (use-package hl-sexp
-    :hook
-    ((clojure-mode lisp-mode emacs-lisp-mode) . hl-sexp-mode))
-#+end_src
-
-Trying out [[https://github.com/abo-abo/lispy][lispy]] for LISP code editing (disabled for now).
-
-#+begin_src emacs-lisp
-  (use-package lispy
-    :disabled
-    :config
-    (defun enable-lispy-mode () (lispy-mode 1))
-    :hook
-    ((clojure-mode
-      emacs-lisp-mode
-      common-lisp-mode
-      scheme-mode
-      lisp-mode) . enable-lispy-mode))
-#+end_src
-
-I am sometimes trying out [[https://shaunlebron.github.io/parinfer/][parinfer]] (disabled for now).
-
-#+begin_src emacs-lisp
-  (use-package parinfer
-    :disabled
-    :bind
-    (("C-," . parinfer-toggle-mode))
-    :init
-    (setq parinfer-extensions
-          '(defaults       ; should be included.
-             pretty-parens  ; different paren styles for different modes.
-             ;;evil           ; If you use Evil.
-             lispy          ; If you use Lispy. With this extension, you should install Lispy and do not enable lispy-mode directly.
-             paredit        ; Introduce some paredit commands.
-             smart-tab      ; C-b & C-f jump positions and smart shift with tab & S-tab.
-             smart-yank))   ; Yank behavior depend on mode.
-    :hook
-    ((clojure-mode
-      emacs-lisp-mode
-      common-lisp-mode
-      scheme-mode
-      lisp-mode) . parinfer-mode))
-#+end_src
-
-** Other programming languages
-
-Many other programming languages are well served by a single mode, without so much setup as Clojure/LISP.
-
-- [[http://cfengine.com/][CFEngine]] policy files.
-
-  #+begin_src emacs-lisp
-    (use-package cfengine
-      :commands cfengine3-mode
-      :mode ("\\.cf\\'" . cfengine3-mode))
-  #+end_src
-
-- [[https://www.perl.org/][Perl]].
-
-  #+begin_src emacs-lisp
-    (use-package cperl-mode
-      :mode "\\.p[lm]\\'"
-      :interpreter "perl"
-      :config
-      (setq cperl-hairy t))
-  #+end_src
-
-- [[http://fishshell.com/][Fish shell]].
-
-  #+begin_src emacs-lisp
-    (use-package fish-mode
-      :mode "\\.fish\\'"
-      :interpreter "fish")
-  #+end_src
-
-- [[https://www.lua.org/][Lua]], which I use for [[http://zzamboni.org/tags/hammerspoon/][Hammerspoon]] configuration.
-
-  #+begin_src emacs-lisp
-    (use-package lua-mode)
-  #+end_src
-
-- YAML, generally useful
-
-  #+begin_src emacs-lisp
-    (use-package yaml-mode)
-  #+end_src
-
-- AppleScript
-
-  #+begin_src emacs-lisp
-    (use-package applescript-mode)
-  #+end_src
-
-- Go
-
-  #+begin_src emacs-lisp
-    (use-package go-mode)
-  #+end_src
-
-- Build and check MELPA package definitions
-
-  #+begin_src emacs-lisp
-    (use-package package-build)
-    (use-package package-lint)
-  #+end_src
-
-- [[http://elvish.io/][Elvish shell]]
-
-  #+begin_src emacs-lisp
-    (use-package elvish-mode)
-  #+end_src
-
-- [[https://racket-lang.org/][Racket]]
-
-  #+begin_src emacs-lisp
-    (use-package racket-mode)
-  #+end_src
-
-- [[https://nixos.org/nix/][Nix]] package files
-
-  #+begin_src emacs-lisp
-    (use-package nix-mode)
-  #+end_src
+** Javascript
+This is a placeholder, but programming languages or categories will get added like this.
 
 * Other tools
-
-- Use =helm-pass= as an interface to =pass=.
-
-  #+begin_src emacs-lisp
-    (use-package helm-pass)
-  #+end_src
-
-- git interface with some simple configuration I picked up somewhere. When you press ~C-c C-g~, =magit-status= runs full-screen, but when you press ~q~, it restores your previous window setup. Very handy.
-
-  #+begin_src emacs-lisp
-    (use-package magit
-      :diminish auto-revert-mode
-      :bind
-      (("C-c C-g" . magit-status)
-       :map magit-status-mode-map
-       ("q"       . magit-quit-session))
-      :config
-      (defadvice magit-status (around magit-fullscreen activate)
-        "Make magit-status run alone in a frame."
-        (window-configuration-to-register :magit-fullscreen)
-        ad-do-it
-        (delete-other-windows))
-
-      (defun magit-quit-session ()
-        "Restore the previous window configuration and kill the magit buffer."
-        (interactive)
-        (kill-buffer)
-        (jump-to-register :magit-fullscreen)))
-  #+end_src
-
-- Interface to use the [[https://geoff.greer.fm/ag/][silver-searcher]]
-
-  #+begin_src emacs-lisp
-    (use-package ag)
-  #+end_src
-
-- Publishing with [[https://gohugo.io/][Hugo]]. I don't use this anymore since I started [[Blogging with Hugo][blogging with ox-hugo]]. I keep it loaded, but without its keybinding, because it makes it easy sometimes to see the history of my Markdown posts.
-
-  #+begin_src emacs-lisp
-    (use-package easy-hugo
-      :custom
-      (easy-hugo-basedir "~/Personal/devel/zzamboni.org/zzamboni.org/")
-      (easy-hugo-url "http://zzamboni.org/")
-      (easy-hugo-previewtime "300")
-      ;;(define-key global-map (kbd "C-c C-e") 'easy-hugo)
-      )
-  #+end_src
-
-- Function to randomize the order of lines in a region, from https://www.emacswiki.org/emacs/RandomizeBuffer.
-
-  #+begin_src emacs-lisp
-    (defun my-randomize-region (beg end)
-      "Randomize lines in region from BEG to END."
-      (interactive "*r")
-      (let ((lines (split-string
-                    (delete-and-extract-region beg end) "\n")))
-        (when (string-equal "" (car (last lines 1)))
-          (setq lines (butlast lines 1)))
-        (apply 'insert
-               (mapcar 'cdr
-                       (sort (mapcar (lambda (x) (cons (random) (concat x "\n"))) lines)
-                             (lambda (a b) (< (car a) (car b))))))))
-  #+end_src
-
-- [[https://www.gnu.org/software/emacs/manual/html_node/autotype/Autoinserting.html][auto-insert mode]] for automatically inserting user-defined templates for certain file types. It's included with Emacs, so I just configure its directory to one inside my Dropbox, and set the hook to run it automatically when opening a file.
-
-  #+begin_src emacs-lisp
-    (use-package autoinsert
-      :ensure nil
-      :custom
-      (auto-insert-directory (concat user-emacs-directory "auto-insert/"))
-      :hook
-      (find-file . auto-insert))
-  #+end_src
-
-- Create and manage [[https://gist.github.com/][GitHub gists]]. Setting =gist-view-gist= to =t= makes it open new gists in the web browser automatically after creating them.
-
-  #+begin_src emacs-lisp
-    (use-package gist
-      :custom
-      (gist-view-gist t "Automatically open new gists in browser"))
-  #+end_src
 
 - [[https://github.com/jschaf/esup][Emacs Startup Profiler]], to get detailed stats of what's taking time during initialization.
 
