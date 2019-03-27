@@ -481,9 +481,11 @@ Automatically show inline images, useful when executing code that produces them,
 
 This little snippet has revolutionized my literate programming workflow. It automatically runs =org-babel-tangle= upon saving any org-mode buffer, which means the resulting files will be automatically kept up to date.
 
+Temporarily disabled while I do my initial configuration, this is causing me a bit more pain that I'd like to admit.
+
 #+begin_src emacs-lisp :tangle no :noweb-ref org-mode-hooks
-  (org-mode . (lambda () (add-hook 'after-save-hook 'org-babel-tangle
-                                   'run-at-end 'only-in-org-mode)))
+  ;;(org-mode . (lambda () (add-hook 'after-save-hook 'org-babel-tangle
+  ;;                                 'run-at-end 'only-in-org-mode)))
 #+end_src
 
 I add hooks to measure and report how long the tangling took.
@@ -634,11 +636,17 @@ Here we take care of all the visual, UX and desktop-management settings.
 
 You'll notice that many of the packages in this section have =:defer nil=. This is because some of these package are never called explicitly because they operate in the background, but I want them loaded when Emacs starts so they can perform their necessary customization.
 
-Emacs 26 (which I am trying now) introduces pixel-level scrolling.
+Emacs 26 (which I am using now) introduces pixel-level scrolling.
 
 #+begin_src emacs-lisp
   (when (>= emacs-major-version 26)
     (pixel-scroll-mode))
+#+end_src
+
+Tool bar mode set to nil disables the icons at the top of emacs.
+
+#+begin_src emacs-lisp
+  (tool-bar-mode nil)
 #+end_src
 
 The =diminish= package makes it possible to remove clutter from the modeline. Here we just load it, it gets enabled for individual packages in their corresponding declarations.
@@ -649,8 +657,6 @@ The =diminish= package makes it possible to remove clutter from the modeline. He
 #+end_src
 
 I have been playing with different themes, and I have settled for now in =gruvbox=. Some of my other favorites are also here so I don't forget about them.
-
-*Figure out how to fetch my theme from github*:
 
 #+begin_src emacs-lisp
   ;;(use-package solarized-theme)

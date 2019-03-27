@@ -156,8 +156,8 @@
     (org-indent ((t (:inherit (org-hide fixed-pitch)))))
   :hook
     (org-babel-after-execute . org-redisplay-inline-images)
-    (org-mode . (lambda () (add-hook 'after-save-hook 'org-babel-tangle
-                                     'run-at-end 'only-in-org-mode)))
+    ;;(org-mode . (lambda () (add-hook 'after-save-hook 'org-babel-tangle
+    ;;                                 'run-at-end 'only-in-org-mode)))
     (org-babel-pre-tangle  . (lambda ()
                                (setq zz/pre-tangle-time (current-time))))
     (org-babel-post-tangle . (lambda ()
@@ -249,6 +249,8 @@
 
 (when (>= emacs-major-version 26)
   (pixel-scroll-mode))
+
+(tool-bar-mode nil)
 
 (use-package diminish
   :defer 1)
