@@ -212,6 +212,7 @@
 (defalias 'console-mode 'shell-script-mode)
 
 (use-package org-bullets
+  :disabled
   :after org
   :hook
   (org-mode . (lambda () (org-bullets-mode 1))))

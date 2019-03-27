@@ -494,6 +494,7 @@ We use the =org-bullets= package to display the titles with nice unicode bullets
 
 #+begin_src emacs-lisp
   (use-package org-bullets
+    :disabled
     :after org
     :hook
     (org-mode . (lambda () (org-bullets-mode 1))))
