@@ -39,6 +39,9 @@ const mpvFolder =
     ? [home, 'AppData', 'Roaming', 'mpv']
     : [home, '.config', 'mpv'];
 
+const getShitDoneFolder = [home, '.config'];
+const emacsFolder = [home, '.emacs.d'];
+
 // Folders we will create
 const folders = {
   vim: [
@@ -49,8 +52,8 @@ const folders = {
   ],
   mpv: [mpvFolder],
   backup: [oldDir],
-  getShitDone: [[home, '.config']],
-  emacs: [[home], ['.emacs.d']]
+  getShitDone: [getShitDoneFolder],
+  emacs: [emacsFolder]
 };
 
 const deleteFolderRecursive = path => {
@@ -108,9 +111,10 @@ const moveItem = (path, target) => {
 const createSymlink = (
   target,
   path = `${home}${sep}.${target}`,
-  type = 'file'
+  type = 'file',
+  dotfile = true
 ) => {
-  moveItem(path, `${createPath(oldDir)}${sep}.${target}`);
+  moveItem(path, `${createPath(oldDir)}${sep}${dotfile ? '.' : ''}${target}`);
 
   symlinkSync(`${dir}${sep}${target}`, path, type);
 
@@ -136,13 +140,19 @@ const files = [
     name: '.config',
     path: createPath(getShitDoneFolder),
     type: 'dir'
+  },
+  {
+    name: 'init.el',
+    path: createPath([...emacsFolder, 'init.el']),
+    type: 'file',
+    dotfile: false
   }
 ];
 
 console.log('Creating symlinks...\n');
 
-files.forEach(({ name, path, type }) => {
-  createSymlink(name, path, type);
+files.forEach(({ name, path, type, dotfile }) => {
+  createSymlink(name, path, type, dotfile);
 });
 
 console.log('\nFinished creating symlinks!');
