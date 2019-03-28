@@ -362,6 +362,22 @@ you should place your code here."
   (add-hook 'text-mode-hook
             (lambda ()
               (variable-pitch-mode 1)))
+
+  (setq eshell-prompt-function
+        (lambda ()
+          (concat
+           (propertize "┌─[" 'face `(:foreground "green"))
+           (propertize (user-login-name) 'face `(:foreground "red"))
+           (propertize "@" 'face `(:foreground "green"))
+           (propertize (system-name) 'face `(:foreground "blue"))
+           (propertize "]──[" 'face `(:foreground "green"))
+           (propertize (format-time-string "%H:%M" (current-time)) 'face `(:foreground "yellow"))
+           (propertize "]──[" 'face `(:foreground "green"))
+           (propertize (concat (eshell/pwd)) 'face `(:foreground "white"))
+           (propertize "]\n" 'face `(:foreground "green"))
+           (propertize "└─>" 'face `(:foreground "green"))
+           (propertize (if (= (user-uid) 0) " # " " $ ") 'face `(:foreground "green"))
+           )))
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
@@ -371,17 +387,15 @@ you should place your code here."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(ansi-color-names-vector
-   ["#0a0814" "#f2241f" "#67b11d" "#b1951d" "#4f97d7" "#a31db1" "#28def0" "#b2b2b2"])
  '(blink-cursor-mode nil)
  '(column-number-mode t)
  '(custom-safe-themes
    (quote
-    ("bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" "b01b91ba9276deb39aa892c105a8644ef281b4d1804ab7c48de96e9c5d2aaa48" "96e8296f81ad191693ce4d241f51919eacb5e632efe10c2775c90fc8a8f78426" "2c88b703cbe7ce802bf6f0bffe3edbb8d9ec68fc7557089d4eaa1e29f7529fe1" "e297f54d0dc0575a9271bb0b64dad2c05cff50b510a518f5144925f627bb5832" default)))
+    ("d88c43fe03ac912e35963695caf0ae54bc6ce6365c3a42da434ef639f7a37399" "42b48fb82054d8f28e8321e5efdf805cb363320960e8562b463524cef2e9b4b7" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" "b01b91ba9276deb39aa892c105a8644ef281b4d1804ab7c48de96e9c5d2aaa48" "96e8296f81ad191693ce4d241f51919eacb5e632efe10c2775c90fc8a8f78426" "2c88b703cbe7ce802bf6f0bffe3edbb8d9ec68fc7557089d4eaa1e29f7529fe1" "e297f54d0dc0575a9271bb0b64dad2c05cff50b510a518f5144925f627bb5832" default)))
  '(evil-want-Y-yank-to-eol nil)
  '(package-selected-packages
    (quote
-    (geiser auto-compile macrostep elisp-slime-nav packed org-bullets tern web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode evil helm helm-core yasnippet avy projectile org-plus-contrib hydra bind-key smeargle orgit magit-gitflow helm-gitignore gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck evil-magit magit magit-popup git-commit ghub let-alist with-editor diff-hl auto-dictionary ws-butler winum which-key web-beautify volatile-highlights vimrc-mode vi-tilde-fringe uuidgen use-package toc-org spaceline restart-emacs request popwin persp-mode pcre2el paradox org-projectile org-present org-pomodoro org-mime org-download org-beautify-theme open-junk-file neotree move-text mmm-mode markdown-toc lorem-ipsum livid-mode linum-relative link-hint json-mode js2-refactor js-doc indent-guide hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-flx helm-descbinds helm-ag gruvbox-theme google-translate golden-ratio gnuplot gh-md flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu dumb-jump doom-themes diminish define-word dactyl-mode column-enforce-mode coffee-mode clean-aindent-mode auto-highlight-symbol atom-one-dark-theme aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line)))
+    (poet-theme powerline rainbow-mode prettier-js spinner org-category-capture alert log4e gntp markdown-mode skewer-mode simple-httpd json-snatcher json-reformat multiple-cursors js2-mode parent-mode pkg-info epl flx treepy graphql smartparens iedit anzu goto-chg undo-tree highlight erc-yt erc-view-log erc-social-graph erc-image erc-hl-nicks f dash s bind-map all-the-icons memoize popup async geiser auto-compile macrostep elisp-slime-nav packed org-bullets tern web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode evil helm helm-core yasnippet avy projectile org-plus-contrib hydra bind-key smeargle orgit magit-gitflow helm-gitignore gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck evil-magit magit magit-popup git-commit ghub let-alist with-editor diff-hl auto-dictionary ws-butler winum which-key web-beautify volatile-highlights vimrc-mode vi-tilde-fringe uuidgen use-package toc-org spaceline restart-emacs request popwin persp-mode pcre2el paradox org-projectile org-present org-pomodoro org-mime org-download org-beautify-theme open-junk-file neotree move-text mmm-mode markdown-toc lorem-ipsum livid-mode linum-relative link-hint json-mode js2-refactor js-doc indent-guide hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-flx helm-descbinds helm-ag gruvbox-theme google-translate golden-ratio gnuplot gh-md flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu dumb-jump doom-themes diminish define-word dactyl-mode column-enforce-mode coffee-mode clean-aindent-mode auto-highlight-symbol atom-one-dark-theme aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line)))
  '(tool-bar-mode nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -389,3 +403,30 @@ you should place your code here."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(default ((t (:foreground "#ABB2BF" :background "#282C34")))))
+(defun dotspacemacs/emacs-custom-settings ()
+  "Emacs custom settings.
+This is an auto-generated function, do not modify its content directly, use
+Emacs customize menu instead.
+This function is called at the very end of Spacemacs initialization."
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(blink-cursor-mode nil)
+ '(column-number-mode t)
+ '(custom-safe-themes
+   (quote
+    ("d88c43fe03ac912e35963695caf0ae54bc6ce6365c3a42da434ef639f7a37399" "42b48fb82054d8f28e8321e5efdf805cb363320960e8562b463524cef2e9b4b7" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" "b01b91ba9276deb39aa892c105a8644ef281b4d1804ab7c48de96e9c5d2aaa48" "96e8296f81ad191693ce4d241f51919eacb5e632efe10c2775c90fc8a8f78426" "2c88b703cbe7ce802bf6f0bffe3edbb8d9ec68fc7557089d4eaa1e29f7529fe1" "e297f54d0dc0575a9271bb0b64dad2c05cff50b510a518f5144925f627bb5832" default)))
+ '(evil-want-Y-yank-to-eol nil)
+ '(package-selected-packages
+   (quote
+    (writeroom-mode visual-fill-column symon string-inflection spaceline-all-the-icons password-generator org-brain magit-svn json-navigator hierarchy impatient-mode helm-xref helm-purpose window-purpose imenu-list helm-org-rifle helm-git-grep gitignore-templates evil-org evil-lion evil-goggles evil-cleverparens paredit editorconfig doom-modeline eldoc-eval shrink-path counsel-projectile counsel swiper ivy centered-cursor-mode browse-at-remote font-lock+ dotenv-mode poet-theme powerline rainbow-mode prettier-js spinner org-category-capture alert log4e gntp markdown-mode skewer-mode simple-httpd json-snatcher json-reformat multiple-cursors js2-mode parent-mode pkg-info epl flx treepy graphql smartparens iedit anzu goto-chg undo-tree highlight erc-yt erc-view-log erc-social-graph erc-image erc-hl-nicks f dash s bind-map all-the-icons memoize popup async geiser auto-compile macrostep elisp-slime-nav packed org-bullets tern web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode evil helm helm-core yasnippet avy projectile org-plus-contrib hydra bind-key smeargle orgit magit-gitflow helm-gitignore gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck evil-magit magit magit-popup git-commit ghub let-alist with-editor diff-hl auto-dictionary ws-butler winum which-key web-beautify volatile-highlights vimrc-mode vi-tilde-fringe uuidgen use-package toc-org spaceline restart-emacs request popwin persp-mode pcre2el paradox org-projectile org-present org-pomodoro org-mime org-download org-beautify-theme open-junk-file neotree move-text mmm-mode markdown-toc lorem-ipsum livid-mode linum-relative link-hint json-mode js2-refactor js-doc indent-guide hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-flx helm-descbinds helm-ag gruvbox-theme google-translate golden-ratio gnuplot gh-md flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu dumb-jump doom-themes diminish define-word dactyl-mode column-enforce-mode coffee-mode clean-aindent-mode auto-highlight-symbol atom-one-dark-theme aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line)))
+ '(tool-bar-mode nil))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(default ((t (:foreground "#ABB2BF" :background "#282C34")))))
+)
