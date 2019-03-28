@@ -133,29 +133,6 @@ This variable tells Emacs to prefer the =.el= file if it's newer, even if there 
     :config (auto-compile-on-load-mode))
 #+end_src
 
-- We bootstrap [[https://github.com/quelpa/quelpa][quelpa]] which is useful to install personal packages, or build some from source if necessary.
-
-#+begin_src emacs-lisp
-    (if (require 'quelpa nil t)
-        (quelpa-self-upgrade)
-    (with-temp-buffer
-        (url-insert-file-contents
-        "https://framagit.org/steckerhalter/quelpa/raw/master/bootstrap.el")
-        (eval-buffer)))
-#+end_src
-
-- Finally, we install [[https://github.com/quelpa/quelpa-use-package][quelpa-use-package]], which will allow us to install our private dependencies:
-
-#+begin_src emacs-lisp
-  (quelpa
-  '(quelpa-use-package
-  :fetcher git
-  :url "https://framagit.org/steckerhalter/quelpa-use-package.git"
-  :stable nil))
-
-  (require 'quelpa-use-package)
-#+end_src
-
 * Settings
 
 ** Miscellaneous settings
@@ -260,6 +237,12 @@ This variable tells Emacs to prefer the =.el= file if it's newer, even if there 
   #+begin_src emacs-lisp
     (customize-set-variable 'ad-redefinition-action 'accept)
   #+end_src
+
+- Inhibit compacting font caches, this causes a number of issues with windows, better to do it
+
+#+begin_src emacs-lisp
+  (setq inhibit-compacting-font-caches t)
+#+end_src
 
 * System-specific configuration
 
@@ -484,8 +467,8 @@ This little snippet has revolutionized my literate programming workflow. It auto
 Temporarily disabled while I do my initial configuration, this is causing me a bit more pain that I'd like to admit.
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-mode-hooks
-  ;;(org-mode . (lambda () (add-hook 'after-save-hook 'org-babel-tangle
-  ;;                                 'run-at-end 'only-in-org-mode)))
+  (org-mode . (lambda () (add-hook 'after-save-hook 'org-babel-tangle
+                                   'run-at-end 'only-in-org-mode)))
 #+end_src
 
 I add hooks to measure and report how long the tangling took.
@@ -646,7 +629,7 @@ Emacs 26 (which I am using now) introduces pixel-level scrolling.
 Tool bar mode set to nil disables the icons at the top of emacs.
 
 #+begin_src emacs-lisp
-  (tool-bar-mode nil)
+  ;; (tool-bar-mode nil)
 #+end_src
 
 The =diminish= package makes it possible to remove clutter from the modeline. Here we just load it, it gets enabled for individual packages in their corresponding declarations.
@@ -662,12 +645,12 @@ I have been playing with different themes, and I have settled for now in =gruvbo
   ;;(use-package solarized-theme)
   ;;(use-package darktooth-theme)
   ;;(use-package kaolin-themes)
+  ;;(use-package atom-one-dark-theme
+    ;;:quelpa (atom-one-dark-theme
+      ;;:fetcher github
+      ;;:repo "Zyst/egoist-one-theme"))
   ;;(use-package gruvbox-theme)
-  (use-package atom-one-dark-theme
-    :quelpa (atom-one-dark-theme
-      :fetcher github
-      :repo "Zyst/egoist-one-theme"))
-  (load-theme 'atom-one-dark t)
+  ;;(load-theme 'gruvbox)
 #+end_src
 
 Enable desktop-save mode, which saves the current buffer configuration on exit and reloads it on restart.

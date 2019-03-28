@@ -47,21 +47,6 @@
   :defer nil
   :config (auto-compile-on-load-mode))
 
-(if (require 'quelpa nil t)
-    (quelpa-self-upgrade)
-(with-temp-buffer
-    (url-insert-file-contents
-    "https://framagit.org/steckerhalter/quelpa/raw/master/bootstrap.el")
-    (eval-buffer)))
-
-(quelpa
-'(quelpa-use-package
-:fetcher git
-:url "https://framagit.org/steckerhalter/quelpa-use-package.git"
-:stable nil))
-
-(require 'quelpa-use-package)
-
 (customize-set-variable 'mouse-yank-at-point t)
 
 ;; (setq completion-ignore-case t)
@@ -106,6 +91,8 @@
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 (customize-set-variable 'ad-redefinition-action 'accept)
+
+(setq inhibit-compacting-font-caches t)
 
 (cond ((eq system-type 'darwin)
        
@@ -156,8 +143,8 @@
     (org-indent ((t (:inherit (org-hide fixed-pitch)))))
   :hook
     (org-babel-after-execute . org-redisplay-inline-images)
-    ;;(org-mode . (lambda () (add-hook 'after-save-hook 'org-babel-tangle
-    ;;                                 'run-at-end 'only-in-org-mode)))
+    (org-mode . (lambda () (add-hook 'after-save-hook 'org-babel-tangle
+                                     'run-at-end 'only-in-org-mode)))
     (org-babel-pre-tangle  . (lambda ()
                                (setq zz/pre-tangle-time (current-time))))
     (org-babel-post-tangle . (lambda ()
@@ -250,7 +237,7 @@
 (when (>= emacs-major-version 26)
   (pixel-scroll-mode))
 
-(tool-bar-mode nil)
+;; (tool-bar-mode nil)
 
 (use-package diminish
   :defer 1)
@@ -258,12 +245,12 @@
 ;;(use-package solarized-theme)
 ;;(use-package darktooth-theme)
 ;;(use-package kaolin-themes)
+;;(use-package atom-one-dark-theme
+  ;;:quelpa (atom-one-dark-theme
+    ;;:fetcher github
+    ;;:repo "Zyst/egoist-one-theme"))
 ;;(use-package gruvbox-theme)
-(use-package atom-one-dark-theme
-  :quelpa (atom-one-dark-theme
-    :fetcher github
-    :repo "Zyst/egoist-one-theme"))
-(load-theme 'atom-one-dark t)
+;;(load-theme 'gruvbox)
 
 (use-package desktop
   :defer nil
