@@ -142,9 +142,9 @@ const files = [
     type: 'dir'
   },
   {
-    name: 'init.el',
-    path: createPath([...emacsFolder, 'init.el']),
-    dotfile: false
+    name: '.emacs.d',
+    path: createPath(emacsFolder),
+    type: 'dir'
   }
 ];
 
