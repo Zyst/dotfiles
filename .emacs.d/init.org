@@ -315,9 +315,10 @@ Install, and initialize evil mode.
 
 #+begin_src emacs-lisp
   (use-package evil
-    :ensure t)
-
-  (evil-mode t)
+    :ensure t
+    :defer .1
+    :config
+    (evil-mode))
 #+end_src
 
 * Org mode
@@ -645,12 +646,10 @@ I have been playing with different themes, and I have settled for now in =gruvbo
   ;;(use-package solarized-theme)
   ;;(use-package darktooth-theme)
   ;;(use-package kaolin-themes)
-  ;;(use-package atom-one-dark-theme
-    ;;:quelpa (atom-one-dark-theme
-      ;;:fetcher github
-      ;;:repo "Zyst/egoist-one-theme"))
   ;;(use-package gruvbox-theme)
   ;;(load-theme 'gruvbox)
+  (add-to-list
+   'custom-theme-load-path "~/.emacs.d/vendor/egoist-one-theme/")
 #+end_src
 
 Enable desktop-save mode, which saves the current buffer configuration on exit and reloads it on restart.

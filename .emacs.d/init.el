@@ -115,9 +115,10 @@
 (setq evil-want-C-u-scroll t)
 
 (use-package evil
-  :ensure t)
-
-(evil-mode t)
+  :ensure t
+  :defer .1
+  :config
+  (evil-mode))
 
 (use-package org
   :bind
@@ -245,12 +246,10 @@
 ;;(use-package solarized-theme)
 ;;(use-package darktooth-theme)
 ;;(use-package kaolin-themes)
-;;(use-package atom-one-dark-theme
-  ;;:quelpa (atom-one-dark-theme
-    ;;:fetcher github
-    ;;:repo "Zyst/egoist-one-theme"))
 ;;(use-package gruvbox-theme)
 ;;(load-theme 'gruvbox)
+(add-to-list
+ 'custom-theme-load-path "~/.emacs.d/vendor/egoist-one-theme/")
 
 (use-package desktop
   :defer nil

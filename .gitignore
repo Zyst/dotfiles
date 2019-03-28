@@ -7,9 +7,10 @@
 .config/nvim
 .config/nvim-gtk
 
-# Emacs stuff
-.emacs.d/elpa
-.emacs.d/.emacs.desktop
-.emacs.d/places
-.emacs.d/projectile-bookmarks.eld
-.emacs.d/recentf
+# Emacs whitelist some specific files
+!.emacs.d
+.emacs.d/*
+# The following are the whitelisted files
+!.emacs.d/custom.el
+!.emacs.d/init.org
+!.emacs.d/init.el
