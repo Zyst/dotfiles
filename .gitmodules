@@ -1,0 +1,3 @@
+[submodule ".emacs.d/vendor/egoist-one-theme"]
+	path = .emacs.d/vendor/egoist-one-theme
+	url = https://github.com/Zyst/egoist-one-theme.git
