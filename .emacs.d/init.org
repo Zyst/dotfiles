@@ -650,6 +650,7 @@ I have been playing with different themes, and I have settled for now in =gruvbo
   ;;(load-theme 'gruvbox)
   (add-to-list
    'custom-theme-load-path "~/.emacs.d/vendor/egoist-one-theme/")
+  (load-theme 'atom-one-dark t)
 #+end_src
 
 Enable desktop-save mode, which saves the current buffer configuration on exit and reloads it on restart.

@@ -250,6 +250,7 @@
 ;;(load-theme 'gruvbox)
 (add-to-list
  'custom-theme-load-path "~/.emacs.d/vendor/egoist-one-theme/")
+(load-theme 'atom-one-dark t)
 
 (use-package desktop
   :defer nil
