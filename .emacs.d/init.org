@@ -627,12 +627,6 @@ Emacs 26 (which I am using now) introduces pixel-level scrolling.
     (pixel-scroll-mode))
 #+end_src
 
-Tool bar mode set to nil disables the icons at the top of emacs.
-
-#+begin_src emacs-lisp
-  ;; (tool-bar-mode nil)
-#+end_src
-
 The =diminish= package makes it possible to remove clutter from the modeline. Here we just load it, it gets enabled for individual packages in their corresponding declarations.
 
 #+begin_src emacs-lisp

@@ -238,8 +238,6 @@
 (when (>= emacs-major-version 26)
   (pixel-scroll-mode))
 
-;; (tool-bar-mode nil)
-
 (use-package diminish
   :defer 1)
 
