@@ -311,14 +311,20 @@ Make Ctrl-u page up as usual.
   (setq evil-want-C-u-scroll t)
 #+end_src
 
-Install, and initialize evil mode.
+Install, and initialize evil mode. Plugins added are:
+- [[https://github.com/linktohack/evil-commentary][evil-commentary]] which allows us to easily comment things out in normal mode.
 
 #+begin_src emacs-lisp
   (use-package evil
     :ensure t
     :defer .1
     :config
-    (evil-mode))
+    (evil-mode)
+
+    (use-package evil-commentary
+      :ensure t
+      :bind (:map evil-normal-state-map
+                  ("gc" . evil-commentary))))
 #+end_src
 
 * Org mode

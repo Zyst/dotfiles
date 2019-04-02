@@ -118,7 +118,12 @@
   :ensure t
   :defer .1
   :config
-  (evil-mode))
+  (evil-mode)
+
+  (use-package evil-commentary
+    :ensure t
+    :bind (:map evil-normal-state-map
+                ("gc" . evil-commentary))))
 
 (use-package org
   :bind
