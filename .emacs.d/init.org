@@ -643,11 +643,6 @@ The =diminish= package makes it possible to remove clutter from the modeline. He
 I have been playing with different themes, and I have settled for now in =gruvbox=. Some of my other favorites are also here so I don't forget about them.
 
 #+begin_src emacs-lisp
-  ;;(use-package solarized-theme)
-  ;;(use-package darktooth-theme)
-  ;;(use-package kaolin-themes)
-  ;;(use-package gruvbox-theme)
-  ;;(load-theme 'gruvbox)
   (add-to-list
    'custom-theme-load-path "~/.emacs.d/vendor/egoist-one-theme/")
   (load-theme 'atom-one-dark t)
@@ -861,6 +856,7 @@ On-the-fly spell checking. I enable it for all text modes.
 #+end_src
 
 ** Javascript
+
 This is a placeholder, but programming languages or categories will get added like this.
 
 * Other tools

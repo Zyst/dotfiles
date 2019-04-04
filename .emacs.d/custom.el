@@ -30,7 +30,7 @@
      ("melpa" . "https://melpa.org/packages/"))))
  '(package-selected-packages
    (quote
-    (markdown-mode esup projectile company swiper-helm helm-flx helm all-the-icons neotree writeroom-mode diminish toc-org org-jira ox-jira ox-gfm evil which-key smooth-scrolling imenu-anywhere unfill auto-compile use-package)))
+    (evil-commentary markdown-mode esup projectile company swiper-helm helm-flx helm all-the-icons neotree writeroom-mode diminish toc-org org-jira ox-jira ox-gfm evil which-key smooth-scrolling imenu-anywhere unfill auto-compile use-package)))
  '(scroll-bar-mode nil)
  '(show-paren-mode t)
  '(show-trailing-whitespace t)

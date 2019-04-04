@@ -246,11 +246,6 @@
 (use-package diminish
   :defer 1)
 
-;;(use-package solarized-theme)
-;;(use-package darktooth-theme)
-;;(use-package kaolin-themes)
-;;(use-package gruvbox-theme)
-;;(load-theme 'gruvbox)
 (add-to-list
  'custom-theme-load-path "~/.emacs.d/vendor/egoist-one-theme/")
 (load-theme 'atom-one-dark t)
