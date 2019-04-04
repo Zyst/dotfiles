@@ -549,7 +549,6 @@ I use proportional fonts in org-mode for the text, while keeping fixed-width fon
   #+begin_src emacs-lisp :tangle no :noweb-ref org-mode-faces
     (variable-pitch ((t (:family "Roboto" :height 180 :weight light))))
     ;; (variable-pitch ((t (:family "Source Sans Pro" :height 180 :weight light))))
-    ;; (variable-pitch ((t (:family "Avenir Next" :height 180 :weight light))))
   #+end_src
 
 - Setting up the =fixed-pitch= face to be the same as my usual =default= face.

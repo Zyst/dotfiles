@@ -143,8 +143,6 @@
        ("CANCELED" . "blue")))
   :custom-face
     (variable-pitch ((t (:family "Roboto" :height 180 :weight light))))
-    ;; (variable-pitch ((t (:family "Source Sans Pro" :height 180 :weight light))))
-    ;; (variable-pitch ((t (:family "Avenir Next" :height 180 :weight light))))
     (fixed-pitch ((t (:family "Operator Mono Medium"))))
     (org-indent ((t (:inherit (org-hide fixed-pitch)))))
   :hook
