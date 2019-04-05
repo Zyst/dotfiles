@@ -86,9 +86,8 @@ font:
     #   - (macOS) Menlo
     #   - (Linux) monospace
     #   - (Windows) Consolas
-    family: Operator Mono
-    style: Book Italic
-    #style: Regular
+    family: Operator Mono SSm Medium
+    # style: Regular
 
   # Bold font face
   bold:
@@ -96,8 +95,8 @@ font:
     #
     # If the bold family is not specified, it will fall back to the
     # value specified for the normal font.
-    family: Operator Mono
-    style: Bold
+    family: Operator Mono SSm Bold
+    # style: Italic
 
   # Italic font face
   italic:
@@ -105,8 +104,8 @@ font:
     #
     # If the italic family is not specified, it will fall back to the
     # value specified for the normal font.
-    family: Operator Mono
-    style: Book Italic
+    family: Operator Mono SSm Medium
+    style: Italic
 
   # Point size
   size: 14.0
@@ -141,7 +140,7 @@ font:
   use_thin_strokes: true
 
 # Display the time it takes to redraw each frame.
-render_timer: true
+render_timer: false
 
 # Keep the log file after quitting Alacritty.
 persistent_logging: false
