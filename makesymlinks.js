@@ -39,6 +39,11 @@ const mpvFolder =
     ? [home, 'AppData', 'Roaming', 'mpv']
     : [home, '.config', 'mpv'];
 
+const alacrittyFolder =
+  platform() === 'win32'
+    ? [home, 'AppData', 'Roaming', 'alacritty']
+    : [home, '.config', 'alacritty'];
+
 const getShitDoneFolder = [home, '.config'];
 const emacsFolder = [home, '.emacs.d'];
 
@@ -53,7 +58,8 @@ const folders = {
   mpv: [mpvFolder],
   backup: [oldDir],
   getShitDone: [getShitDoneFolder],
-  emacs: [emacsFolder]
+  emacs: [emacsFolder],
+  alacritty: [alacrittyFolder]
 };
 
 const deleteFolderRecursive = path => {
@@ -145,6 +151,10 @@ const files = [
     name: '.emacs.d',
     path: createPath(emacsFolder),
     type: 'dir'
+  },
+  {
+    name: 'alacritty.yml',
+    path: createPath([...alacrittyFolder, 'alacritty.yml'])
   }
 ];
 
