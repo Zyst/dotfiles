@@ -19,7 +19,7 @@ in
       source ~/.vimrc
       '';
 
-      ".config/nixpkgs/home.nix" = "${dotfiles}/home.nix"
+      ".config/nixpkgs/home.nix".source = "${dotfiles}/home.nix";
       
       ".vimrc".source = "${dotfiles}/vimrc";
 
