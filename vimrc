@@ -43,6 +43,7 @@ Plug 'tpope/vim-projectionist' " Lets you open 'alternate files', like tests
 Plug 'mattn/emmet-vim' " Tag expansion in super cool ways
 Plug 'Xuyuanp/nerdtree-git-plugin' " Shows git diffs-ish in nerdtree
 Plug 'tpope/vim-commentary' " Actions for commenting inside vim
+Plug 'christoomey/vim-tmux-navigator' " Use to use Ctrl + hjkl to navigate tmux
 " }}}
 
 " Languages {{{
