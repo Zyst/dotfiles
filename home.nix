@@ -18,6 +18,8 @@ in
       let &packpath = &runtimepath
       source ~/.vimrc
       '';
+
+      ".config/nixpkgs/home.nix" = "${dotfiles}/home.nix"
       
       ".vimrc".source = "${dotfiles}/vimrc";
 
