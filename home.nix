@@ -19,8 +19,6 @@ in
       source ~/.vimrc
       '';
 
-      ".config/nixpkgs/home.nix".source = "${dotfiles}/home.nix";
-      
       ".vimrc".source = "${dotfiles}/vimrc";
 
       ".bashrc".source = "${dotfiles}/bashrc";
