@@ -8,7 +8,7 @@
  '(display-line-numbers-type (quote relative))
  '(global-display-line-numbers-mode t)
  '(indent-tabs-mode nil)
- '(jiralib-url "https://jira.swisscom.com" t)
+ '(jiralib-url "https://jira.swisscom.com")
  '(load-prefer-newer t)
  '(mouse-yank-at-point t)
  '(org-hide-emphasis-markers t)
@@ -45,7 +45,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:family "Operator Mono Medium" :foundry "outline" :slant normal :weight light :height 181 :width normal))))
+ '(default ((t (:family "Operator Mono SSm Medium" :foundry "outline" :slant normal :weight light :height 162 :width normal))))
  '(fixed-pitch ((t (:family "Operator Mono Medium"))))
  '(org-document-title ((t (:inherit default :weight bold :foreground "SystemWindowText" :font "Roboto" :height 2.0 :underline nil))))
  '(org-indent ((t (:inherit (org-hide fixed-pitch)))))
