@@ -142,9 +142,9 @@
        ("DONE" . "green")
        ("CANCELED" . "blue")))
   :custom-face
-    (variable-pitch ((t (:family "Roboto" :height 160 :weight light))))
+    (variable-pitch ((t (:family "Roboto" :height 180 :weight light))))
     ;; (variable-pitch ((t (:family "Source Sans Pro" :height 180 :weight light))))
-    (fixed-pitch ((t (:family "Operator Mono SSm Medium"))))
+    (fixed-pitch ((t (:family "Operator Mono Medium"))))
     (org-indent ((t (:inherit (org-hide fixed-pitch)))))
   :hook
     (org-babel-after-execute . org-redisplay-inline-images)
