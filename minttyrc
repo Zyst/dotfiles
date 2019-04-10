@@ -4,8 +4,8 @@ BoldAsFont=-1
 
 BellType=0
 
-Font=Operator Mono Medium
-FontHeight=13
+Font=Operator Mono SSm Medium
+FontHeight=16
 FontWeight=350
 FontSmoothing=full
 
