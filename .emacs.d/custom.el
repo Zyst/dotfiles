@@ -8,7 +8,7 @@
  '(display-line-numbers-type (quote relative))
  '(global-display-line-numbers-mode t)
  '(indent-tabs-mode nil)
- '(jiralib-url "https://jira.swisscom.com")
+ '(jiralib-url "https://jira.swisscom.com" t)
  '(load-prefer-newer t)
  '(mouse-yank-at-point t)
  '(org-hide-emphasis-markers t)
