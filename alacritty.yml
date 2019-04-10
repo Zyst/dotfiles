@@ -86,8 +86,8 @@ font:
     #   - (macOS) Menlo
     #   - (Linux) monospace
     #   - (Windows) Consolas
-    family: Operator Mono SSm
-    style: Medium
+    family: Operator Mono SSm Medium
+    # style: Italic
 
   # Bold font face
   bold:
@@ -95,8 +95,8 @@ font:
     #
     # If the bold family is not specified, it will fall back to the
     # value specified for the normal font.
-    family: Operator Mono SSm
-    style: Bold
+    family: Operator Mono SSm Bold
+    # style: Bold
 
   # Italic font face
   italic:
@@ -104,8 +104,8 @@ font:
     #
     # If the italic family is not specified, it will fall back to the
     # value specified for the normal font.
-    family: Operator Mono SSm
-    style: Medium Italic
+    family: Operator Mono SSm Medium
+    style: Italic
 
   # Point size
   size: 17.0
