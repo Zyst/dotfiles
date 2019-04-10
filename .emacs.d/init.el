@@ -132,7 +132,7 @@
     (org-log-done t)
     (org-startup-indented t)
     ;; (org-confirm-babel-evaluate nil)
-    ;; (org-src-fontify-natively t)
+    (org-src-fontify-natively t)
     (org-src-tab-acts-natively t)
     (org-hide-emphasis-markers t)
     (org-tags-column 0)
@@ -322,24 +322,6 @@
 
 (use-package all-the-icons
   :defer 3)
-
-(defun my-adjoin-to-list-or-symbol (element list-or-symbol)
-  (let ((list (if (not (listp list-or-symbol))
-                  (list list-or-symbol)
-                list-or-symbol)))
-    (require 'cl-lib)
-    (cl-adjoin element list)))
-
-(eval-after-load "org"
-  '(mapc
-    (lambda (face)
-      (set-face-attribute
-       face nil
-       :inherit
-       (my-adjoin-to-list-or-symbol
-        'fixed-pitch
-        (face-attribute face :inherit))))
-    (list 'org-code 'org-block 'org-table 'org-block-background)))
 
 (use-package helm
   :defer 1
