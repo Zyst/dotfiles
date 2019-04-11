@@ -19,7 +19,7 @@ in
       source ~/.vimrc
       '';
 
-      ".vimrc".source = "${dotfiles}/vimrc";
+      ".vimrc".source = "${dotfiles}/.vimrc";
 
       ".bashrc".source = "${dotfiles}/bashrc";
 
