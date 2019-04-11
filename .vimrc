@@ -30,6 +30,7 @@ endif
 Plug 'Zyst/egoist-one.vim'
 Plug 'sheerun/vim-polyglot'
 Plug 'dmix/elvish.vim', { 'on_ft': ['elvish']}
+Plug 'christoomey/vim-tmux-navigator'
 
 call plug#end()
 

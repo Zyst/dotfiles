@@ -234,21 +234,13 @@ Our main language handler is [[https://github.com/sheerun/vim-polyglot][sheerun/
 
 * Other tools
 
-- [[https://github.com/jschaf/esup][Emacs Startup Profiler]], to get detailed stats of what's taking time during initialization.
+** Vim/Tmux interplay
 
-  #+begin_src emacs-lisp
-    (use-package esup)
-  #+end_src
+We use [[https://github.com/christoomey/vim-tmux-navigator][christoomey/vim-tmux-navigator]] to allow us to switch between Vim, and Tmux panes effortlessly, using ~Ctrl + hjkl~.
 
-- Macro to measure how long a command takes, from https://stackoverflow.com/questions/23622296/emacs-timing-execution-of-function-calls-in-emacs-lisp
-
-#+begin_src emacs-lisp
-  (defmacro measure-time (&rest body)
-    "Measure the time it takes to evaluate BODY."
-    `(let ((time (current-time)))
-       ,@body
-       (message "%.06f" (float-time (time-since time)))))
-#+end_src
+#+BEGIN_SRC vimrc :tangle no :noweb-ref plug
+  Plug 'christoomey/vim-tmux-navigator'
+#+END_SRC
 
 * General text editing
 
@@ -262,17 +254,3 @@ In addition to coding, I configure some modes that can be used for text editing.
       (markdown-mode . visual-line-mode)
       (markdown-mode . variable-pitch-mode))
   #+end_src
-
-* Epilogue
-
-Here we close the =let= expression from [[*Performance optimization][the preface]].
-
-#+begin_src emacs-lisp
-  )
-#+end_src
-
-We also reset the value of =gc-cons-threshold=, not to its original value, we still leave it larger than default so that GCs don't happen so often.
-
-#+begin_src emacs-lisp
-  (setq gc-cons-threshold (* 2 1000 1000))
-#+end_src
