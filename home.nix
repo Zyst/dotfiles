@@ -9,6 +9,7 @@ in
       pkgs.fortune
       pkgs.neofetch
       pkgs.ripgrep
+      pkgs.bat
     ];
 
     file = {
