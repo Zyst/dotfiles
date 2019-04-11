@@ -27,7 +27,7 @@ This is based on [[https://github.com/zzamboni][zzamboni's]] [[https://github.co
 First, I add a global variable which makes multi-platform stuff easier generally speaking. This variable can be found in the [[*System-specific configuration][System-specific configuration]] section.
 
 #+BEGIN_SRC vimrc :noweb yes
-  <<Operating system global>>
+  <<os-global>>
 #+END_SRC
 
 I use [[https://github.com/junegunn/vim-plug][junegunn/vim-plug]] to manage my vim dependencies. First we will try to autoinstall ~vim-plug~ if we don't have it installed already, and are not on Windows. On Windows we go to the repo, and follow the instructions there to install it by hand.
@@ -76,7 +76,7 @@ Some settings are OS-specific, and this is where we set them.
 
 First, we add a variable ~g:os~ which will hold our OS information, for now, our main concern is focused around the following three variable possible values: ~Windows~, ~Linux~, and ~Darwin~ (OS X).
 
-#+begin_src vimrc :tangle no :noweb-ref Operating system global
+#+begin_src vimrc :tangle no :noweb-ref os-global
   if !exists("g:os")
       if has("win64") || has("win32") || has("win16")
           let g:os = "Windows"
@@ -113,6 +113,12 @@ There are no Mac-specific settings for now.
   nnoremap <leader>t :term <CR>
 #+END_SRC
 
+Also lol
+
+#+BEGIN_SRC vimrc
+  echo "mac"
+#+END_SRC
+
 ** Linux
 :PROPERTIES:
 :header-args:vimrc: :tangle no :noweb-ref Linux settings
@@ -124,6 +130,12 @@ There are no Linux-specific settings for now.
   nnoremap <leader>t :term <CR>
 #+END_SRC
 
+Also lol
+
+#+BEGIN_SRC vimrc
+  echo "linux"
+#+END_SRC
+
 ** Windows
 :PROPERTIES:
 :header-args:vimrc: :tangle no :noweb-ref Windows settings
@@ -133,6 +145,12 @@ There are no Windows-specific settings for now.
 
 #+BEGIN_SRC vimrc
   nnoremap <leader>t :term "C:\Program Files\Git\bin\bash.exe" <CR>
+#+END_SRC
+
+Also lol
+
+#+BEGIN_SRC vimrc
+  echo "windows"
 #+END_SRC
 
 * Org mode

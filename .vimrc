@@ -35,14 +35,17 @@ call plug#end()
 
 if g:os == "Darwin"
     nnoremap <leader>t :term <CR>
+    echo "mac"
 endif
 
 if g:os == "Linux"
     nnoremap <leader>t :term <CR>
+    echo "linux"
 endif
 
 if g:os == "Windows"
     nnoremap <leader>t :term "C:\Program Files\Git\bin\bash.exe" <CR>
+    echo "windows"
 endif
 
 if (has("termguicolors"))
