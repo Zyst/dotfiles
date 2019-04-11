@@ -854,9 +854,35 @@ On-the-fly spell checking. I enable it for all text modes.
                 ([mouse-3]      . #'undefined)))
 #+end_src
 
-** Javascript
+** Vimscript
 
-This is a placeholder, but programming languages or categories will get added like this.
+We add Vimscript support, I like the syntax highlighting for a handful of stuff.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package vimrc-mode)
+  (add-to-list 'auto-mode-alist '("\\.vim\\(rc\\)?\\'" . vimrc-mode))
+#+END_SRC
+
+** [[http://elvish.io/][Elvish shell]]
+
+  #+begin_src emacs-lisp
+    (use-package elvish-mode)
+  #+end_src
+
+** [[https://nixos.org/nix/][Nix]] package files
+
+  #+begin_src emacs-lisp
+    (use-package nix-mode)
+  #+end_src
+
+** YAML, generally useful
+
+  #+begin_src emacs-lisp
+    (use-package yaml-mode)
+  #+end_src
+
+** Javascript
+This is a placeholder
 
 * Other tools
 

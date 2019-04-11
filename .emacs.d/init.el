@@ -393,6 +393,15 @@
               ([down-mouse-3] . #'flyspell-correct-word)
               ([mouse-3]      . #'undefined)))
 
+(use-package vimrc-mode)
+(add-to-list 'auto-mode-alist '("\\.vim\\(rc\\)?\\'" . vimrc-mode))
+
+(use-package elvish-mode)
+
+(use-package nix-mode)
+
+(use-package yaml-mode)
+
 (use-package esup)
 
 (defmacro measure-time (&rest body)
