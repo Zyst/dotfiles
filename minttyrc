@@ -21,7 +21,7 @@ Locale=en_US
 Charset=UTF-8
 
 # Theme
-ForegroundColour=208,208,208
+ForegroundColour=171,178,191
 BackgroundColour=40,44,52
 CursorColour=97,175,239
 
