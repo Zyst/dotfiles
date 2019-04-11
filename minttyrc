@@ -26,7 +26,7 @@ BackgroundColour=40,44,52
 CursorColour=97,175,239
 
 Black=40,44,52
-BoldBlack=128,128,128
+BoldBlack=92,99,112
 Red=224,108,117
 BoldRed=224,108,117
 Green=152,195,121
@@ -39,5 +39,5 @@ Magenta=209,154,102
 BoldMagenta=209,154,102
 Cyan=86,182,194
 BoldCyan=86,182,194
-White=208,208,208
+White=171,178,191
 BoldWhite=245,245,245
