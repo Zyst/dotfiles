@@ -116,7 +116,7 @@ There are no Mac-specific settings for now.
 Also lol
 
 #+BEGIN_SRC vimrc
-  echo "mac"
+  echo "mac lol"
 #+END_SRC
 
 ** Linux

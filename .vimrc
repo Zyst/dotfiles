@@ -35,7 +35,7 @@ call plug#end()
 
 if g:os == "Darwin"
     nnoremap <leader>t :term <CR>
-    echo "mac"
+    echo "mac lol"
 endif
 
 if g:os == "Linux"

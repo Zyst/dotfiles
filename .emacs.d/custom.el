@@ -8,7 +8,7 @@
  '(display-line-numbers-type (quote relative))
  '(global-display-line-numbers-mode t)
  '(indent-tabs-mode nil)
- '(jiralib-url "https://jira.swisscom.com" t)
+ '(jiralib-url "https://jira.swisscom.com")
  '(load-prefer-newer t)
  '(mouse-yank-at-point t)
  '(org-hide-emphasis-markers t)
@@ -30,7 +30,7 @@
      ("melpa" . "https://melpa.org/packages/"))))
  '(package-selected-packages
    (quote
-    (evil-commentary markdown-mode esup projectile company swiper-helm helm-flx helm all-the-icons neotree writeroom-mode diminish toc-org org-jira ox-jira ox-gfm evil which-key smooth-scrolling imenu-anywhere unfill auto-compile use-package)))
+    (yaml-mode nix-mode elvish-mode vimrc-mode evil-commentary markdown-mode esup projectile company swiper-helm helm-flx helm all-the-icons neotree writeroom-mode diminish toc-org org-jira ox-jira ox-gfm evil which-key smooth-scrolling imenu-anywhere unfill auto-compile use-package)))
  '(scroll-bar-mode nil)
  '(show-paren-mode t)
  '(show-trailing-whitespace t)
