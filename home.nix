@@ -37,7 +37,7 @@ in
       enable = true;
       userName = "Erick Romero";
       userEmail = "erick.romero.dev@gmail.com";
-      extraConfig.core.editor = "nvim"
+      extraConfig.core.editor = "nvim";
     };
 
     neovim = {
