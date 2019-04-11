@@ -592,6 +592,28 @@ I use proportional fonts in org-mode for the text, while keeping fixed-width fon
     (eval-after-load 'simple '(diminish 'visual-line-mode))
   #+end_src
 
+- Make emacs display source code, and tables in a prettier way inside org-mode. Obtained from [[https://yoo2080.wordpress.com/2013/05/30/monospace-font-in-tables-and-source-code-blocks-in-org-mode-proportional-font-in-other-parts/][this blog post]] by Jisang Yoo.
+
+#+BEGIN_SRC emacs-lisp
+  (defun my-adjoin-to-list-or-symbol (element list-or-symbol)
+    (let ((list (if (not (listp list-or-symbol))
+                    (list list-or-symbol)
+                  list-or-symbol)))
+      (require 'cl-lib)
+      (cl-adjoin element list)))
+
+  (eval-after-load "org"
+    '(mapc
+      (lambda (face)
+        (set-face-attribute
+         face nil
+         :inherit
+         (my-adjoin-to-list-or-symbol
+          'fixed-pitch
+          (face-attribute face :inherit))))
+      (list 'org-code 'org-block 'org-table)))
+#+END_SRC
+
 ** Auto-generated table of contents
 
 The =toc-org= package allows us to insert a table of contents in headings marked with =:TOC:=. This is useful for org files that are to be viewed directly on GitHub, which renders org files correctly, but does not generate a table of contents at the top. For an example, see [[https://github.com/zzamboni/dot-emacs/blob/master/init.org][this file on GitHub]].
@@ -914,28 +936,6 @@ In addition to coding, I configure some modes that can be used for text editing.
       (markdown-mode . visual-line-mode)
       (markdown-mode . variable-pitch-mode))
   #+end_src
-
-- Make emacs display source code, and tables in a prettier way inside org-mode. Obtained from [[https://yoo2080.wordpress.com/2013/05/30/monospace-font-in-tables-and-source-code-blocks-in-org-mode-proportional-font-in-other-parts/][this blog post]] by Jisang Yoo.
-
-#+BEGIN_SRC emacs-lisp
-  (defun my-adjoin-to-list-or-symbol (element list-or-symbol)
-    (let ((list (if (not (listp list-or-symbol))
-                    (list list-or-symbol)
-                  list-or-symbol)))
-      (require 'cl-lib)
-      (cl-adjoin element list)))
-
-  (eval-after-load "org"
-    '(mapc
-      (lambda (face)
-        (set-face-attribute
-         face nil
-         :inherit
-         (my-adjoin-to-list-or-symbol
-          'fixed-pitch
-          (face-attribute face :inherit))))
-      (list 'org-code 'org-block 'org-table)))
-#+END_SRC
 
 * Epilogue
 
