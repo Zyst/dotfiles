@@ -1,26 +1,26 @@
+# Term
 Term=xterm-256color
 
+# Font
+Font=Operator Mono Book
+FontHeight=15
+FontWeight=325
+FontSmoothing=full
 BoldAsFont=-1
 
-BellType=0
-
-Font=Operator Mono Medium
-FontHeight=13
-FontWeight=350
-FontSmoothing=full
-
+# Behavior
 Scrollbar=none
+CursorType=block
 
+# Misc
+RightClickAction=paste
+MiddleClickAction=void
+CopyAsRTF=no
+BellType=0
 Locale=en_US
 Charset=UTF-8
 
-CursorType=block
-
-RightClickAction=paste
-MiddleClickAction=void
-
-CopyAsRTF=no
-
+# Theme
 ForegroundColour=208,208,208
 BackgroundColour=40,44,52
 CursorColour=97,175,239

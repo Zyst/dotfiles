@@ -3,14 +3,14 @@
 # Any items in the `env` entry below will be added as
 # environment variables. Some entries may override variables
 # set by alacritty itself.
-#env:
+env:
   # TERM variable
   #
   # This value is used to set the `$TERM` environment variable for
   # each instance of Alacritty. If it is not present, alacritty will
   # check the local terminfo database and use `alacritty` if it is
   # available, otherwise `xterm-256color` is used.
-  #TERM: xterm-256color
+  TERM: xterm-256color
 
 window:
   # Window dimensions (changes require restart)
@@ -26,7 +26,7 @@ window:
   # Blank space added around the window in pixels. This padding is scaled
   # by DPI and the specified value is always added at both opposing sides.
   padding:
-    x: 10
+    x: 0
     y: 2
 
   # Spread additional padding evenly around the terminal content.
@@ -87,7 +87,7 @@ font:
     #   - (Linux) monospace
     #   - (Windows) Consolas
     family: Operator Mono SSm Medium
-    # style: Regular
+    # style: Italic
 
   # Bold font face
   bold:
@@ -96,7 +96,7 @@ font:
     # If the bold family is not specified, it will fall back to the
     # value specified for the normal font.
     family: Operator Mono SSm Bold
-    # style: Italic
+    # style: Bold
 
   # Italic font face
   italic:
@@ -108,7 +108,7 @@ font:
     style: Italic
 
   # Point size
-  size: 14.0
+  size: 17.0
 
   # Offset is the extra space around each character. `offset.y` can be thought of
   # as modifying the line spacing, and `offset.x` as modifying the letter spacing.

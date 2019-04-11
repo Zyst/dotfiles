@@ -144,7 +144,7 @@
   :custom-face
     (variable-pitch ((t (:family "Roboto" :height 180 :weight light))))
     ;; (variable-pitch ((t (:family "Source Sans Pro" :height 180 :weight light))))
-    (fixed-pitch ((t (:family "Operator Mono Medium"))))
+    (fixed-pitch ((t (:family "Operator Mono SSm Medium"))))
     (org-indent ((t (:inherit (org-hide fixed-pitch)))))
   :hook
     (org-babel-after-execute . org-redisplay-inline-images)
@@ -225,6 +225,24 @@
   :after org
   :hook
   (org-mode . (lambda () (org-bullets-mode 1))))
+
+(defun my-adjoin-to-list-or-symbol (element list-or-symbol)
+  (let ((list (if (not (listp list-or-symbol))
+                  (list list-or-symbol)
+                list-or-symbol)))
+    (require 'cl-lib)
+    (cl-adjoin element list)))
+
+(eval-after-load "org"
+  '(mapc
+    (lambda (face)
+      (set-face-attribute
+       face nil
+       :inherit
+       (my-adjoin-to-list-or-symbol
+        'fixed-pitch
+        (face-attribute face :inherit))))
+    (list 'org-code 'org-block 'org-table)))
 
 (use-package toc-org
   :after org
@@ -392,6 +410,15 @@
   :bind (:map flyspell-mouse-map
               ([down-mouse-3] . #'flyspell-correct-word)
               ([mouse-3]      . #'undefined)))
+
+(use-package vimrc-mode)
+(add-to-list 'auto-mode-alist '("\\.vim\\(rc\\)?\\'" . vimrc-mode))
+
+(use-package elvish-mode)
+
+(use-package nix-mode)
+
+(use-package yaml-mode)
 
 (use-package esup)
 
