@@ -28,7 +28,7 @@ This is based on [[https://github.com/zzamboni][zzamboni's]] [[https://github.co
 
 I use [[https://github.com/junegunn/vim-plug][junegunn/vim-plug]] to manage my vim dependencies. First we will try to autoinstall ~vim-plug~ if we don't have it installed already, and are not on Windows. On Windows we go to the repo, and follow the instructions there to install it by hand.
 
-#+BEGIN_SRC vimrc
+#+BEGIN_SRC vimscript
   if !has("win32")
     if empty(glob('~/.vim/autoload/plug.vim'))
       silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
