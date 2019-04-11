@@ -1,4 +1,4 @@
-#+property: header-args:vimrc :tangle (concat "." (file-name-sans-extension (buffer-file-name)))
+#+property: header-args:vimrc :tangle .vimrc
 #+property: header-args :mkdirp yes :comments no
 #+startup: indent
 
@@ -9,12 +9,12 @@
   " You should make any changes there and regenerate it from Emacs org-mode using C-c C-v t
 #+end_src
 
-#+title: My Emacs config file
+#+title: My Vim/Nvim config file
 #+author: Erick Romero
 
 This is my Emacs configuration file.
 
-This file is written in [[http://www.howardism.org/Technical/Emacs/literate-programming-tutorial.html][literate programming style]] using [[https://orgmode.org/][org-mode]]. See [[file:init.el][init.el]] for the generated file.
+This file is written in [[http://www.howardism.org/Technical/Emacs/literate-programming-tutorial.html][literate programming style]] using [[https://orgmode.org/][org-mode]]. See [[file:.vimrc][.vimrc]] for the generated file.
 
 * References
 
