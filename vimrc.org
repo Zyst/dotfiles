@@ -11,7 +11,7 @@
   " You should make any changes there and regenerate it from Emacs org-mode using C-c C-v t
 #+END_SRC
 
-#+title: My Vim/Nvim config file
+#+title: My Nvim/Vim config file
 #+author: Erick Romero
 
 This is my Emacs configuration file.
@@ -24,12 +24,16 @@ This is based on [[https://github.com/zzamboni][zzamboni's]] [[https://github.co
 
 * Package management
 
-** Plug Initialization
+First, I add a global variable which makes multi-platform stuff easier generally speaking. This variable can be found in the [[*System-specific configuration][System-specific configuration]] section.
+
+#+BEGIN_SRC vimrc :noweb yes
+  <<Operating system global>>
+#+END_SRC
 
 I use [[https://github.com/junegunn/vim-plug][junegunn/vim-plug]] to manage my vim dependencies. First we will try to autoinstall ~vim-plug~ if we don't have it installed already, and are not on Windows. On Windows we go to the repo, and follow the instructions there to install it by hand.
 
 #+BEGIN_SRC vimrc
-  if !has("win32")
+  if !g:os == "Windows"
     if empty(glob('~/.vim/autoload/plug.vim'))
       silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
             \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
@@ -48,34 +52,11 @@ else
 endif
 #+END_SRC
 
-** Languages
+Now we create a reference block for our plugins, where our Plugins will be inserted, but the import itself will be done in their relevant areas.
 
-*** Polyglot
-
-Our main language handler is [[https://github.com/sheerun/vim-polyglot][sheerun/vim-polyglot]] which helps us program in a [[https://github.com/sheerun/vim-polyglot#language-packs][variety of languages]] with minimal performance impact, since plugins are loaded on-demand. I'm giving this a try, rather than using individual packages.
-
-#+BEGIN_SRC vimrc
-  Plug 'sheerun/vim-polyglot'
+#+BEGIN_SRC vimrc :noweb yes
+  <<plug>>
 #+END_SRC
-
-*** Elvish
-
-[[https://github.com/dmix/elvish.vim][dmix/elvish.vim]] adds limited support for the [[https://github.com/elves/elvish][elvish shell]], essentially limited to syntax highlighting.
-
-#+BEGIN_SRC vimrc
-  Plug 'dmix/elvish.vim', { 'on_ft': ['elvish']}
-#+END_SRC
-
-
-** Theme
-
-Our theme is the bespoke [[https://github.com/Zyst/egoist-one.vim][Zyst/egoist-one.vim]], which is in turn based on [[https://github.com/joshdick/onedark.vim][joshdick/onedark.vim]]. It customizes some elements to my liking.
-
-#+BEGIN_SRC vimrc
-  Plug 'Zyst/egoist-one.vim'
-#+END_SRC
-
-** Plug end
 
 Finally, we close our ~plug#begin~ block.
 
@@ -95,7 +76,7 @@ Some settings are OS-specific, and this is where we set them.
 
 First, we add a variable ~g:os~ which will hold our OS information, for now, our main concern is focused around the following three variable possible values: ~Windows~, ~Linux~, and ~Darwin~ (OS X).
 
-#+begin_src vimrc
+#+begin_src vimrc :tangle no :noweb-ref Operating system global
   if !exists("g:os")
       if has("win64") || has("win32") || has("win16")
           let g:os = "Windows"
@@ -129,7 +110,7 @@ Then, we add our OS-specific configuration from the sections below:
 There are no Mac-specific settings for now.
 
 #+BEGIN_SRC vimrc
-  nnoremap <leader>t :term
+  nnoremap <leader>t :term <CR>
 #+END_SRC
 
 ** Linux
@@ -140,7 +121,7 @@ There are no Mac-specific settings for now.
 There are no Linux-specific settings for now.
 
 #+BEGIN_SRC vimrc
-  nnoremap <leader>t :term
+  nnoremap <leader>t :term <CR>
 #+END_SRC
 
 ** Windows
@@ -153,28 +134,6 @@ There are no Windows-specific settings for now.
 #+BEGIN_SRC vimrc
   nnoremap <leader>t :term "C:\Program Files\Git\bin\bash.exe" <CR>
 #+END_SRC
-
-* Keybindings
-
-I use the =bind-key= package to more easily keep track and manage user keybindings. =bind-key= comes with =use-package= so we just load it.
-
-The main advantage of using this over =define-key= or =global-set-key= is that you can use ~M-x~ =describe-personal-keybindings= to see a list of all the customized keybindings you have defined.
-
-#+begin_src emacs-lisp
-  (require 'bind-key)
-#+end_src
-
-** Miscellaneous keybindings
-
-- The [[https://github.com/justbur/emacs-which-key][which-key]] package makes Emacs functionality much easier to discover and explore: in short, after you start the input of a command and stop, pondering what key must follow, it will automatically open a non-intrusive buffer at the bottom of the screen offering you suggestions for completing the command, that's it, nothing else. It's beautiful.
-
-  #+begin_src emacs-lisp
-    (use-package which-key
-      :defer nil
-      :diminish which-key-mode
-      :config
-      (which-key-mode))
-  #+end_src
 
 * Org mode
 
@@ -470,205 +429,45 @@ I picked up this little gem in the org mailing list. A function that reformats t
 
 * Appearance, buffer/file management and theming
 
-Here we take care of all the visual, UX and desktop-management settings.
+Here we take care of all the visual, and UX settings.
 
-You'll notice that many of the packages in this section have =:defer nil=. This is because some of these package are never called explicitly because they operate in the background, but I want them loaded when Emacs starts so they can perform their necessary customization.
+We enable ~termguicolors~, which is necessary to use GUI colors inside terminals.
 
-Emacs 26 (which I am using now) introduces pixel-level scrolling.
+#+BEGIN_SRC vimrc
+  if (has("termguicolors"))
+    set termguicolors
+  endif
+#+END_SRC
 
-#+begin_src emacs-lisp
-  (when (>= emacs-major-version 26)
-    (pixel-scroll-mode))
-#+end_src
+We also want to set ~syntax~ to ~on~, which makes the editor allow syntax highlighting.
 
-The =diminish= package makes it possible to remove clutter from the modeline. Here we just load it, it gets enabled for individual packages in their corresponding declarations.
+#+BEGIN_SRC vimrc
+  syntax on
+#+END_SRC
 
-#+begin_src emacs-lisp
-  (use-package diminish
-    :defer 1)
-#+end_src
+** Theme
 
-I have been playing with different themes, and I have settled for now in =gruvbox=. Some of my other favorites are also here so I don't forget about them.
+Our theme is the bespoke [[https://github.com/Zyst/egoist-one.vim][Zyst/egoist-one.vim]], which is in turn based on [[https://github.com/joshdick/onedark.vim][joshdick/onedark.vim]]. It customizes some elements to my liking.
 
-#+begin_src emacs-lisp
-  (add-to-list
-   'custom-theme-load-path "~/.emacs.d/vendor/egoist-one-theme/")
-  (load-theme 'atom-one-dark t)
-#+end_src
+#+BEGIN_SRC vimrc :tangle no :noweb-ref plug
+  Plug 'Zyst/egoist-one.vim'
+#+END_SRC
 
-Enable desktop-save mode, which saves the current buffer configuration on exit and reloads it on restart.
+We proceed to assign our ~colorscheme~ as ~onedark~
 
-Desktop mode also includes the =desktop-clear= function, which can be used to kill all open buffers. I bind it to ~Control-Meta-super-k~.
+#+BEGIN_SRC vimrc
+  colorscheme onedark
+#+END_SRC
 
-#+begin_src emacs-lisp
-  (use-package desktop
-    :defer nil
-    :custom
-    (desktop-restore-eager   1   "Restore only the first buffer right away")
-    (desktop-lazy-idle-delay 1   "Restore the rest of the buffers 1 seconds later")
-    (desktop-lazy-verbose    nil "Be silent about lazily opening buffers")
-    :bind
-    ("C-M-s-k" . desktop-clear)
-    :config
-    (desktop-save-mode))
-#+end_src
+Finally, we set ~g:onedark_terminal_italics~ to ~1~ which enables some of the theme's italics functionality.
 
-The =uniquify= package makes it much easier to identify different open files with the same name by prepending/appending their directory or some other information to them. I configure it to add the directory name after the filename. =uniquify= is included with Emacs, so I specify =:ensure nil= so that =use-package= doesn't try to install it, and just loads and configures it.
-
-#+begin_src emacs-lisp
-  (use-package uniquify
-    :defer 1
-    :ensure nil
-    :custom
-    (uniquify-after-kill-buffer-p t)
-    (uniquify-buffer-name-style 'post-forward)
-    (uniquify-strip-common-suffix t))
-#+end_src
-
-I like to highlight the current line and column. I'm still deciding between two approaches:
-
-- Using the built-in =global-hl-mode= to always highlight the current line, together with the =col-highlight= package, which highlights the column only after a defined interval has passed
-- Using the =crosshairs= package, which combines both but always highlights both the column and the line. It also has a "highlight crosshairs when idle" mode, but I prefer to have the current line always highlighted, I'm only undecided about the always-on column highlighting.
-
-Sometimes I find the always-highlighted column to be distracting, but other times I find it useful. So I have both pieces of code here, I'm still deciding. For now only =hl-line= is enabled.
-
-#+begin_src emacs-lisp
-  (use-package hl-line
-    :defer nil
-    :config
-    (global-hl-line-mode))
-  (use-package col-highlight
-    :disabled
-    :defer nil
-    :config
-    (col-highlight-toggle-when-idle)
-    (col-highlight-set-interval 2))
-  (use-package crosshairs
-    :disabled
-    :defer nil
-    :config
-    (crosshairs-mode))
-#+end_src
-
-I also use =recentf= to keep a list of recently open buffers. These are visible in helm's open-file mode.
-
-#+begin_src emacs-lisp
-  (use-package recentf
-    :defer 1
-    :custom
-    (recentf-max-menu-items 100)
-    (recentf-max-saved-items 100)
-    :init
-    (recentf-mode))
-#+end_src
-
-[[https://www.emacswiki.org/emacs/MidnightMode][midnight-mode]] purges buffers which haven't been displayed in 3 days. We configure the period so that the cleanup happens every 2 hours (7200 seconds).
-
-#+begin_src emacs-lisp
-  (use-package midnight
-    :defer 3
-    :config
-    (setq midnight-period 7200)
-    (midnight-mode 1))
-#+end_src
-
-For distraction-free writing, I'm testing out =writeroom-mode=.
-
-#+begin_src emacs-lisp
-  (use-package writeroom-mode)
-#+end_src
-
-[[https://github.com/jaypei/emacs-neotree][NeoTree]] shows a navigation tree on a sidebar, and allows a number of operations on the files and directories.
-
-#+begin_src emacs-lisp
-  (use-package neotree
-    :config
-    (customize-set-variable 'neo-theme (if (display-graphic-p) 'icons 'arrow))
-    (customize-set-variable 'neo-smart-open t)
-    (customize-set-variable 'projectile-switch-project-action 'neotree-projectile-action)
-    (defun neotree-project-dir ()
-      "Open NeoTree using the git root."
-      (interactive)
-      (let ((project-dir (projectile-project-root))
-            (file-name (buffer-file-name)))
-        (neotree-toggle)
-        (if project-dir
-            (if (neo-global--window-exists-p)
-                (progn
-                  (neotree-dir project-dir)
-                  (neotree-find file-name)))
-          (message "Could not find git project root."))))
-    :bind
-    ([f8] . neotree-project-dir))
-#+end_src
-
-The =all-the-icons= package provides a number of useful icons.
-
-#+begin_src emacs-lisp
-  (use-package all-the-icons
-    :defer 3)
-#+end_src
-
-** Completion
-
-This config came originally from [[https://github.com/daedreth/UncleDavesEmacs#user-content-ido-and-why-i-started-using-helm][Uncle Dave's Emacs config]], thought I have tweaked it a bit.
-
-#+begin_src emacs-lisp
-  (use-package helm
-    :defer 1
-    :diminish helm-mode
-    :bind
-    (("C-x C-f"       . helm-find-files)
-     ("C-x C-b"       . helm-buffers-list)
-     ("C-x b"         . helm-multi-files)
-     ("M-x"           . helm-M-x)
-     :map helm-find-files-map
-     ("C-<backspace>" . helm-find-files-up-one-level)
-     ("C-f"           . helm-execute-persistent-action)
-     ([tab]           . helm-ff-RET))
-    :config
-    (defun daedreth/helm-hide-minibuffer ()
-      (when (with-helm-buffer helm-echo-input-in-header-line)
-        (let ((ov (make-overlay (point-min) (point-max) nil nil t)))
-          (overlay-put ov 'window (selected-window))
-          (overlay-put ov 'face
-                       (let ((bg-color (face-background 'default nil)))
-                         `(:background ,bg-color :foreground ,bg-color)))
-          (setq-local cursor-type nil))))
-    (add-hook 'helm-minibuffer-set-up-hook 'daedreth/helm-hide-minibuffer)
-    (setq helm-autoresize-max-height 0
-          helm-autoresize-min-height 40
-          helm-M-x-fuzzy-match t
-          helm-buffers-fuzzy-matching t
-          helm-recentf-fuzzy-match t
-          helm-semantic-fuzzy-match t
-          helm-imenu-fuzzy-match t
-          helm-split-window-in-side-p nil
-          helm-move-to-line-cycle-in-source nil
-          helm-ff-search-library-in-sexp t
-          helm-scroll-amount 8
-          helm-echo-input-in-header-line nil)
-    :init
-    (helm-mode 1))
-
-  (require 'helm-config)
-  (helm-autoresize-mode 1)
-
-  (use-package helm-flx
-    :custom
-    (helm-flx-for-helm-find-files t)
-    (helm-flx-for-helm-locate t)
-    :config
-    (helm-flx-mode +1))
-
-  (use-package swiper-helm
-    :bind
-    ("C-s" . swiper))
-#+end_src
+#+BEGIN_SRC vimrc
+  let g:onedark_terminal_italics=1
+#+END_SRC
 
 * Coding
 
-Coding is my primary use for Emacs, here's my configuration.
+Coding is my primary use for Vim, here's my configuration.
 
 ** General settings and modules
 
@@ -703,35 +502,23 @@ On-the-fly spell checking. I enable it for all text modes.
                 ([mouse-3]      . #'undefined)))
 #+end_src
 
-** Vimscript
+** Programming languages
 
-We add Vimscript support, I like the syntax highlighting for a handful of stuff.
+*** Polyglot
 
-#+BEGIN_SRC emacs-lisp
-  (use-package vimrc-mode)
-  (add-to-list 'auto-mode-alist '("\\.vim\\(rc\\)?\\'" . vimrc-mode))
+Our main language handler is [[https://github.com/sheerun/vim-polyglot][sheerun/vim-polyglot]] which helps us program in a [[https://github.com/sheerun/vim-polyglot#language-packs][variety of languages]] with minimal performance impact, since plugins are loaded on-demand. I'm giving this a try, rather than using individual packages.
+
+#+BEGIN_SRC vimrc :tangle no :noweb-ref plug
+  Plug 'sheerun/vim-polyglot'
 #+END_SRC
 
-** [[http://elvish.io/][Elvish shell]]
+*** Elvish
 
-  #+begin_src emacs-lisp
-    (use-package elvish-mode)
-  #+end_src
+[[https://github.com/dmix/elvish.vim][dmix/elvish.vim]] adds limited support for the [[https://github.com/elves/elvish][elvish shell]], essentially limited to syntax highlighting.
 
-** [[https://nixos.org/nix/][Nix]] package files
-
-  #+begin_src emacs-lisp
-    (use-package nix-mode)
-  #+end_src
-
-** YAML, generally useful
-
-  #+begin_src emacs-lisp
-    (use-package yaml-mode)
-  #+end_src
-
-** Javascript
-This is a placeholder
+#+BEGIN_SRC vimrc :tangle no :noweb-ref plug
+  Plug 'dmix/elvish.vim', { 'on_ft': ['elvish']}
+#+END_SRC
 
 * Other tools
 
