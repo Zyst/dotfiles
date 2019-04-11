@@ -76,6 +76,8 @@ Some settings are OS-specific, and this is where we set them.
 
 First, we add a variable ~g:os~ which will hold our OS information, for now, our main concern is focused around the following three variable possible values: ~Windows~, ~Linux~, and ~Darwin~ (OS X).
 
+We also want an additional entry for "Unix" systems, in our case, Linux, and OS X can share a lot of configuration, so we will create an extra entry for that.
+
 #+begin_src vimrc :tangle no :noweb-ref os-global
   if !exists("g:os")
       if has("win64") || has("win32") || has("win16")
@@ -89,10 +91,6 @@ First, we add a variable ~g:os~ which will hold our OS information, for now, our
 Then, we add our OS-specific configuration from the sections below:
 
 #+BEGIN_SRC vimrc :noweb no-export
-  if g:os == "Darwin"
-      <<Mac settings>>
-  endif
-
   if g:os == "Linux"
       <<Linux settings>>
   endif
@@ -100,17 +98,14 @@ Then, we add our OS-specific configuration from the sections below:
   if g:os == "Windows"
       <<Windows settings>>
   endif
-#+END_SRC
 
-** Mac
-:PROPERTIES:
-:header-args:vimrc: :tangle no :noweb-ref Mac settings
-:END:
+  if g:os == "Darwin"
+      <<Mac settings>>
+  endif
 
-There are no Mac-specific settings for now.
-
-#+BEGIN_SRC vimrc
-  nnoremap <leader>t :term <CR>
+  if (g:os == "Linux") || (g:os == "Darwin")
+      <<Unix settings>>
+  endif
 #+END_SRC
 
 ** Linux
@@ -120,10 +115,6 @@ There are no Mac-specific settings for now.
 
 There are no Linux-specific settings for now.
 
-#+BEGIN_SRC vimrc
-  nnoremap <leader>t :term <CR>
-#+END_SRC
-
 ** Windows
 :PROPERTIES:
 :header-args:vimrc: :tangle no :noweb-ref Windows settings
@@ -131,9 +122,19 @@ There are no Linux-specific settings for now.
 
 There are no Windows-specific settings for now.
 
-#+BEGIN_SRC vimrc
-  nnoremap <leader>t :term "C:\Program Files\Git\bin\bash.exe" <CR>
-#+END_SRC
+** Mac
+:PROPERTIES:
+:header-args:vimrc: :tangle no :noweb-ref Mac settings
+:END:
+
+There are no Mac-specific settings for now.
+
+** Unix
+:PROPERTIES:
+:header-args:vimrc: :tangle no :noweb-ref Unix settings
+:END:
+
+There are no Unix-specific settings for now.
 
 * Org mode
 
@@ -177,11 +178,47 @@ Finally, we set ~g:onedark_terminal_italics~ to ~1~ which enables some of the th
   let g:onedark_terminal_italics=1
 #+END_SRC
 
+** Fuzzy finder
+
+We use two fuzzy finders, depending on the operating system, If we are on Unix systems, then we use [[https://github.com/wincent/command-t][wincent/command-t]], otherwise (Windows, in my case) we use [[https://github.com/ctrlpvim/ctrlp.vim][ctrlpvim/ctrlp.vim]].
+
+#+BEGIN_SRC vimrc :tangle no :noweb-ref plug
+  if !(g:os == "Windows")
+    Plug 'wincent/command-t', {
+          \   'do': 'cd ruby/command-t/ext/command-t && ruby extconf.rb && make'
+          \ }
+  else
+    Plug 'ctrlpvim/ctrlp.vim'
+  endif
+#+END_SRC
+
+*** Command-T configuration
+:PROPERTIES:
+:header-args:vimrc: :tangle no :noweb-ref Unix settings
+:END:
+
+#+BEGIN_SRC vimrc
+  echo "Unix brah"
+#+END_SRC
+
+*** ctrlp.vim configuration
+:PROPERTIES:
+:header-args:vimrc: :tangle no :noweb-ref Windows settings
+:END:
+
+Allow ctrlp ignore the files inside of ~.gitignore~ files.
+
+#+BEGIN_SRC vimrc
+  let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
+#+END_SRC
+
 * Coding
 
 Coding is my primary use for Vim, here's my configuration.
 
 ** General settings and modules
+
+DEOPLETE/LSP WILL GO HERE.
 
 With =company-mode=, we get automatic completion - when there are completions available, a popup menu will appear when you stop typing for a moment, and you can either continue typing or accept the completion using the Enter key. I enable it globally.
 
@@ -233,6 +270,22 @@ Our main language handler is [[https://github.com/sheerun/vim-polyglot][sheerun/
 #+END_SRC
 
 * Other tools
+
+** Vim commentary
+
+[[https://github.com/tpope/vim-commentary][tpope/vim-commentary]] is a plugin that allows us to comment out code in a very natural way with a motion mainly mapped to ~gc~.
+
+#+BEGIN_SRC vimrc :tangle no :noweb-ref plug
+  Plug 'tpope/vim-commentary'
+#+END_SRC
+
+** Vim surround
+
+[[https://github.com/tpope/vim-surround][tpope/vim-surround]] is all about "surroundings": parentheses, brackets, quotes, XML tags, and more. The plugin provides mappings to easily delete, change and add such surroundings in pairs.
+
+#+BEGIN_SRC vimrc :tangle no :noweb-ref plug
+  Plug 'tpope/vim-surround'
+#+END_SRC
 
 ** Vim/Tmux interplay
 

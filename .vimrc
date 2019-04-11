@@ -28,22 +28,35 @@ else
 endif
 
 Plug 'Zyst/egoist-one.vim'
+if !(g:os == "Windows")
+  Plug 'wincent/command-t', {
+        \   'do': 'cd ruby/command-t/ext/command-t && ruby extconf.rb && make'
+        \ }
+else
+  Plug 'ctrlpvim/ctrlp.vim'
+endif
 Plug 'sheerun/vim-polyglot'
 Plug 'dmix/elvish.vim', { 'on_ft': ['elvish']}
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-surround'
 Plug 'christoomey/vim-tmux-navigator'
 
 call plug#end()
 
-if g:os == "Darwin"
-    nnoremap <leader>t :term <CR>
-endif
-
 if g:os == "Linux"
-    nnoremap <leader>t :term <CR>
+    
 endif
 
 if g:os == "Windows"
-    nnoremap <leader>t :term "C:\Program Files\Git\bin\bash.exe" <CR>
+    let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
+endif
+
+if g:os == "Darwin"
+    
+endif
+
+if (g:os == "Linux") || (g:os == "Darwin")
+    echo "Unix brah"
 endif
 
 if (has("termguicolors"))
