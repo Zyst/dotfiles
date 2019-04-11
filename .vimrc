@@ -56,7 +56,7 @@ if g:os == "Darwin"
 endif
 
 if (g:os == "Linux") || (g:os == "Darwin")
-    echo "Unix brah"
+    
 endif
 
 if (has("termguicolors"))

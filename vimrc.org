@@ -197,10 +197,6 @@ We use two fuzzy finders, depending on the operating system, If we are on Unix s
 :header-args:vimrc: :tangle no :noweb-ref Unix settings
 :END:
 
-#+BEGIN_SRC vimrc
-  echo "Unix brah"
-#+END_SRC
-
 *** ctrlp.vim configuration
 :PROPERTIES:
 :header-args:vimrc: :tangle no :noweb-ref Windows settings
