@@ -65,6 +65,7 @@ Finally, we close our ~plug#begin~ block.
 #+END_SRC
 
 * Keybindings
+** Leader
 
 - We map our leader key to be "Space"
 
@@ -78,11 +79,47 @@ Finally, we close our ~plug#begin~ block.
   let maplocalleader="\\"
 #+END_SRC
 
+** Normal mode
+
+** Visual
+
+- Move between windows
+
+#+BEGIN_SRC vimrc
+  xnoremap <C-h> <C-w>h
+  xnoremap <C-j> <C-w>j
+  xnoremap <C-k> <C-w>k
+  xnoremap <C-l> <C-w>l
+#+END_SRC
+
 * Settings
 
-** Miscellaneous settings
+- We disable arrow keys in Vim, this is the first setting I added, and I like to keep it around for fun.
 
-hold
+#+BEGIN_SRC vimrc
+  noremap <Up> <NOP>
+  noremap <Down> <NOP>
+  noremap <Left> <NOP>
+  noremap <Right> <NOP>
+#+END_SRC
+
+- We disable module functionality [[https://www.techrepublic.com/blog/it-security/turn-off-modeline-support-in-vim/][for security]].
+
+#+BEGIN_SRC vimrc
+  set nomodeline
+#+END_SRC
+
+- Language type indentation [[https://vi.stackexchange.com/a/10125][this response]] describes each option in detail, but essentially it lets plugins handle indentation, and a few other things when possible.
+
+#+BEGIN_SRC vimrc
+  filetype indent plugin on
+#+END_SRC
+
+- Shares the system clipboard.
+
+#+BEGIN_SRC vimrc
+  set clipboard=unnamed
+#+END_SRC
 
 * System-specific configuration
 
@@ -210,6 +247,54 @@ We use two fuzzy finders, depending on the operating system, If we are on Unix s
 :PROPERTIES:
 :header-args:vimrc: :tangle no :noweb-ref Unix settings
 :END:
+
+The following mappings are active when the prompt has focus:
+
+#+BEGIN_SRC text
+  <BS>        delete the character to the left of the cursor
+  <Del>       delete the character at the cursor
+  <Left>      move the cursor one character to the left
+  <C-h>       move the cursor one character to the left
+  <Right>     move the cursor one character to the right
+  <C-l>       move the cursor one character to the right
+  <C-a>       move the cursor to the start (left)
+  <C-e>       move the cursor to the end (right)
+  <C-u>       clear the contents of the prompt
+  <Tab>       change focus to the file listing
+#+END_SRC
+
+The following mappings are active when the file listing has focus:
+
+#+BEGIN_SRC text
+  <Tab>       change focus to the prompt
+#+END_SRC
+
+The following mappings are active when either the prompt or the file listing
+has focus:
+
+#+BEGIN_SRC text
+  <CR>        open the selected file
+  <C-CR>      open the selected file in a new split window
+  <C-s>       open the selected file in a new split window
+  <C-v>       open the selected file in a new vertical split window
+  <C-t>       open the selected file in a new tab
+  <C-d>       delete the selected buffer
+  <C-j>       select next file in the file listing
+  <C-n>       select next file in the file listing
+  <Down>      select next file in the file listing
+  <C-k>       select previous file in the file listing
+  <C-p>       select previous file in the file listing
+  <Up>        select previous file in the file listing
+  <C-f>       flush the cache (see |:CommandTFlush| for details)
+  <C-q>       place the current matches in the quickfix window
+  <C-c>       cancel (dismisses file listing)
+#+END_SRC
+
+The following is also available on terminals which support it:
+
+#+BEGIN_SRC text
+  <Esc>       cancel (dismisses file listing)
+#+END_SRC
 
 *** ctrlp.vim configuration
 :PROPERTIES:

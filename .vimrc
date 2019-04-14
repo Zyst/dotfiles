@@ -47,6 +47,22 @@ let mapleader="\<Space>"
 
 let maplocalleader="\\"
 
+xnoremap <C-h> <C-w>h
+xnoremap <C-j> <C-w>j
+xnoremap <C-k> <C-w>k
+xnoremap <C-l> <C-w>l
+
+noremap <Up> <NOP>
+noremap <Down> <NOP>
+noremap <Left> <NOP>
+noremap <Right> <NOP>
+
+set nomodeline
+
+filetype indent plugin on
+
+set clipboard=unnamed
+
 if g:os == "Linux"
     
 endif
