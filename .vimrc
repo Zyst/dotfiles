@@ -45,6 +45,8 @@ call plug#end()
 
 let mapleader="\<Space>"
 
+let maplocalleader="\\"
+
 if g:os == "Linux"
     
 endif

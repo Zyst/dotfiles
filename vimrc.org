@@ -64,13 +64,21 @@ Finally, we close our ~plug#begin~ block.
   call plug#end()
 #+END_SRC
 
-* Settings
+* Keybindings
 
 - We map our leader key to be "Space"
 
 #+BEGIN_SRC vimrc
   let mapleader="\<Space>"
 #+END_SRC
+
+- We also set our local leader key
+
+#+BEGIN_SRC vimrc
+  let maplocalleader="\\"
+#+END_SRC
+
+* Settings
 
 ** Miscellaneous settings
 
