@@ -15,6 +15,7 @@ alias ls='ls -GFh'
 # Turn off Display (OS X)
 alias sleep="pmset displaysleepnow"
 
+alias emacs="emacs -nw -a \"\""
 alias gst="git status"
 alias glg="git log --oneline --decorate --graph"
 alias gw="git log --follow -p --"
@@ -25,7 +26,6 @@ alias tci="npm run test:ci"
 alias tw="npm run test:watch"
 alias t="npm run test"
 alias sl="npm run start:local"
-# alias sl="./start.sh development"
 alias s="npm run start"
 alias l="npm run lint"
 alias lci="npm run lint:ci"
