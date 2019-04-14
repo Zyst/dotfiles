@@ -67,7 +67,9 @@ Finally, we close our ~plug#begin~ block.
 * Keybindings
 ** Leader
 
-- We map our leader key to be "Space".
+Keep stealing stuff from https://github.com/wincent/wincent/blob/master/roles/dotfiles/files/.vim/plugin/mappings/leader.vim
+
+- We map our leader key to be =Space=.
 
 #+BEGIN_SRC vimrc
   let mapleader="\<Space>"
@@ -79,7 +81,7 @@ Finally, we close our ~plug#begin~ block.
   let maplocalleader="\\"
 #+END_SRC
 
-- We make <Leader> <Leader> open the last buffer.
+- We make =<Leader> <Leader>= open the last buffer.
 
 #+BEGIN_SRC vimrc
   nnoremap <Leader><Leader> <C-^>
@@ -92,6 +94,23 @@ Finally, we close our ~plug#begin~ block.
 #+END_SRC
 
 ** Normal mode
+
+Steal stuff from https://github.com/wincent/wincent/blob/master/roles/dotfiles/files/.vim/plugin/mappings/normal.vim
+
+- Make =tab= toggle folds at current position.
+
+#+BEGIN_SRC vimrc
+  nnoremap <Tab> za
+#+END_SRC
+
+- Move between panes in normal mode with =Ctrl= + =hjkl=.
+
+#+BEGIN_SRC vimrc
+  nnoremap <C-h> <C-w>h
+  nnoremap <C-j> <C-w>j
+  nnoremap <C-k> <C-w>k
+  nnoremap <C-l> <C-w>l
+#+END_SRC
 
 ** Visual
 
@@ -260,6 +279,8 @@ We use two fuzzy finders, depending on the operating system, If we are on Unix s
 :header-args:vimrc: :tangle no :noweb-ref Unix settings
 :END:
 
+- These are the default hotkeys:
+
 The following mappings are active when the prompt has focus:
 
 #+BEGIN_SRC text
@@ -306,6 +327,12 @@ The following is also available on terminals which support it:
 
 #+BEGIN_SRC text
   <Esc>       cancel (dismisses file listing)
+#+END_SRC
+
+- We remap =Leader= + =b= to use =CommandTMRU= instead of =CommandTBuffer=, which shows files in the most recently used order, rather than the default.
+
+#+BEGIN_SRC vimrc
+  nnoremap <silent> <leader>b :CommandTMRU<CR>
 #+END_SRC
 
 *** ctrlp.vim configuration

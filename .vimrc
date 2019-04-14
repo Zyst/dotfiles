@@ -51,6 +51,13 @@ nnoremap <Leader><Leader> <C-^>
 
 nnoremap <Leader>o :only<CR>
 
+nnoremap <Tab> za
+
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+
 xnoremap <C-h> <C-w>h
 xnoremap <C-j> <C-w>j
 xnoremap <C-k> <C-w>k
@@ -80,7 +87,7 @@ if g:os == "Darwin"
 endif
 
 if (g:os == "Linux") || (g:os == "Darwin")
-    
+    nnoremap <silent> <leader>b :CommandTMRU<CR>
 endif
 
 if (has("termguicolors"))
