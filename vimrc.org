@@ -83,7 +83,7 @@ Finally, we close our ~plug#begin~ block.
 
 ** Visual
 
-- Move between windows
+- Move between panes in visual mode, same as other modes.
 
 #+BEGIN_SRC vimrc
   xnoremap <C-h> <C-w>h
