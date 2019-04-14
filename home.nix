@@ -47,6 +47,7 @@ in
 
     neovim = {
       enable = true;
+      vimAlias = true;
     };
 
     emacs = {
