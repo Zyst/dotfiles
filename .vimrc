@@ -43,6 +43,8 @@ Plug 'christoomey/vim-tmux-navigator'
 
 call plug#end()
 
+let mapleader="\<Space>"
+
 if g:os == "Linux"
     
 endif
