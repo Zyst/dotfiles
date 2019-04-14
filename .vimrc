@@ -74,6 +74,14 @@ filetype indent plugin on
 
 set clipboard=unnamed
 
+set number
+
+augroup numbertoggle
+  autocmd!
+  autocmd BufEnter,FocusGained,WinEnter * if &nu | set rnu   | endif
+  autocmd BufLeave,FocusLost,WinLeave   * if &nu | set nornu | endif
+augroup END
+
 if g:os == "Linux"
     
 endif
