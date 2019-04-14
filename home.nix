@@ -25,6 +25,11 @@ in
       ".bashrc".source = "${dotfiles}/bashrc";
 
       ".tmux.conf".source = "${dotfiles}/tmux.conf";
+
+      ".emacs.d" = {
+        source = "${dotfiles}/.emacs.d";
+        recursive = true;
+      };
     };
   };
 
