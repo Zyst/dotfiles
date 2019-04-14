@@ -67,16 +67,28 @@ Finally, we close our ~plug#begin~ block.
 * Keybindings
 ** Leader
 
-- We map our leader key to be "Space"
+- We map our leader key to be "Space".
 
 #+BEGIN_SRC vimrc
   let mapleader="\<Space>"
 #+END_SRC
 
-- We also set our local leader key
+- We also set our local leader key.
 
 #+BEGIN_SRC vimrc
   let maplocalleader="\\"
+#+END_SRC
+
+- We make <Leader> <Leader> open the last buffer.
+
+#+BEGIN_SRC vimrc
+  nnoremap <Leader><Leader> <C-^>
+#+END_SRC
+
+- Make =<Leader>= and =o= close all other buffers.
+
+#+BEGIN_SRC vimrc
+  nnoremap <Leader>o :only<CR>
 #+END_SRC
 
 ** Normal mode
