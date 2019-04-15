@@ -46,13 +46,13 @@ We then call the start function for plug, setting different folders for vim, and
 
 We also add two reference blocks, =nvim plug= and =vim plug= to ass vim/nvim specific plugins.
 
-#+BEGIN_SRC vimrc
+#+BEGIN_SRC vimrc :noweb yes
   if has('nvim')
     call plug#begin('~/.config/nvim/plugged')
-        <<nvimp>>
+        <<nvim plug>>
   else
     call plug#begin('~/.vim/plugged')
-        <<vimp>>
+        <<vim plug>>
   endif
 #+END_SRC
 
@@ -431,7 +431,7 @@ We will setup org mode later, for now, just get shit running. Reference [[file:i
 
 Here we take care of all the visual, and UX settings.
 
-We enable ~termguicolors~, which is necessary to use GUI colors inside terminals.
+We enable =termguicolors=, which is necessary to use GUI colors inside terminals.
 
 #+BEGIN_SRC vimrc
   if (has("termguicolors"))
@@ -570,53 +570,43 @@ Allow ctrlp ignore the files inside of ~.gitignore~ files.
 #+END_SRC
 
 * Coding
-
 ** General settings and modules
+*** Deoplete
 
 First, we add [[https://github.com/Shougo/deoplete.nvim][Shougo/deoplete.nvim]]. There's two blocks, of which one corresponds to the nvim configuration required to add Deoplete, and the other, for vim. Since vim needs a couple of "bridge" elements.
 
-#+BEGIN_SRC vimrc :tangle no :noweb-ref nvimp
+#+BEGIN_SRC vimrc :tangle no :noweb-ref nvim plug
   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 #+END_SRC
 
-#+BEGIN_SRC vimrc :tangle no :noweb-ref vimp
+#+BEGIN_SRC vimrc :tangle no :noweb-ref vim plug
   Plug 'Shougo/deoplete.nvim'
   Plug 'roxma/nvim-yarp'
   Plug 'roxma/vim-hug-neovim-rpc'
 #+END_SRC
 
-We add our LSP implementation of choice, as of right now, [[https://github.com/autozimu/LanguageClient-neovim][autozimu/LanguageClient-neovim]] which allows us to
+We then make it so that deoplete starts along with our editor.
 
-With =company-mode=, we get automatic completion - when there are completions available, a popup menu will appear when you stop typing for a moment, and you can either continue typing or accept the completion using the Enter key. I enable it globally.
+#+BEGIN_SRC vimrc
+  let g:deoplete#enable_at_startup = 1
+#+END_SRC
 
-#+begin_src emacs-lisp
-  (use-package company
-    :diminish company-mode
-    :hook
-    (after-init . global-company-mode))
-#+end_src
+*** Language Server Protocol
 
-=projectile-mode= allows us to perform project-relative operations such as searches, navigation, etc.
+We add our LSP implementation of choice, as of right now, [[https://github.com/autozimu/LanguageClient-neovim][autozimu/LanguageClient-neovim]] which allows us to use LSP inside of vim, which is baller.
 
-#+begin_src emacs-lisp
-  (use-package projectile
-    :defer 2
-    :diminish projectile-mode
-    :config
-    (projectile-global-mode))
-#+end_src
+#+BEGIN_SRC vimrc :tangle no :noweb-ref plug
+  Plug 'autozimu/LanguageClient-neovim', {
+      \ 'branch': 'next',
+      \ 'do': 'bash install.sh',
+      \ }
+#+END_SRC
 
-On-the-fly spell checking. I enable it for all text modes.
+We then make =gd= go to our file definition. My mnemonic of of choice is "Go to Destination".
 
-#+begin_src emacs-lisp
-  (use-package flyspell
-    :defer 1
-    :hook (text-mode . flyspell-mode)
-    :diminish
-    :bind (:map flyspell-mouse-map
-                ([down-mouse-3] . #'flyspell-correct-word)
-                ([mouse-3]      . #'undefined)))
-#+end_src
+#+BEGIN_SRC vimrc
+  nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
+#+END_SRC
 
 ** Programming languages
 
@@ -666,11 +656,4 @@ We use [[https://github.com/christoomey/vim-tmux-navigator][christoomey/vim-tmux
 
 In addition to coding, I configure some modes that can be used for text editing.
 
-- [[https://daringfireball.net/projects/markdown/syntax][Markdown]], generally useful. I also set up variable pitch and visual line mode.
-
-  #+begin_src emacs-lisp
-    (use-package markdown-mode
-      :hook
-      (markdown-mode . visual-line-mode)
-      (markdown-mode . variable-pitch-mode))
-  #+end_src
+No configuration for now, maybe spellchecking?

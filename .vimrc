@@ -23,10 +23,12 @@ endif
 
 if has('nvim')
   call plug#begin('~/.config/nvim/plugged')
-      <<nvimp>>
+      Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 else
   call plug#begin('~/.vim/plugged')
-      <<vimp>>
+      Plug 'Shougo/deoplete.nvim'
+      Plug 'roxma/nvim-yarp'
+      Plug 'roxma/vim-hug-neovim-rpc'
 endif
 
 Plug 'Zyst/egoist-one.vim'
@@ -37,6 +39,10 @@ if !(g:os == "Windows")
 else
   Plug 'ctrlpvim/ctrlp.vim'
 endif
+Plug 'autozimu/LanguageClient-neovim', {
+    \ 'branch': 'next',
+    \ 'do': 'bash install.sh',
+    \ }
 Plug 'sheerun/vim-polyglot'
 Plug 'dmix/elvish.vim', { 'on_ft': ['elvish']}
 Plug 'tpope/vim-commentary'
@@ -185,3 +191,7 @@ syntax on
 colorscheme onedark
 
 let g:onedark_terminal_italics=1
+
+let g:deoplete#enable_at_startup = 1
+
+nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
