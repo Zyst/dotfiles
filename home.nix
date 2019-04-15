@@ -9,9 +9,13 @@ in
       pkgs.bat
       pkgs.fortune
       pkgs.fzf
-      pkgs.neofetch
-      pkgs.ripgrep
       pkgs.htop
+      pkgs.neofetch
+      pkgs.nodePackages.eslint
+      pkgs.nodePackages.http-server
+      pkgs.nodePackages.prettier
+      pkgs.nodejs-10_x
+      pkgs.ripgrep
       pkgs.watchman
     ];
 
