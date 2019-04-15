@@ -608,6 +608,28 @@ We then make =gd= go to our file definition. My mnemonic of of choice is "Go to 
   nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
 #+END_SRC
 
+We also add an entry to lookup keywords with LSP using =K= in normal mode.
+
+#+BEGIN_SRC vimrc
+  nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
+#+END_SRC
+
+*** Linter
+
+We use [[https://github.com/w0rp/ale][w0rp/ale]] for linting, and more. It integrates very nicely with LSP as well.
+
+#+BEGIN_SRC vimrc :tangle no :noweb-ref plug
+  Plug 'w0rp/ale'
+#+END_SRC
+
+We make it so that ale uses =eslint= for javascript files.
+
+#+BEGIN_SRC vimrc
+  " let g:ale_linters = {
+  " \   'javascript': ['eslint'],
+  " \}
+#+END_SRC
+
 ** Programming languages
 
 *** Polyglot

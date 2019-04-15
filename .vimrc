@@ -43,6 +43,7 @@ Plug 'autozimu/LanguageClient-neovim', {
     \ 'branch': 'next',
     \ 'do': 'bash install.sh',
     \ }
+Plug 'w0rp/ale'
 Plug 'sheerun/vim-polyglot'
 Plug 'dmix/elvish.vim', { 'on_ft': ['elvish']}
 Plug 'tpope/vim-commentary'
@@ -195,3 +196,9 @@ let g:onedark_terminal_italics=1
 let g:deoplete#enable_at_startup = 1
 
 nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
+
+nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
+
+" let g:ale_linters = {
+" \   'javascript': ['eslint'],
+" \}
