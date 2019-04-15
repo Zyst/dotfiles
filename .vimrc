@@ -95,6 +95,19 @@ set foldenable
 set foldmethod=indent
 set foldlevelstart=10
 
+set autoindent
+
+scriptencoding utf-8
+
+set cursorline
+
+set expandtab
+
+set undofile
+set undodir=~/.vim/undo_files//
+set directory=~/.vim/swap_files//
+set backupdir=~/.vim/backup_files//
+
 if g:os == "Linux"
     
 endif
