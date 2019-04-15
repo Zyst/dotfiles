@@ -8,8 +8,11 @@ in
     packages = [
       pkgs.bat
       pkgs.fortune
+      pkgs.fzf
       pkgs.neofetch
       pkgs.ripgrep
+      pkgs.htop
+      pkgs.watchman
     ];
 
     file = {

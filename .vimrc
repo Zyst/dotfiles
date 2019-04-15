@@ -84,6 +84,17 @@ augroup END
 
 set hidden
 
+augroup myvimrc
+  au!
+  au BufWritePost .vimrc,_vimrc,vimrc,.gvimrc,_gvimrc,gvimrc so $MYVIMRC | if has('gui_running') | so $MYGVIMRC | endif
+augroup END
+
+set backspace=indent,eol,start
+
+set foldenable
+set foldmethod=indent
+set foldlevelstart=10
+
 if g:os == "Linux"
     
 endif
@@ -100,7 +111,7 @@ if (g:os == "Linux") || (g:os == "Darwin")
     nnoremap <silent> <leader>b :CommandTMRU<CR>
     let g:CommandTCancelMap=['<ESC>', '<C-c>']
     let g:CommandTEncoding='UTF-8'
-    " let g:CommandTFileScanner='watchman'
+    let g:CommandTFileScanner='watchman'
 endif
 
 if (has("termguicolors"))
