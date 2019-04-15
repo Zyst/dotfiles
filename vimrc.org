@@ -197,6 +197,12 @@ Steal stuff from https://github.com/wincent/wincent/blob/master/roles/dotfiles/f
   set foldlevelstart=10
 #+END_SRC
 
+- We set the fold level to =1=, which as [[https://www.youtube.com/watch?v=oqYQ7IeDs0E][Wincent's video on folding]] mentions, is good for getting into the habit of actually using the fold feature. /Disabled for now, I want to get into actually using the editor adequately before I attempt to min-max my feature usage/.
+
+#+BEGIN_SRC vimrc
+  " set foldlevelstart=1
+#+END_SRC
+
 - Copies the indentation from the previous line when creating a new line.
 
 #+BEGIN_SRC vimrc
@@ -228,6 +234,25 @@ set expandtab
   set undodir=~/.vim/undo_files//
   set directory=~/.vim/swap_files//
   set backupdir=~/.vim/backup_files//
+#+END_SRC
+
+- We make vim always display our status line.
+
+#+BEGIN_SRC vimrc
+  set laststatus=2
+#+END_SRC
+
+- We set lazyredraw so we don't show screen changes when playing macros, or stuff like that.
+
+#+BEGIN_SRC vimrc
+  set lazyredraw
+#+END_SRC
+
+- We make long lines wrap into others based on the =breakat= setting, and we change the character we use to display line breaks. the character we use is: "DOWNWARDS ARROW WITH TIP RIGHTWARDS (U+21B3, UTF-8: E2 86 B3)"
+
+#+BEGIN_SRC vimrc
+  set linebreak
+  let &showbreak='↳ '
 #+END_SRC
 
 * System-specific configuration
