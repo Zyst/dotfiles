@@ -29,7 +29,7 @@ const makeDirectory = path => {
   }
 };
 
-// The dir of the repository hold
+// The dir of the repository
 const dir = createPath([home, 'dev', 'dotfiles']);
 const oldDir = [home, 'dotfiles_old'];
 
