@@ -23,8 +23,10 @@ endif
 
 if has('nvim')
   call plug#begin('~/.config/nvim/plugged')
+      <<nvimp>>
 else
   call plug#begin('~/.vim/plugged')
+      <<vimp>>
 endif
 
 Plug 'Zyst/egoist-one.vim'

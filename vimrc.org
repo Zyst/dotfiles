@@ -44,12 +44,16 @@ I use [[https://github.com/junegunn/vim-plug][junegunn/vim-plug]] to manage my v
 
 We then call the start function for plug, setting different folders for vim, and neovim to install their dependencies. The ~plug#end()~ function is called at the end of this package management section.
 
+We also add two reference blocks, =nvim plug= and =vim plug= to ass vim/nvim specific plugins.
+
 #+BEGIN_SRC vimrc
-if has('nvim')
-  call plug#begin('~/.config/nvim/plugged')
-else
-  call plug#begin('~/.vim/plugged')
-endif
+  if has('nvim')
+    call plug#begin('~/.config/nvim/plugged')
+        <<nvimp>>
+  else
+    call plug#begin('~/.vim/plugged')
+        <<vimp>>
+  endif
 #+END_SRC
 
 Now we create a reference block for our plugins, where our Plugins will be inserted, but the import itself will be done in their relevant areas.
@@ -569,7 +573,19 @@ Allow ctrlp ignore the files inside of ~.gitignore~ files.
 
 ** General settings and modules
 
-DEOPLETE/LSP WILL GO HERE.
+First, we add [[https://github.com/Shougo/deoplete.nvim][Shougo/deoplete.nvim]]. There's two blocks, of which one corresponds to the nvim configuration required to add Deoplete, and the other, for vim. Since vim needs a couple of "bridge" elements.
+
+#+BEGIN_SRC vimrc :tangle no :noweb-ref nvimp
+  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+#+END_SRC
+
+#+BEGIN_SRC vimrc :tangle no :noweb-ref vimp
+  Plug 'Shougo/deoplete.nvim'
+  Plug 'roxma/nvim-yarp'
+  Plug 'roxma/vim-hug-neovim-rpc'
+#+END_SRC
+
+We add our LSP implementation of choice, as of right now, [[https://github.com/autozimu/LanguageClient-neovim][autozimu/LanguageClient-neovim]] which allows us to
 
 With =company-mode=, we get automatic completion - when there are completions available, a popup menu will appear when you stop typing for a moment, and you can either continue typing or accept the completion using the Enter key. I enable it globally.
 
