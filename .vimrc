@@ -51,6 +51,11 @@ nnoremap <Leader><Leader> <C-^>
 
 nnoremap <Leader>o :only<CR>
 
+noremap <Up> <NOP>
+noremap <Down> <NOP>
+noremap <Left> <NOP>
+noremap <Right> <NOP>
+
 nnoremap <Tab> za
 
 nnoremap <C-h> <C-w>h
@@ -58,15 +63,17 @@ nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 
+nmap <Esc><Esc> :noh<CR><Esc>
+
+nnoremap <Leader>ev :vsp ~/.vimrc<CR>
+
 xnoremap <C-h> <C-w>h
 xnoremap <C-j> <C-w>j
 xnoremap <C-k> <C-w>k
 xnoremap <C-l> <C-w>l
 
-noremap <Up> <NOP>
-noremap <Down> <NOP>
-noremap <Left> <NOP>
-noremap <Right> <NOP>
+vnoremap <S-j> :m '>+1<CR>gv=gv
+vnoremap <S-k> :m '<-2<CR>gv=gv
 
 set nomodeline
 
@@ -99,7 +106,11 @@ set foldlevelstart=10
 
 set autoindent
 
+set smartindent
+
 scriptencoding utf-8
+set encoding=utf-8
+set fileencoding=utf-8
 
 set cursorline
 
@@ -116,6 +127,33 @@ set lazyredraw
 
 set linebreak
 let &showbreak='↳ '
+
+set scrolloff=1
+
+set tabstop=2
+set softtabstop=2
+
+set shiftround
+set shiftwidth=2
+
+set splitbelow
+set splitright
+
+set wrap
+set textwidth=80
+
+set showmatch
+
+set incsearch
+
+set ignorecase
+set smartcase
+
+set visualbell
+
+set ttyfast
+
+set hlsearch
 
 if g:os == "Linux"
     

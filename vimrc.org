@@ -97,6 +97,15 @@ Keep stealing stuff from https://github.com/wincent/wincent/blob/master/roles/do
 
 Steal stuff from https://github.com/wincent/wincent/blob/master/roles/dotfiles/files/.vim/plugin/mappings/normal.vim
 
+- We disable arrow keys in Vim, this is the first setting I added, and I like to keep it around for fun.
+
+#+BEGIN_SRC vimrc
+  noremap <Up> <NOP>
+  noremap <Down> <NOP>
+  noremap <Left> <NOP>
+  noremap <Right> <NOP>
+#+END_SRC
+
 - Make =tab= toggle folds at current position.
 
 #+BEGIN_SRC vimrc
@@ -112,6 +121,18 @@ Steal stuff from https://github.com/wincent/wincent/blob/master/roles/dotfiles/f
   nnoremap <C-l> <C-w>l
 #+END_SRC
 
+- Pressing =<Esc> <Esc>= disables/hides the progressive search mode.
+
+#+BEGIN_SRC vimrc
+  nmap <Esc><Esc> :noh<CR><Esc>
+#+END_SRC
+
+- =<Leader> + e + v= opens our vimrc file in a new vertical split.
+
+#+BEGIN_SRC vimrc
+  nnoremap <Leader>ev :vsp ~/.vimrc<CR>
+#+END_SRC
+
 ** Visual
 
 - Move between panes in visual mode, same as other modes.
@@ -123,16 +144,14 @@ Steal stuff from https://github.com/wincent/wincent/blob/master/roles/dotfiles/f
   xnoremap <C-l> <C-w>l
 #+END_SRC
 
-* Settings
-
-- We disable arrow keys in Vim, this is the first setting I added, and I like to keep it around for fun.
+- J and K can be used to move selected lines in visual mode.
 
 #+BEGIN_SRC vimrc
-  noremap <Up> <NOP>
-  noremap <Down> <NOP>
-  noremap <Left> <NOP>
-  noremap <Right> <NOP>
+  vnoremap <S-j> :m '>+1<CR>gv=gv
+  vnoremap <S-k> :m '<-2<CR>gv=gv
 #+END_SRC
+
+* Settings
 
 - We disable module functionality [[https://www.techrepublic.com/blog/it-security/turn-off-modeline-support-in-vim/][for security]].
 
@@ -209,10 +228,18 @@ Steal stuff from https://github.com/wincent/wincent/blob/master/roles/dotfiles/f
   set autoindent
 #+END_SRC
 
-- Sets encoding to UTF-8, can help avoid a ton of issues.
+- Smart indent automatically adds one extra level of indentation in some scenarios.
+
+#+BEGIN_SRC vimrc
+  set smartindent
+#+END_SRC
+
+- Sets encoding to UTF-8, can help avoid a ton of issues. This applies to the buffer, and to the written files.
 
 #+BEGIN_SRC vimrc
   scriptencoding utf-8
+  set encoding=utf-8
+  set fileencoding=utf-8
 #+END_SRC
 
 - Highlight the current line we are on.
@@ -253,6 +280,77 @@ set expandtab
 #+BEGIN_SRC vimrc
   set linebreak
   let &showbreak='↳ '
+#+END_SRC
+
+- We set our scrollout, which allows us to scroll a specified number of lines before we reach the "edge" of our screen.
+
+#+BEGIN_SRC vimrc
+  set scrolloff=1
+#+END_SRC
+
+- We add a =tabstop=, which specifies how many characters we should insert when when press tab. Similarly, a =softtabstop= specifies how many columns to insert when we press tab.
+
+#+BEGIN_SRC vimrc
+  set tabstop=2
+  set softtabstop=2
+#+END_SRC
+
+- We add a =shiftwidth=, which inserts a number of spaces per tab, and commands like =<< >>=. We also set =shiftround= which itself lets us indent by a multiple of =shiftwidth= everytime.
+
+#+BEGIN_SRC vimrc
+  set shiftround
+  set shiftwidth=2
+#+END_SRC
+
+- We make it so that when we insert a split, it opens below the current window, or to the right of the current window. Rather than up/left.
+
+#+BEGIN_SRC vimrc
+  set splitbelow
+  set splitright
+#+END_SRC
+
+- Visually wraps lines that go past a limit, we also automatically set the corresponding wrap setting to 80 characters.
+
+#+BEGIN_SRC vimrc
+  set wrap
+  set textwidth=80
+#+END_SRC
+
+- Highlights matching items like ({[]}).
+
+#+BEGIN_SRC vimrc
+  set showmatch
+#+END_SRC
+
+- Set search to search as you type characters, we also ingore case while searching.
+
+#+BEGIN_SRC vimrc
+  set incsearch
+#+END_SRC
+
+- For search, we make it so that when =ignorecase= and =smartcase= are both on, if a pattern contains an uppercase letter, it is case sensitive, otherwise, it is not. For example, =/The= would find only =The=, while =/the= would find =the= or =The= etc.
+
+#+BEGIN_SRC vimrc
+  set ignorecase
+  set smartcase
+#+END_SRC
+
+- Make the cursor blink on errors, rather than beeping.
+
+#+BEGIN_SRC vimrc
+  set visualbell
+#+END_SRC
+
+- Sets ttyfast, which indicates a fast terminal connection, so it sends more characters to the screen for rendering.
+
+#+BEGIN_SRC vimrc
+  set ttyfast
+#+END_SRC
+
+- Sets =hlsearch=, which makes the characters we search shiny.
+
+#+BEGIN_SRC vimrc
+  set hlsearch
 #+END_SRC
 
 * System-specific configuration
