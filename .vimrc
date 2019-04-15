@@ -82,6 +82,8 @@ augroup numbertoggle
   autocmd BufLeave,FocusLost,WinLeave   * if &nu | set nornu | endif
 augroup END
 
+set hidden
+
 if g:os == "Linux"
     
 endif
@@ -96,6 +98,9 @@ endif
 
 if (g:os == "Linux") || (g:os == "Darwin")
     nnoremap <silent> <leader>b :CommandTMRU<CR>
+    let g:CommandTCancelMap=['<ESC>', '<C-c>']
+    let g:CommandTEncoding='UTF-8'
+    " let g:CommandTFileScanner='watchman'
 endif
 
 if (has("termguicolors"))

@@ -168,6 +168,12 @@ Steal stuff from https://github.com/wincent/wincent/blob/master/roles/dotfiles/f
   augroup END
 #+END_SRC
 
+- We =set hidden= which does some operations around renames, and others.
+
+#+BEGIN_SRC vimrc
+  set hidden
+#+END_SRC
+
 * System-specific configuration
 
 Some settings are OS-specific, and this is where we set them.
@@ -351,6 +357,24 @@ The following is also available on terminals which support it:
   nnoremap <silent> <leader>b :CommandTMRU<CR>
 #+END_SRC
 
+- We make the set of keys that close the search buffer different, =Escape= and =Ctrl= + =c= handle it.
+
+#+BEGIN_SRC vimrc
+  let g:CommandTCancelMap=['<ESC>', '<C-c>']
+#+END_SRC
+
+- Switch encoding so that it is =UTF-8= by default.
+
+#+BEGIN_SRC vimrc
+  let g:CommandTEncoding='UTF-8'
+#+END_SRC
+
+- We make the file scanner ~watchman~. which falls back to =find= by default.
+
+#+BEGIN_SRC vimrc
+  " let g:CommandTFileScanner='watchman'
+#+END_SRC
+
 *** ctrlp.vim configuration
 :PROPERTIES:
 :header-args:vimrc: :tangle no :noweb-ref Windows settings
@@ -364,7 +388,7 @@ Allow ctrlp ignore the files inside of ~.gitignore~ files.
 
 * Coding
 
-Coding is my primary use for Vim, here's my configuration.
+
 
 ** General settings and modules
 
