@@ -33,6 +33,8 @@ in
 
       ".tmux.conf".source = "${dotfiles}/tmux.conf";
 
+      ".eslintrc.js".source = "${dotfiles}/eslintrc.js";
+
       ".emacs.d" = {
         source = "${dotfiles}/.emacs.d";
         recursive = true;

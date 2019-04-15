@@ -198,7 +198,3 @@ let g:deoplete#enable_at_startup = 1
 nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
 
 nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
-
-" let g:ale_linters = {
-" \   'javascript': ['eslint'],
-" \}
