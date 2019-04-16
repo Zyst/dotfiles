@@ -10,13 +10,21 @@ in
       pkgs.fortune
       pkgs.fzf
       pkgs.htop
+      pkgs.ripgrep
+      pkgs.watchman
+
+      # Node 6
+      # pkgs.nodejs-6_x
+
+      # Node 8
+      # pkgs.nodejs-8_x
+
+      # Node 10
+      pkgs.nodejs-10_x
       pkgs.neofetch
       pkgs.nodePackages.eslint
       pkgs.nodePackages.http-server
       pkgs.nodePackages.prettier
-      pkgs.nodejs-10_x
-      pkgs.ripgrep
-      pkgs.watchman
     ];
 
     file = {
