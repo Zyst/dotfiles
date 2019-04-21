@@ -8,8 +8,23 @@ in
     packages = [
       pkgs.bat
       pkgs.fortune
-      pkgs.neofetch
+      pkgs.fzf
+      pkgs.htop
       pkgs.ripgrep
+      pkgs.watchman
+
+      # Node 6
+      # pkgs.nodejs-6_x
+
+      # Node 8
+      # pkgs.nodejs-8_x
+
+      # Node 10
+      pkgs.nodejs-10_x
+      pkgs.neofetch
+      pkgs.nodePackages.eslint
+      pkgs.nodePackages.http-server
+      pkgs.nodePackages.prettier
     ];
 
     file = {
@@ -25,6 +40,8 @@ in
       ".bashrc".source = "${dotfiles}/bashrc";
 
       ".tmux.conf".source = "${dotfiles}/tmux.conf";
+
+      ".eslintrc.js".source = "${dotfiles}/eslintrc.js";
 
       ".emacs.d" = {
         source = "${dotfiles}/.emacs.d";

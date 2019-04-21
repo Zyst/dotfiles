@@ -23,8 +23,12 @@ endif
 
 if has('nvim')
   call plug#begin('~/.config/nvim/plugged')
+      Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 else
   call plug#begin('~/.vim/plugged')
+      Plug 'Shougo/deoplete.nvim'
+      Plug 'roxma/nvim-yarp'
+      Plug 'roxma/vim-hug-neovim-rpc'
 endif
 
 Plug 'Zyst/egoist-one.vim'
@@ -35,6 +39,11 @@ if !(g:os == "Windows")
 else
   Plug 'ctrlpvim/ctrlp.vim'
 endif
+Plug 'autozimu/LanguageClient-neovim', {
+    \ 'branch': 'next',
+    \ 'do': 'bash install.sh',
+    \ }
+Plug 'w0rp/ale'
 Plug 'sheerun/vim-polyglot'
 Plug 'dmix/elvish.vim', { 'on_ft': ['elvish']}
 Plug 'tpope/vim-commentary'
@@ -51,6 +60,11 @@ nnoremap <Leader><Leader> <C-^>
 
 nnoremap <Leader>o :only<CR>
 
+noremap <Up> <NOP>
+noremap <Down> <NOP>
+noremap <Left> <NOP>
+noremap <Right> <NOP>
+
 nnoremap <Tab> za
 
 nnoremap <C-h> <C-w>h
@@ -58,15 +72,17 @@ nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 
+nmap <Esc><Esc> :noh<CR><Esc>
+
+nnoremap <Leader>ev :vsp ~/.vimrc<CR>
+
 xnoremap <C-h> <C-w>h
 xnoremap <C-j> <C-w>j
 xnoremap <C-k> <C-w>k
 xnoremap <C-l> <C-w>l
 
-noremap <Up> <NOP>
-noremap <Down> <NOP>
-noremap <Left> <NOP>
-noremap <Right> <NOP>
+vnoremap <S-j> :m '>+1<CR>gv=gv
+vnoremap <S-k> :m '<-2<CR>gv=gv
 
 set nomodeline
 
@@ -84,6 +100,70 @@ augroup END
 
 set hidden
 
+augroup myvimrc
+  au!
+  au BufWritePost .vimrc,_vimrc,vimrc,.gvimrc,_gvimrc,gvimrc so $MYVIMRC | if has('gui_running') | so $MYGVIMRC | endif
+augroup END
+
+set backspace=indent,eol,start
+
+set foldenable
+set foldmethod=indent
+set foldlevelstart=10
+
+" set foldlevelstart=1
+
+set autoindent
+
+set smartindent
+
+scriptencoding utf-8
+set encoding=utf-8
+set fileencoding=utf-8
+
+set cursorline
+
+set expandtab
+
+set undofile
+set undodir=~/.vim/undo_files//
+set directory=~/.vim/swap_files//
+set backupdir=~/.vim/backup_files//
+
+set laststatus=2
+
+set lazyredraw
+
+set linebreak
+let &showbreak='↳ '
+
+set scrolloff=1
+
+set tabstop=2
+set softtabstop=2
+
+set shiftround
+set shiftwidth=2
+
+set splitbelow
+set splitright
+
+set wrap
+set textwidth=80
+
+set showmatch
+
+set incsearch
+
+set ignorecase
+set smartcase
+
+set visualbell
+
+set ttyfast
+
+set hlsearch
+
 if g:os == "Linux"
     
 endif
@@ -100,7 +180,7 @@ if (g:os == "Linux") || (g:os == "Darwin")
     nnoremap <silent> <leader>b :CommandTMRU<CR>
     let g:CommandTCancelMap=['<ESC>', '<C-c>']
     let g:CommandTEncoding='UTF-8'
-    " let g:CommandTFileScanner='watchman'
+    let g:CommandTFileScanner='watchman'
 endif
 
 if (has("termguicolors"))
@@ -112,3 +192,9 @@ syntax on
 colorscheme onedark
 
 let g:onedark_terminal_italics=1
+
+let g:deoplete#enable_at_startup = 1
+
+nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
+
+nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>

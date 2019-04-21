@@ -16,6 +16,8 @@ alias ls='ls -GFh'
 alias sleep="pmset displaysleepnow"
 
 alias emacs="emacs -nw -a \"\""
+alias em="emacs -nw -a \"\""
+
 alias gst="git status"
 alias glg="git log --oneline --decorate --graph"
 alias gw="git log --follow -p --"
