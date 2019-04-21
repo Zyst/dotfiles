@@ -553,7 +553,7 @@ I use proportional fonts in org-mode for the text, while keeping fixed-width fon
 
 - Setting up the =fixed-pitch= face to be the same as my usual =default= face.
   #+begin_src emacs-lisp :tangle no :noweb-ref org-mode-faces
-    (fixed-pitch ((t (:family "Operator Mono SSm Medium"))))
+    (fixed-pitch ((t (:family "Operator Mono SSm Book"))))
   #+end_src
 
 - Configure =org-indent= to inherit from =fixed-pitch= to fix the vertical spacing in code blocks. Thanks to Ben for the tip!
