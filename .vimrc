@@ -188,6 +188,13 @@ if (g:os == "Linux") || (g:os == "Darwin")
     let g:CommandTCancelMap=['<ESC>', '<C-c>']
     let g:CommandTEncoding='UTF-8'
     " let g:CommandTFileScanner='watchman'
+    let g:CommandTWildIgnore=&wildignore
+    let g:CommandTWildIgnore.=',*/.git'
+    let g:CommandTWildIgnore.=',*/.hg'
+    let g:CommandTWildIgnore.=',*/bower_components'
+    let g:CommandTWildIgnore.=',*/node_modules'
+    let g:CommandTWildIgnore.=',*/tmp'
+    let g:CommandTWildIgnore.=',*/vendor'
 endif
 
 if (has("termguicolors"))

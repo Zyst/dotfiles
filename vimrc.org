@@ -594,6 +594,18 @@ The following is also available on terminals which support it:
   " let g:CommandTFileScanner='watchman'
 #+END_SRC
 
+- We add =wildignore= settings which allow us to ignore certain patterns automatically with CommandT
+
+#+BEGIN_SRC vimrc
+  let g:CommandTWildIgnore=&wildignore
+  let g:CommandTWildIgnore.=',*/.git'
+  let g:CommandTWildIgnore.=',*/.hg'
+  let g:CommandTWildIgnore.=',*/bower_components'
+  let g:CommandTWildIgnore.=',*/node_modules'
+  let g:CommandTWildIgnore.=',*/tmp'
+  let g:CommandTWildIgnore.=',*/vendor'
+#+END_SRC
+
 *** ctrlp.vim configuration
 :PROPERTIES:
 :header-args:vimrc: :tangle no :noweb-ref Windows settings
