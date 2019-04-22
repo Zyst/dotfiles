@@ -604,6 +604,8 @@ The following is also available on terminals which support it:
   let g:CommandTWildIgnore.=',*/node_modules'
   let g:CommandTWildIgnore.=',*/tmp'
   let g:CommandTWildIgnore.=',*/vendor'
+  let g:CommandTWildIgnore.=',*/dist'
+  let g:CommandTWildIgnore.=',*/lcov-report'
 #+END_SRC
 
 *** ctrlp.vim configuration
@@ -615,6 +617,21 @@ Allow ctrlp ignore the files inside of ~.gitignore~ files.
 
 #+BEGIN_SRC vimrc
   let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
+#+END_SRC
+
+
+** Neotree
+
+[[https://github.com/scrooloose/nerdtree][scrooloose/nerdtree]] is added for visual project exploration.
+
+#+BEGIN_SRC vimrc :tangle no :noweb-ref plug
+  Plug 'scrooloose/nerdtree'
+#+END_SRC
+
+We make <Leader> and n open up nerdtree.
+
+#+BEGIN_SRC vimrc
+  nmap <Leader>n :NerdTreeFind<CR>
 #+END_SRC
 
 * Coding

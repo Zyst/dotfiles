@@ -42,6 +42,7 @@ if !(g:os == "Windows")
 else
   Plug 'ctrlpvim/ctrlp.vim'
 endif
+Plug 'scrooloose/nerdtree'
 Plug 'autozimu/LanguageClient-neovim', {
     \ 'branch': 'next',
     \ 'do': 'bash install.sh',
@@ -195,6 +196,8 @@ if (g:os == "Linux") || (g:os == "Darwin")
     let g:CommandTWildIgnore.=',*/node_modules'
     let g:CommandTWildIgnore.=',*/tmp'
     let g:CommandTWildIgnore.=',*/vendor'
+    let g:CommandTWildIgnore.=',*/dist'
+    let g:CommandTWildIgnore.=',*/lcov-report'
 endif
 
 if (has("termguicolors"))
@@ -206,6 +209,8 @@ syntax on
 colorscheme onedark
 
 let g:onedark_terminal_italics=1
+
+nmap <Leader>n :NerdTreeFind<CR>
 
 let g:deoplete#enable_at_startup = 1
 
