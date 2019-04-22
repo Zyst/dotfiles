@@ -233,3 +233,5 @@ let g:ale_fixers = {
 \   'html': ['prettier'],
 \   'json': ['prettier'],
 \}
+
+nmap <Leader>f <Plug>(ale_fix)

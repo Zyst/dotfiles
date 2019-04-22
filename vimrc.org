@@ -711,6 +711,12 @@ We add configuration for our fixers. First, we want every filetype to remove tra
   \}
 #+END_SRC
 
+We make our formatting tool run on <Leader> and f.
+
+#+BEGIN_SRC vimrc
+  nmap <Leader>f <Plug>(ale_fix)
+#+END_SRC
+
 ** Programming languages
 
 *** Polyglot
