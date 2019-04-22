@@ -10,7 +10,10 @@ in
       pkgs.fortune
       pkgs.fzf
       pkgs.htop
+      pkgs.neofetch
+      pkgs.ranger
       pkgs.ripgrep
+      pkgs.tree
       pkgs.watchman
 
       # Node 6
@@ -21,7 +24,6 @@ in
 
       # Node 10
       pkgs.nodejs-10_x
-      pkgs.neofetch
       pkgs.nodePackages.eslint
       pkgs.nodePackages.http-server
       pkgs.nodePackages.prettier
