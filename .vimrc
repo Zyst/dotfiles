@@ -128,7 +128,6 @@ set expandtab
 set undofile
 set undodir=~/.vim/undo_files//
 set directory=~/.vim/swap_files//
-set backupdir=~/.vim/backup_files//
 
 set laststatus=2
 
@@ -163,6 +162,11 @@ set visualbell
 set ttyfast
 
 set hlsearch
+
+set nobackup
+set nowritebackup
+
+set signcolumn=yes
 
 if g:os == "Linux"
     

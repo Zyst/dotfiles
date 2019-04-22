@@ -264,7 +264,6 @@ set expandtab
   set undofile
   set undodir=~/.vim/undo_files//
   set directory=~/.vim/swap_files//
-  set backupdir=~/.vim/backup_files//
 #+END_SRC
 
 - We make vim always display our status line.
@@ -355,6 +354,19 @@ set expandtab
 
 #+BEGIN_SRC vimrc
   set hlsearch
+#+END_SRC
+
+- We disable backup files generally speaking, some LanguageServers have issues with them.
+
+#+BEGIN_SRC vimrc
+  set nobackup
+  set nowritebackup
+#+END_SRC
+
+- We make it so that =signcolumns= are always enabled so that some of our plugins which modify the sign column don't constantly move that around.
+
+#+BEGIN_SRC vimrc
+  set signcolumn=yes
 #+END_SRC
 
 * System-specific configuration
