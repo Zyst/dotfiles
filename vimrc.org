@@ -639,6 +639,13 @@ We then make it so that deoplete starts along with our editor.
   let g:deoplete#enable_at_startup = 1
 #+END_SRC
 
+Tab should make deoplete select items in insert mode.
+
+#+BEGIN_SRC vimrc
+  inoremap <expr> <TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+  inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+#+END_SRC
+
 *** Language Server Protocol
 
 We add our LSP implementation of choice, as of right now, [[https://github.com/autozimu/LanguageClient-neovim][autozimu/LanguageClient-neovim]] which allows us to use LSP inside of vim, which is baller.
@@ -689,6 +696,19 @@ We use [[https://github.com/w0rp/ale][w0rp/ale]] for linting, and more. It integ
 
 #+BEGIN_SRC vimrc :tangle no :noweb-ref plug
   Plug 'w0rp/ale'
+#+END_SRC
+
+We add configuration for our fixers. First, we want every filetype to remove trailing lines, and whitespace on save. Another filetype we want to cover is JavaScript, where we run both =prettier=, and =eslint --fix= in that order.
+
+#+BEGIN_SRC vimrc
+  let g:ale_fixers = {
+  \   '*': ['remove_trailing_lines', 'trim_whitespace'],
+  \   'javascript': ['prettier', 'eslint'],
+  \   'css': ['prettier'],
+  \   'scss': ['prettier'],
+  \   'html': ['prettier'],
+  \   'json': ['prettier'],
+  \}
 #+END_SRC
 
 ** Programming languages

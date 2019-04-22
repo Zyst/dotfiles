@@ -209,6 +209,9 @@ let g:onedark_terminal_italics=1
 
 let g:deoplete#enable_at_startup = 1
 
+inoremap <expr> <TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
 nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
 
 nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
@@ -221,3 +224,12 @@ let g:LanguageClient_rootMarkers = {
 let g:LanguageClient_loggingLevel = 'INFO'
 let g:LanguageClient_loggingFile =  expand('~/.local/share/nvim/LanguageClient.log')
 let g:LanguageClient_serverStderr = expand('~/.local/share/nvim/LanguageServer.log')
+
+let g:ale_fixers = {
+\   '*': ['remove_trailing_lines', 'trim_whitespace'],
+\   'javascript': ['prettier', 'eslint'],
+\   'css': ['prettier'],
+\   'scss': ['prettier'],
+\   'html': ['prettier'],
+\   'json': ['prettier'],
+\}
