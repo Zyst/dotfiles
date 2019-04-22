@@ -477,6 +477,14 @@ Finally, we set ~g:onedark_terminal_italics~ to ~1~ which enables some of the th
   let g:onedark_terminal_italics=1
 #+END_SRC
 
+** Airline
+
+We are going to add [[https://github.com/vim-airline/vim-airline][vim-airline/vim-airline]] which adds a nice status bar for us.
+
+#+BEGIN_SRC vimrc :tangle no :noweb-ref plug
+  Plug 'vim-airline/vim-airline'
+#+END_SRC
+
 ** Fuzzy finder
 
 We use two fuzzy finders, depending on the operating system, If we are on Unix systems, then we use [[https://github.com/wincent/command-t][wincent/command-t]], otherwise (Windows, in my case) we use [[https://github.com/ctrlpvim/ctrlp.vim][ctrlpvim/ctrlp.vim]].
@@ -625,6 +633,27 @@ We also add an entry to lookup keywords with LSP using =K= in normal mode.
 #+BEGIN_SRC vimrc
   nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
 #+END_SRC
+
+Adding rootmarkers lets LanguageClient know when it should be running, in this case we just add the necessary ones for JavaScript, and some common TypeScript ones.
+
+#+BEGIN_SRC vimrc
+  let g:LanguageClient_rootMarkers = {
+        \   'javascript': ['tsconfig.json', '.flowconfig', 'package.json'],
+        \   'typescript': ['tsconfig.json', '.flowconfig', 'package.json']
+        \ }
+#+END_SRC
+
+We add settings to handle Language Server logs, saved to =~/.local/share/nvim=.
+
+#+BEGIN_SRC vimrc
+  let g:LanguageClient_loggingLevel = 'INFO'
+  let g:LanguageClient_loggingFile =  expand('~/.local/share/nvim/LanguageClient.log')
+  let g:LanguageClient_serverStderr = expand('~/.local/share/nvim/LanguageServer.log')
+#+END_SRC
+
+**** JavaScript
+
+Here's our LSP JavaScript configuration.
 
 *** Linter
 

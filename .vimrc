@@ -32,6 +32,7 @@ else
 endif
 
 Plug 'Zyst/egoist-one.vim'
+Plug 'vim-airline/vim-airline'
 if !(g:os == "Windows")
   Plug 'wincent/command-t', {
         \   'do': 'cd ruby/command-t/ext/command-t && ruby extconf.rb && make'
@@ -202,3 +203,12 @@ let g:deoplete#enable_at_startup = 1
 nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
 
 nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
+
+let g:LanguageClient_rootMarkers = {
+      \   'javascript': ['tsconfig.json', '.flowconfig', 'package.json'],
+      \   'typescript': ['tsconfig.json', '.flowconfig', 'package.json']
+      \ }
+
+let g:LanguageClient_loggingLevel = 'INFO'
+let g:LanguageClient_loggingFile =  expand('~/.local/share/nvim/LanguageClient.log')
+let g:LanguageClient_serverStderr = expand('~/.local/share/nvim/LanguageServer.log')
