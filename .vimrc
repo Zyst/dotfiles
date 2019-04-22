@@ -33,6 +33,8 @@ endif
 
 Plug 'Zyst/egoist-one.vim'
 Plug 'vim-airline/vim-airline'
+Plug 'tpope/vim-fugitive'
+Plug 'mhinz/vim-signify'
 if !(g:os == "Windows")
   Plug 'wincent/command-t', {
         \   'do': 'cd ruby/command-t/ext/command-t && ruby extconf.rb && make'

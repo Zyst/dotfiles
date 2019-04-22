@@ -485,6 +485,22 @@ We are going to add [[https://github.com/vim-airline/vim-airline][vim-airline/vi
   Plug 'vim-airline/vim-airline'
 #+END_SRC
 
+** Version control management
+
+We add a few plugins to handle version control systems.
+
+We use [[https://github.com/tpope/vim-fugitive][tpope/vim-fugitive]] for git integration, mainly around line changes.
+
+#+BEGIN_SRC vimrc :tangle no :noweb-ref plug
+  Plug 'tpope/vim-fugitive'
+#+END_SRC
+
+[[https://github.com/mhinz/vim-signify][mhinz/vim-signify]] displays a git gutter with changes, or added lines.
+
+#+BEGIN_SRC vimrc :tangle no :noweb-ref plug
+  Plug 'mhinz/vim-signify'
+#+END_SRC
+
 ** Fuzzy finder
 
 We use two fuzzy finders, depending on the operating system, If we are on Unix systems, then we use [[https://github.com/wincent/command-t][wincent/command-t]], otherwise (Windows, in my case) we use [[https://github.com/ctrlpvim/ctrlp.vim][ctrlpvim/ctrlp.vim]].
