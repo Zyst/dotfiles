@@ -187,7 +187,7 @@ if (g:os == "Linux") || (g:os == "Darwin")
     nnoremap <silent> <leader>b :CommandTMRU<CR>
     let g:CommandTCancelMap=['<ESC>', '<C-c>']
     let g:CommandTEncoding='UTF-8'
-    let g:CommandTFileScanner='watchman'
+    " let g:CommandTFileScanner='watchman'
 endif
 
 if (has("termguicolors"))

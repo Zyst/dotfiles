@@ -14,7 +14,6 @@ in
       pkgs.ranger
       pkgs.ripgrep
       pkgs.tree
-      pkgs.watchman
 
       # Node 6
       # pkgs.nodejs-6_x

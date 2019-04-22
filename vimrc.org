@@ -588,10 +588,10 @@ The following is also available on terminals which support it:
   let g:CommandTEncoding='UTF-8'
 #+END_SRC
 
-- We make the file scanner ~watchman~. which falls back to =find= by default.
+- We make the file scanner ~watchman~. which falls back to =find= by default. /For now, lets use the default unless we need watchman/.
 
 #+BEGIN_SRC vimrc
-  let g:CommandTFileScanner='watchman'
+  " let g:CommandTFileScanner='watchman'
 #+END_SRC
 
 *** ctrlp.vim configuration
