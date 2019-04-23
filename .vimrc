@@ -218,7 +218,11 @@ syntax on
 colorscheme onedark
 
 function g:HighlightEcho ()
-    echom synIDattr(synID(line("."),col("."),1),"name")
+  " Echo under mouse
+  echom synIDattr(synID(line("."),col("."),1),"name")
+
+  " Echo full group
+  echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
 endfunction
 
 let g:onedark_terminal_italics=1
