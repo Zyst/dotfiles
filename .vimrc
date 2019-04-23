@@ -212,6 +212,8 @@ syntax on
 
 colorscheme onedark
 
+echo synIDattr(synID(line("."),col("."),1),"name")
+
 let g:onedark_terminal_italics=1
 
 " Italic comments
