@@ -32,6 +32,8 @@ else
 endif
 
 Plug 'Zyst/egoist-one.vim'
+Plug 'ap/vim-css-color'
+Plug 'shmargum/vim-sass-colors'
 Plug 'vim-airline/vim-airline'
 Plug 'tpope/vim-fugitive'
 Plug 'mhinz/vim-signify'
@@ -43,11 +45,13 @@ else
   Plug 'ctrlpvim/ctrlp.vim'
 endif
 Plug 'scrooloose/nerdtree'
+Plug 'editorconfig/editorconfig-vim'
 Plug 'autozimu/LanguageClient-neovim', {
     \ 'branch': 'next',
     \ 'do': 'bash install.sh',
     \ }
 Plug 'w0rp/ale'
+Plug 'jiangmiao/auto-pairs'
 Plug 'sheerun/vim-polyglot'
 Plug 'dmix/elvish.vim', { 'on_ft': ['elvish']}
 Plug 'tpope/vim-commentary'

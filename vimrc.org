@@ -69,6 +69,7 @@ Finally, we close our ~plug#begin~ block.
 #+END_SRC
 
 * Keybindings
+
 ** Leader
 
 Keep stealing stuff from https://github.com/wincent/wincent/blob/master/roles/dotfiles/files/.vim/plugin/mappings/leader.vim
@@ -477,6 +478,15 @@ Finally, we set ~g:onedark_terminal_italics~ to ~1~ which enables some of the th
   let g:onedark_terminal_italics=1
 #+END_SRC
 
+** CSS colors
+
+Adding [[https://github.com/ap/vim-css-color][ap/vim-css-color]] allows us to have some variable color/background highlighting in our CSS files. Similarly, [[https://github.com/shmargum/vim-sass-colors][shmargum/vim-sass-colors]] is added for SASS/SCSS support. Particularly around variables.
+
+#+BEGIN_SRC vimrc :tangle no :noweb-ref plug
+  Plug 'ap/vim-css-color'
+  Plug 'shmargum/vim-sass-colors'
+#+END_SRC
+
 ** Airline
 
 We are going to add [[https://github.com/vim-airline/vim-airline][vim-airline/vim-airline]] which adds a nice status bar for us.
@@ -619,7 +629,6 @@ Allow ctrlp ignore the files inside of ~.gitignore~ files.
   let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
 #+END_SRC
 
-
 ** Neotree
 
 [[https://github.com/scrooloose/nerdtree][scrooloose/nerdtree]] is added for visual project exploration.
@@ -634,8 +643,18 @@ We make <Leader> and n open up nerdtree.
   nmap <Leader>n :NerdTreeFind<CR>
 #+END_SRC
 
+** Editor config
+
+We add [[https://editorconfig.org/][editorconfig]] to Vim, which allows us to edit different projects with disparate configurations with ease.
+
+#+BEGIN_SRC vimrc :tangle no :noweb-ref plug
+  Plug 'editorconfig/editorconfig-vim'
+#+END_SRC
+
 * Coding
+
 ** General settings and modules
+
 *** Deoplete
 
 First, we add [[https://github.com/Shougo/deoplete.nvim][Shougo/deoplete.nvim]]. There's two blocks, of which one corresponds to the nvim configuration required to add Deoplete, and the other, for vim. Since vim needs a couple of "bridge" elements.
@@ -732,6 +751,14 @@ We make our formatting tool run on <Leader> and f.
 
 #+BEGIN_SRC vimrc
   nmap <Leader>f <Plug>(ale_fix)
+#+END_SRC
+
+*** Autoclosing
+
+[[https://github.com/jiangmiao/auto-pairs][jiangmiao/auto-pairs]] closes tags for us, like ({[]})
+
+#+BEGIN_SRC vimrc :tangle no :noweb-ref plug
+  Plug 'jiangmiao/auto-pairs'
 #+END_SRC
 
 ** Programming languages
