@@ -754,7 +754,7 @@ We add settings to handle Language Server logs, saved to =~/.local/share/nvim=.
 
 **** JavaScript
 
-Here's our LSP JavaScript configuration.
+TODO: Here's our LSP JavaScript configuration.
 
 *** Linter
 
