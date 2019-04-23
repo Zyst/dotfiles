@@ -646,6 +646,11 @@ The following is also available on terminals which support it:
   let g:CommandTWildIgnore.=',*/vendor'
   let g:CommandTWildIgnore.=',*/dist'
   let g:CommandTWildIgnore.=',*/lcov-report'
+  let g:CommandTWildIgnore.=',*/public/static'
+  let g:CommandTWildIgnore.=',*/test-reports'
+  let g:CommandTWildIgnore.=',*/__snapshots__'
+  let g:CommandTWildIgnore.=',*/helm'
+  let g:CommandTWildIgnore.=',*/pipeline'
 #+END_SRC
 
 *** ctrlp.vim configuration
