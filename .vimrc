@@ -217,7 +217,9 @@ syntax on
 
 colorscheme onedark
 
-echo synIDattr(synID(line("."),col("."),1),"name")
+function g:HighlightEcho ()
+    echom synIDattr(synID(line("."),col("."),1),"name")
+endfunction
 
 let g:onedark_terminal_italics=1
 

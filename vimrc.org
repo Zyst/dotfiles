@@ -472,10 +472,12 @@ We proceed to assign our ~colorscheme~ as ~onedark~.
   colorscheme onedark
 #+END_SRC
 
-Echo highlight group under cursor.
+Echo highlight group under cursor. This can be called using =:call HighlightEcho()= in our Vim commands. I mainly use this to find out the name of highlight groups I want to modify in my own theme.
 
 #+BEGIN_SRC vimrc
-  echo synIDattr(synID(line("."),col("."),1),"name")
+  function g:HighlightEcho ()
+      echom synIDattr(synID(line("."),col("."),1),"name")
+  endfunction
 #+END_SRC
 
 Finally, we set ~g:onedark_terminal_italics~ to ~1~ which enables some of the theme's italics functionality.
