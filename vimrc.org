@@ -631,7 +631,7 @@ Allow ctrlp ignore the files inside of ~.gitignore~ files.
 We make <Leader> and n open up nerdtree.
 
 #+BEGIN_SRC vimrc
-  nmap <Leader>n :NerdTreeFind<CR>
+  nmap <Leader>n :NERDTreeFind<CR>
 #+END_SRC
 
 * Coding

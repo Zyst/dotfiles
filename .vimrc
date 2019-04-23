@@ -210,7 +210,7 @@ colorscheme onedark
 
 let g:onedark_terminal_italics=1
 
-nmap <Leader>n :NerdTreeFind<CR>
+nmap <Leader>n :NERDTreeFind<CR>
 
 let g:deoplete#enable_at_startup = 1
 
