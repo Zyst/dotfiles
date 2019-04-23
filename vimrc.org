@@ -478,6 +478,30 @@ Finally, we set ~g:onedark_terminal_italics~ to ~1~ which enables some of the th
   let g:onedark_terminal_italics=1
 #+END_SRC
 
+Temporarily we customize some highlight elements, rather than doing them in our theme.
+
+#+BEGIN_SRC vimrc
+  " Italic comments
+  highlight Comment gui=italic
+  highlight Comment cterm=italic
+
+  " Italic HTML Args
+  highlight htmlArg gui=italic
+  highlight htmlArg cterm=italic
+
+  " Types
+  highlight Type gui=italic
+  highlight Type cterm=italic
+
+  " XML Args (For JSX)
+  highlight xmlAttrib gui=italic
+  highlight xmlAttrib cterm=italic
+
+  "JS 'this'
+  highlight jsthis gui=italic
+  highlight jsthis cterm=italic
+#+END_SRC
+
 ** CSS colors
 
 Adding [[https://github.com/ap/vim-css-color][ap/vim-css-color]] allows us to have some variable color/background highlighting in our CSS files. Similarly, [[https://github.com/shmargum/vim-sass-colors][shmargum/vim-sass-colors]] is added for SASS/SCSS support. Particularly around variables.

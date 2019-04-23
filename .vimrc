@@ -214,6 +214,26 @@ colorscheme onedark
 
 let g:onedark_terminal_italics=1
 
+" Italic comments
+highlight Comment gui=italic
+highlight Comment cterm=italic
+
+" Italic HTML Args
+highlight htmlArg gui=italic
+highlight htmlArg cterm=italic
+
+" Types
+highlight Type gui=italic
+highlight Type cterm=italic
+
+" XML Args (For JSX)
+highlight xmlAttrib gui=italic
+highlight xmlAttrib cterm=italic
+
+"JS 'this'
+highlight jsthis gui=italic
+highlight jsthis cterm=italic
+
 nmap <Leader>n :NerdTreeFind<CR>
 
 let g:deoplete#enable_at_startup = 1
