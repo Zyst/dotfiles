@@ -701,42 +701,44 @@ Tab should make deoplete select items in insert mode.
 
 *** Language Server Protocol
 
+*This is all disabled until I actually configure it*.
+
 We add our LSP implementation of choice, as of right now, [[https://github.com/autozimu/LanguageClient-neovim][autozimu/LanguageClient-neovim]] which allows us to use LSP inside of vim, which is baller.
 
 #+BEGIN_SRC vimrc :tangle no :noweb-ref plug
-  Plug 'autozimu/LanguageClient-neovim', {
-      \ 'branch': 'next',
-      \ 'do': 'bash install.sh',
-      \ }
+  " Plug 'autozimu/LanguageClient-neovim', {
+  "     \ 'branch': 'next',
+  "     \ 'do': 'bash install.sh',
+  "     \ }
 #+END_SRC
 
 We then make =gd= go to our file definition. My mnemonic of of choice is "Go to Destination".
 
 #+BEGIN_SRC vimrc
-  nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
+  " nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
 #+END_SRC
 
 We also add an entry to lookup keywords with LSP using =K= in normal mode.
 
 #+BEGIN_SRC vimrc
-  nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
+  " nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
 #+END_SRC
 
 Adding rootmarkers lets LanguageClient know when it should be running, in this case we just add the necessary ones for JavaScript, and some common TypeScript ones.
 
 #+BEGIN_SRC vimrc
-  let g:LanguageClient_rootMarkers = {
-        \   'javascript': ['tsconfig.json', '.flowconfig', 'package.json'],
-        \   'typescript': ['tsconfig.json', '.flowconfig', 'package.json']
-        \ }
+  " let g:LanguageClient_rootMarkers = {
+  "       \   'javascript': ['tsconfig.json', '.flowconfig', 'package.json'],
+  "       \   'typescript': ['tsconfig.json', '.flowconfig', 'package.json']
+  "       \ }
 #+END_SRC
 
 We add settings to handle Language Server logs, saved to =~/.local/share/nvim=.
 
 #+BEGIN_SRC vimrc
-  let g:LanguageClient_loggingLevel = 'INFO'
-  let g:LanguageClient_loggingFile =  expand('~/.local/share/nvim/LanguageClient.log')
-  let g:LanguageClient_serverStderr = expand('~/.local/share/nvim/LanguageServer.log')
+  " let g:LanguageClient_loggingLevel = 'INFO'
+  " let g:LanguageClient_loggingFile =  expand('~/.local/share/nvim/LanguageClient.log')
+  " let g:LanguageClient_serverStderr = expand('~/.local/share/nvim/LanguageServer.log')
 #+END_SRC
 
 **** JavaScript
