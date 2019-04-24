@@ -68,6 +68,10 @@ nnoremap <Leader><Leader> <C-^>
 
 nnoremap <Leader>o :only<CR>
 
+nnoremap <Leader>w :w<CR>
+
+nnoremap <Leader>q :q<CR>
+
 noremap <Up> <NOP>
 noremap <Down> <NOP>
 noremap <Left> <NOP>

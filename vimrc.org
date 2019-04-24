@@ -98,6 +98,18 @@ Keep stealing stuff from https://github.com/wincent/wincent/blob/master/roles/do
   nnoremap <Leader>o :only<CR>
 #+END_SRC
 
+- Make =<Leader>= and =w= write the current file.
+
+#+BEGIN_SRC vimrc
+  nnoremap <Leader>w :w<CR>
+#+END_SRC
+
+- Make =<Leader>= and =q= close the current buffer.
+
+#+BEGIN_SRC vimrc
+  nnoremap <Leader>q :q<CR>
+#+END_SRC
+
 ** Normal mode
 
 Steal stuff from https://github.com/wincent/wincent/blob/master/roles/dotfiles/files/.vim/plugin/mappings/normal.vim
