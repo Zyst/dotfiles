@@ -10,6 +10,7 @@
  '(indent-tabs-mode nil)
  '(jiralib-url "https://jira.swisscom.com")
  '(load-prefer-newer t)
+ '(menu-bar-mode nil)
  '(mouse-yank-at-point t)
  '(org-hide-emphasis-markers t)
  '(org-log-done t)
