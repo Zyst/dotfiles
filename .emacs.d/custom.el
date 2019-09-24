@@ -12,6 +12,7 @@
  '(load-prefer-newer t)
  '(menu-bar-mode nil)
  '(mouse-yank-at-point t)
+ '(org-agenda-files (quote ("k:/Dropbox/org/notes.org")))
  '(org-hide-emphasis-markers t)
  '(org-log-done t)
  '(org-src-fontify-natively t)

@@ -156,6 +156,8 @@
                                (message "org-babel-tangle took %s"
                                                (format "%.2f seconds"
                                                        (float-time (time-since zz/pre-tangle-time))))))
+    (org-mode . (lambda ()
+                  (display-line-numbers-mode -1)))
     (org-mode . visual-line-mode)
     (org-mode . variable-pitch-mode)
   :config
