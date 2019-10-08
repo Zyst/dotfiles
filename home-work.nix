@@ -13,6 +13,7 @@ in
       pkgs.neofetch
       pkgs.ranger
       pkgs.ripgrep
+      pkgs.tmux
       pkgs.tree
 
       # Node 6
@@ -36,6 +37,8 @@ in
       source ~/.vimrc
       '';
 
+      ".config/alacritty/alacritty.yml".source = "${dotfiles}/alacritty.yml";
+
       ".vimrc".source = "${dotfiles}/.vimrc";
 
       ".bashrc".source = "${dotfiles}/bashrc";
@@ -54,13 +57,6 @@ in
   programs = {
     home-manager = {
       enable = true;
-    };
-
-    git = {
-      enable = true;
-      userName = "Erick Romero";
-      userEmail = "erick.romero.dev@gmail.com";
-      extraConfig.core.editor = "nvim";
     };
 
     neovim = {

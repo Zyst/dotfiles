@@ -46,6 +46,9 @@ alias tron="ssh sshtron.zachlatta.com"
 
 alias ni="npm install && npm prune"
 
+alias hms="cp ~/dev/dotfiles/home-work.nix ~/.config/nixpkgs/home.nix &&
+  home-manager switch"
+
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
