@@ -39,6 +39,8 @@ in
 
       ".config/alacritty/alacritty.yml".source = "${dotfiles}/alacritty.yml";
 
+      ".config/regolith/i3/config".source = "${dotfiles}/regolith-config";
+
       ".vimrc".source = "${dotfiles}/.vimrc";
 
       ".bashrc".source = "${dotfiles}/bashrc";
