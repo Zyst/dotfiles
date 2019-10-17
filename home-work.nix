@@ -48,6 +48,8 @@ in
         recursive = true;
       };
     };
+
+    extraOutputsToInstall = [ "man" ];
   };
 
   programs = {
@@ -66,6 +68,10 @@ in
 
     mpv = {
       enable = true;
+    };
+
+    man = {
+      enable = false;
     };
   };
 }
