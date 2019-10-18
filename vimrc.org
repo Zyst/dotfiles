@@ -185,7 +185,7 @@ Steal stuff from https://github.com/wincent/wincent/blob/master/roles/dotfiles/f
 - Shares the system clipboard.
 
 #+BEGIN_SRC vimrc
-  set clipboard=unnamed
+  set clipboard+=unnamedplus
 #+END_SRC
 
 - We display line numbers.

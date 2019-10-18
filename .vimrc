@@ -100,7 +100,7 @@ set nomodeline
 
 filetype indent plugin on
 
-set clipboard=unnamed
+set clipboard+=unnamedplus
 
 set number
 
