@@ -244,6 +244,12 @@ This variable tells Emacs to prefer the =.el= file if it's newer, even if there 
   (setq inhibit-compacting-font-caches t)
 #+end_src
 
+- Ring bell function gets set to ignore, which allows us to disable the annoying sound Emacs makes otherwise.
+
+#+BEGIN_SRC emacs-lisp
+  (setq ring-bell-function 'ignore)
+#+END_SRC
+
 * System-specific configuration
 
 Some settings maybe OS-specific, and this is where we set them. For now I only use Emacs on my Mac, so only the Mac section is filled out, but there are sections for Linux and Windows as well.

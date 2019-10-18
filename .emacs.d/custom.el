@@ -39,6 +39,8 @@
  '(tool-bar-mode nil)
  '(tooltip-mode nil)
  '(uniquify-buffer-name-style (quote post-forward) nil (uniquify) "Customized with use-package uniquify")
+ '(visible-bell 1)
+ '(ring-bell-function 'ignore)
  '(use-package-always-defer t)
  '(use-package-always-ensure t)
  '(use-package-verbose nil))

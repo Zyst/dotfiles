@@ -94,6 +94,8 @@
 
 (setq inhibit-compacting-font-caches t)
 
+(setq ring-bell-function 'ignore)
+
 (cond ((eq system-type 'darwin)
        
        )
