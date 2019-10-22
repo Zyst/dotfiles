@@ -504,11 +504,10 @@ Finally, we set ~g:onedark_terminal_italics~ to ~1~ which enables some of the th
 
 ** CSS colors
 
-Adding [[https://github.com/ap/vim-css-color][ap/vim-css-color]] allows us to have some variable color/background highlighting in our CSS files. Similarly, [[https://github.com/shmargum/vim-sass-colors][shmargum/vim-sass-colors]] is added for SASS/SCSS support. Particularly around variables.
+Adding [[https://github.com/ap/vim-css-color][ap/vim-css-color]] allows us to have some variable color/background highlighting in our CSS files.
 
 #+BEGIN_SRC vimrc :tangle no :noweb-ref plug
   Plug 'ap/vim-css-color'
-  Plug 'shmargum/vim-sass-colors'
 #+END_SRC
 
 ** Airline
