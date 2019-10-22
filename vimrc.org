@@ -792,6 +792,20 @@ We make our formatting tool run on <Leader> and f.
   Plug 'jiangmiao/auto-pairs'
 #+END_SRC
 
+*** Emmet
+
+Using [[https://github.com/mattn/emmet-vim][mattn/emmet-vim]] we can use shorthands to create HTML/JSX structures. Ie: =table.our-table= -> ~<table class="our-table"></table>~
+
+#+BEGIN_SRC vimrc :tangle no :noweb-ref plug
+  Plug 'mattn/emmet-vim'
+#+END_SRC
+
+We remap the o
+
+#+BEGIN_SRC vimrc
+  let g:user_emmet_expandabbr_key = '<C-e>'
+#+END_SRC
+
 ** Programming languages
 
 *** Polyglot

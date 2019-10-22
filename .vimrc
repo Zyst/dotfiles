@@ -52,6 +52,7 @@ Plug 'editorconfig/editorconfig-vim'
 "     \ }
 Plug 'w0rp/ale'
 Plug 'jiangmiao/auto-pairs'
+Plug 'mattn/emmet-vim'
 Plug 'sheerun/vim-polyglot'
 Plug 'dmix/elvish.vim', { 'on_ft': ['elvish']}
 Plug 'tpope/vim-commentary'
@@ -261,3 +262,5 @@ let g:ale_fixers = {
 \}
 
 nmap <Leader>f <Plug>(ale_fix)
+
+let g:user_emmet_expandabbr_key = '<C-e>'
