@@ -9,10 +9,12 @@ in
       pkgs.bat
       pkgs.fortune
       pkgs.fzf
+      pkgs.git-quick-stats
       pkgs.htop
       pkgs.neofetch
       pkgs.ranger
       pkgs.ripgrep
+      pkgs.thefuck
       pkgs.tree
 
       # Node 6
