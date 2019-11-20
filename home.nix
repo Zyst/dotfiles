@@ -14,7 +14,6 @@ in
       pkgs.neofetch
       pkgs.ranger
       pkgs.ripgrep
-      pkgs.thefuck
       pkgs.tree
 
       # Node 6

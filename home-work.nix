@@ -13,7 +13,6 @@ in
       pkgs.neofetch
       pkgs.ranger
       pkgs.ripgrep
-      pkgs.thefuck
       pkgs.tmux
       pkgs.tree
       pkgs.youtube-dl
