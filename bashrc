@@ -46,7 +46,7 @@ alias tron="ssh sshtron.zachlatta.com"
 
 alias ni="npm install && npm prune"
 
-alias hms="cp ~/dev/dotfiles/home-work.nix ~/.config/nixpkgs/home.nix &&
+alias hms="cp ~/dev/dotfiles/home.nix ~/.config/nixpkgs/home.nix &&
   home-manager switch"
 
 export NVM_DIR="$HOME/.nvm"
