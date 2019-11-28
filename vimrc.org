@@ -770,7 +770,7 @@ We add configuration for our fixers. First, we want every filetype to remove tra
   let g:ale_fixers = {
   \   '*': ['remove_trailing_lines', 'trim_whitespace'],
   \   'javascript': ['prettier', 'eslint'],
-  \   'typescript: ['prettier', 'eslint'],
+  \   'typescript': ['prettier', 'eslint'],
   \   'css': ['prettier'],
   \   'scss': ['prettier'],
   \   'html': ['prettier'],
