@@ -75,7 +75,7 @@ in
 
     tmux = {
       enable = true;
-      plugins = [
+      plugins = with pkgs; [
         tmuxPlugins.resurrect
         tmuxPlugins.continuum
       ];
