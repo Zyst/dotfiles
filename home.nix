@@ -72,13 +72,5 @@ in
     emacs = {
       enable = true;
     };
-
-    tmux = {
-      enable = true;
-      plugins = with pkgs; [
-        tmuxPlugins.resurrect
-        tmuxPlugins.continuum
-      ];
-    };
   };
 }
