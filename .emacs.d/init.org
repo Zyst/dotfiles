@@ -384,8 +384,17 @@ By default, =org-indent= produces an indicator ="Ind"= in the modeline. We use d
 
 ** Miscellaneous org functions
 
-** Keybindings
+Our miscellaneous section is intended to hold stuff that doesn't neatly fit into any of the other categories.
 
+- [[https://github.com/spegoraro/org-alert][org-alert]] allows us to send OS level notifications for org deadlines and the like
+
+  #+begin_src emacs-lisp
+    (use-package org-alert
+      :defer 3
+      :after (org alert))
+  #+end_src
+
+** Keybindings
 ** Various exporters
 
 One of the big strengths of org-mode is the ability to export a document in many different formats. Here I load some of the exporters I have found useful.
@@ -924,6 +933,12 @@ This is a placeholder
 
   #+begin_src emacs-lisp
     (use-package esup)
+  #+end_src
+
+- [[https://github.com/jwiegley/alert][alert]] allows us to send system notifications from emacs
+
+  #+begin_src emacs-lisp
+    (use-package alert)
   #+end_src
 
 - Macro to measure how long a command takes, from https://stackoverflow.com/questions/23622296/emacs-timing-execution-of-function-calls-in-emacs-lisp
