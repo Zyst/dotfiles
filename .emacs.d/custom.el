@@ -8,7 +8,7 @@
  '(display-line-numbers-type (quote relative))
  '(global-display-line-numbers-mode t)
  '(indent-tabs-mode nil)
- '(jiralib-url "https://jira.swisscom.com")
+ '(jiralib-url "https://jira.swisscom.com" t)
  '(load-prefer-newer t)
  '(menu-bar-mode nil)
  '(mouse-yank-at-point t)
@@ -32,18 +32,18 @@
      ("melpa" . "https://melpa.org/packages/"))))
  '(package-selected-packages
    (quote
-    (yaml-mode nix-mode elvish-mode vimrc-mode evil-commentary markdown-mode esup projectile company swiper-helm helm-flx helm all-the-icons neotree writeroom-mode diminish toc-org org-jira ox-jira ox-gfm evil which-key smooth-scrolling imenu-anywhere unfill auto-compile use-package)))
+    (alert yaml-mode nix-mode elvish-mode vimrc-mode evil-commentary markdown-mode esup projectile company swiper-helm helm-flx helm all-the-icons neotree writeroom-mode diminish toc-org org-jira ox-jira ox-gfm evil which-key smooth-scrolling imenu-anywhere unfill auto-compile use-package)))
+ '(ring-bell-function (quote ignore))
  '(scroll-bar-mode nil)
  '(show-paren-mode t)
  '(show-trailing-whitespace t)
  '(tool-bar-mode nil)
  '(tooltip-mode nil)
  '(uniquify-buffer-name-style (quote post-forward) nil (uniquify) "Customized with use-package uniquify")
- '(visible-bell 1)
- '(ring-bell-function 'ignore)
  '(use-package-always-defer t)
  '(use-package-always-ensure t)
- '(use-package-verbose nil))
+ '(use-package-verbose nil)
+ '(visible-bell 1))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

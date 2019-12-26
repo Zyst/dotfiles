@@ -199,6 +199,10 @@
   :ensure nil
   :diminish)
 
+(use-package org-alert
+  :defer 3
+  :after (org alert))
+
 (use-package ox-md
   :ensure nil
   :defer 3
@@ -425,6 +429,8 @@
 (use-package yaml-mode)
 
 (use-package esup)
+
+(use-package alert)
 
 (defmacro measure-time (&rest body)
   "Measure the time it takes to evaluate BODY."
