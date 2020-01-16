@@ -70,8 +70,6 @@ in
 
     home-manager.enable = true;
 
-    kitty.enable = true;
-
     neovim = {
       enable = true;
       vimAlias = true;
