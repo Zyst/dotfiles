@@ -88,6 +88,11 @@ in
     };
   };
 
+  services = {
+    # Add emacs daemon
+    emacs.enable = true;
+  };
+
   xsession = {
     enable = true;
 
