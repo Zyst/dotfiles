@@ -80,5 +80,11 @@ in
     };
   };
 
-  xsession.windowManager.awesome.enable = true;
+  xsession = {
+    enable = true;
+
+    windowManager = {
+      awesome.enable = true;
+    };
+  };
 }
