@@ -52,7 +52,7 @@ in
         recursive = true;
       };
 
-      ".xsession".text = "exec awesome";
+      ".xinitrc".text = "exec awesome";
     };
 
     extraOutputsToInstall = [ "man" ];
