@@ -14,12 +14,16 @@ in
       pkgs.neofetch
       pkgs.ranger
       pkgs.ripgrep
-      pkgs.tmux
       pkgs.tree
-      pkgs.youtube-dl
 
-      # Node 12
-      pkgs.nodejs-12_x
+      # Node 6
+      # pkgs.nodejs-6_x
+
+      # Node 8
+      # pkgs.nodejs-8_x
+
+      # Node 10
+      pkgs.nodejs-10_x
       pkgs.nodePackages.eslint
       pkgs.nodePackages.http-server
       pkgs.nodePackages.prettier
@@ -46,8 +50,6 @@ in
         recursive = true;
       };
     };
-
-    extraOutputsToInstall = [ "man" ];
   };
 
   programs = {
@@ -69,14 +71,6 @@ in
 
     emacs = {
       enable = true;
-    };
-
-    mpv = {
-      enable = true;
-    };
-
-    man = {
-      enable = false;
     };
   };
 }
