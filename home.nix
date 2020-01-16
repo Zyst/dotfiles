@@ -5,26 +5,26 @@ let
 in
 {
   home = {
-    packages = [
-      pkgs.bat
-      pkgs.fortune
-      pkgs.fzf
-      pkgs.git-quick-stats
-      pkgs.htop
-      pkgs.neofetch
-      pkgs.ranger
-      pkgs.ripgrep
-      pkgs.tmux
-      pkgs.tree
-      pkgs.xclip
-      pkgs.youtube-dl
+    packages = (with pkgs; [
+      bat
+      fortune
+      fzf
+      git-quick-stats
+      htop
+      neofetch
+      ranger
+      ripgrep
+      tmux
+      tree
+      xclip
+      youtube-dl
 
       # Node 12
-      pkgs.nodejs-12_x
-      pkgs.nodePackages.eslint
-      pkgs.nodePackages.http-server
-      pkgs.nodePackages.prettier
-    ];
+      nodejs-12_x
+      nodePackages.eslint
+      nodePackages.http-server
+      nodePackages.prettier
+    ]);
 
     file = {
       ".config/awesome" = {
