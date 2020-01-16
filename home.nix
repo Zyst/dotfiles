@@ -16,6 +16,7 @@ in
       pkgs.ripgrep
       pkgs.tmux
       pkgs.tree
+      pkgs.xclip
       pkgs.youtube-dl
 
       # Node 12
@@ -43,6 +44,13 @@ in
 
       ".emacs.d" = {
         source = "${dotfiles}/.emacs.d";
+        recursive = true;
+      };
+
+      ".xinitrc".source = "${dotfiles}/.xinitrc";
+
+      ".config/awesome" = {
+        source = "${dotfiles}/awesome";
         recursive = true;
       };
     };
