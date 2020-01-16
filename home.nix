@@ -79,4 +79,6 @@ in
       enable = false;
     };
   };
+
+  xsession.windowManager.awesome.enable = true;
 }
