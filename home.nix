@@ -32,6 +32,8 @@ in
         recursive = true;
       };
 
+      ".config/kitty/kitty.conf".source = "${dotfiles}/kitty.conf";
+
       ".config/nvim/init.vim".text =
       ''
       set runtimepath^=~/.vim runtimepath+=~/.vim/after
