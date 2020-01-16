@@ -87,17 +87,4 @@ in
       enable = false;
     };
   };
-
-  services = {
-    # Add emacs daemon
-    emacs.enable = true;
-  };
-
-  xsession = {
-    enable = true;
-
-    windowManager = {
-      awesome.enable = true;
-    };
-  };
 }
