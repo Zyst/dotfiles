@@ -59,9 +59,7 @@ in
   };
 
   programs = {
-    home-manager = {
-      enable = true;
-    };
+    emacs.enable = true;
 
     git = {
       enable = true;
@@ -70,21 +68,17 @@ in
       extraConfig.core.editor = "nvim";
     };
 
+    home-manager.enable = true;
+
+    kitty.enable = true;
+
     neovim = {
       enable = true;
       vimAlias = true;
     };
 
-    emacs = {
-      enable = true;
-    };
+    man.enable = true;
 
-    mpv = {
-      enable = true;
-    };
-
-    man = {
-      enable = false;
-    };
+    mpv.enable = true;
   };
 }
