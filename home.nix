@@ -27,6 +27,11 @@ in
     ];
 
     file = {
+      ".config/awesome" = {
+        source = "${dotfiles}/awesome";
+        recursive = true;
+      };
+
       ".config/nvim/init.vim".text =
       ''
       set runtimepath^=~/.vim runtimepath+=~/.vim/after
@@ -47,12 +52,7 @@ in
         recursive = true;
       };
 
-      ".xinitrc".source = "${dotfiles}/.xinitrc";
-
-      ".config/awesome" = {
-        source = "${dotfiles}/awesome";
-        recursive = true;
-      };
+      ".xsession".text = "exec awesome";
     };
 
     extraOutputsToInstall = [ "man" ];
