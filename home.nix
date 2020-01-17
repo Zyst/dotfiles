@@ -32,6 +32,11 @@ in
         recursive = true;
       };
 
+      ".config/fish/config.fish".text =
+      ''
+      eval (starship init fish)
+      '';
+
       ".config/kitty/kitty.conf".source = "${dotfiles}/kitty.conf";
 
       ".config/nvim/init.vim".text =
@@ -80,5 +85,7 @@ in
     man.enable = true;
 
     mpv.enable = true;
+
+    starship.enable = true;
   };
 }
