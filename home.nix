@@ -34,6 +34,8 @@ in
 
       ".config/fish/config.fish".text =
       ''
+      set fish_greeting
+
       eval (starship init fish)
       '';
 
