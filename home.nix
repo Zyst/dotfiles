@@ -36,7 +36,7 @@ in
       ''
       set fish_greeting
 
-      eval (starship init fish)
+      starship init fish | source
       '';
 
       ".config/kitty/kitty.conf".source = "${dotfiles}/kitty.conf";
