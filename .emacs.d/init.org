@@ -536,7 +536,7 @@ We choose a nice font for the document title and the section headings. The first
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-mode-config
   (let* ((variable-tuple
-          (cond ((x-list-fonts   "Roboto")          '(:font   "Roboto"))
+          (cond ((x-list-fonts   "SF Pro Display")  '(:font   "SF Pro Display"))
                 ((x-list-fonts   "Source Sans Pro") '(:font   "Source Sans Pro"))
                 ((x-list-fonts   "Lucida Grande")   '(:font   "Lucida Grande"))
                 ((x-list-fonts   "Verdana")         '(:font   "Verdana"))
@@ -562,8 +562,8 @@ I use proportional fonts in org-mode for the text, while keeping fixed-width fon
 
 - Setting up the =variable-pitch= face to the proportional font I like to use. I myself use [[https://fonts.google.com/specimen/Roboto][Roboto]]. I'm leaving in the entries from the author who enjoys, [[https://en.wikipedia.org/wiki/Source_Sans_Pro][Source Sans Pro]] and [[https://en.wikipedia.org/wiki/Avenir_(typeface)][Avenir Next]].
   #+begin_src emacs-lisp :tangle no :noweb-ref org-mode-faces
-    (variable-pitch ((t (:family "Roboto" :height 180 :weight light))))
-    ;; (variable-pitch ((t (:family "Source Sans Pro" :height 180 :weight light))))
+    (variable-pitch ((t (:family "SF Pro Display" :height 180 :weight light))))
+    ;; (variable-pitch ((t (:family "Roboto" :height 180 :weight light))))
   #+end_src
 
 - Setting up the =fixed-pitch= face to be the same as my usual =default= face.

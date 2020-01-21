@@ -144,8 +144,8 @@
        ("DONE" . "green")
        ("CANCELED" . "blue")))
   :custom-face
-    (variable-pitch ((t (:family "Roboto" :height 180 :weight light))))
-    ;; (variable-pitch ((t (:family "Source Sans Pro" :height 180 :weight light))))
+    (variable-pitch ((t (:family "SF Pro Display" :height 180 :weight light))))
+    ;; (variable-pitch ((t (:family "Roboto" :height 180 :weight light))))
     (fixed-pitch ((t (:family "Operator Mono SSm Book"))))
     (org-indent ((t (:inherit (org-hide fixed-pitch)))))
   :hook
@@ -172,7 +172,7 @@
                             '(("^ *\\([-]\\) "
                                (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
     (let* ((variable-tuple
-            (cond ((x-list-fonts   "Roboto")          '(:font   "Roboto"))
+            (cond ((x-list-fonts   "SF Pro Display")  '(:font   "SF Pro Display"))
                   ((x-list-fonts   "Source Sans Pro") '(:font   "Source Sans Pro"))
                   ((x-list-fonts   "Lucida Grande")   '(:font   "Lucida Grande"))
                   ((x-list-fonts   "Verdana")         '(:font   "Verdana"))
