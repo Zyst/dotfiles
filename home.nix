@@ -48,6 +48,11 @@ in
       source ~/.vimrc
       '';
 
+      ".config/mpv" = {
+        source = "${dotfiles}/mpv";
+        recursive = true;
+      };
+
       ".vimrc".source = "${dotfiles}/.vimrc";
 
       ".bashrc".source = "${dotfiles}/bashrc";
