@@ -78,7 +78,7 @@ in
     git = {
       enable = true;
       userName = "Erick Romero";
-      userEmail = "erick.romero@bouncex.com";
+      userEmail = "erick.romero@theorem.co";
       extraConfig.core.editor = "nvim";
     };
 
