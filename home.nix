@@ -24,6 +24,7 @@ in
       nodePackages.eslint
       nodePackages.http-server
       nodePackages.prettier
+      nodePackages.yarn
     ]);
 
     file = {
