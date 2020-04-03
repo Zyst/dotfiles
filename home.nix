@@ -11,6 +11,7 @@ in
       fzf
       git-quick-stats
       htop
+      jq
       neofetch
       ranger
       ripgrep
@@ -36,6 +37,9 @@ in
       ".config/fish/config.fish".text =
       ''
       set fish_greeting
+
+      alias work="sudo python3 /home/zyst/dev/get-shit-done/get-shit-done.py work"
+      alias play="sudo python3 /home/zyst/dev/get-shit-done/get-shit-done.py play"
 
       starship init fish | source
       '';
