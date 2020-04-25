@@ -10,6 +10,7 @@ in
       fortune
       fzf
       git-quick-stats
+      gtypist
       htop
       jq
       neofetch
