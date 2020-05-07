@@ -413,7 +413,8 @@
 
 (use-package flyspell
   :defer 1
-  :hook (text-mode . flyspell-mode)
+  ;; Disabled for now, re-enable to have flyspell run on our text modes
+  ;; :hook (text-mode . flyspell-mode)
   :diminish
   :bind (:map flyspell-mouse-map
               ([down-mouse-3] . #'flyspell-correct-word)

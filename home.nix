@@ -42,6 +42,11 @@ in
       alias work="sudo python3 /home/zyst/dev/get-shit-done/get-shit-done.py work"
       alias play="sudo python3 /home/zyst/dev/get-shit-done/get-shit-done.py play"
 
+      function 2fa
+        cat /home/zyst/.2fa/$argv | xargs -I {} oathtool --base32 --totp "{}"
+        cat /home/zyst/.2fa/$argv | xargs -I {} oathtool --base32 --totp "{}" | xclip -sel clip
+      end
+
       starship init fish | source
       '';
 

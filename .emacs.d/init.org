@@ -458,9 +458,7 @@ We configure the languages for which to load org-babel support.
      (calc      . t)))
 #+end_src
 
-This is potentially dangerous: it suppresses the query before executing code from within org-mode. I use it because I am very careful and only press =C-c C-c= on blocks I absolutely understand.
-
-Disabled while I know if I'm actually very careful, lmao.
+This is potentially dangerous: it suppresses the query before executing code from within org-mode. I use it because I am very careful and only press =C-c C-c= on blocks I absolutely understand. Or am I? Disabled while I know if I'm actually very careful, lmao.
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-mode-custom-vars
   ;; (org-confirm-babel-evaluate nil)
@@ -560,13 +558,13 @@ We choose a nice font for the document title and the section headings. The first
 
 I use proportional fonts in org-mode for the text, while keeping fixed-width fonts for blocks, so that source code, tables, etc. are shown correctly. These settings include:
 
-- Setting up the =variable-pitch= face to the proportional font I like to use. I myself use [[https://fonts.google.com/specimen/Roboto][Roboto]]. I'm leaving in the entries from the author who enjoys, [[https://en.wikipedia.org/wiki/Source_Sans_Pro][Source Sans Pro]] and [[https://en.wikipedia.org/wiki/Avenir_(typeface)][Avenir Next]].
+- Setting up the =variable-pitch= face to the proportional font I like to use. I myself use SF Pro Display, or [[https://fonts.google.com/specimen/Roboto][Roboto]].
   #+begin_src emacs-lisp :tangle no :noweb-ref org-mode-faces
     (variable-pitch ((t (:family "SF Pro Display" :height 180 :weight light))))
     ;; (variable-pitch ((t (:family "Roboto" :height 180 :weight light))))
   #+end_src
 
-- Setting up the =fixed-pitch= face to be the same as my usual =default= face.
+- Setting up the =fixed-pitch= face to be the same as my usual =default= face, which is Operator Mono.
   #+begin_src emacs-lisp :tangle no :noweb-ref org-mode-faces
     (fixed-pitch ((t (:family "Operator Mono SSm Book"))))
   #+end_src
@@ -890,7 +888,8 @@ On-the-fly spell checking. I enable it for all text modes.
 #+begin_src emacs-lisp
   (use-package flyspell
     :defer 1
-    :hook (text-mode . flyspell-mode)
+    ;; Disabled for now, re-enable to have flyspell run on our text modes
+    ;; :hook (text-mode . flyspell-mode)
     :diminish
     :bind (:map flyspell-mouse-map
                 ([down-mouse-3] . #'flyspell-correct-word)
