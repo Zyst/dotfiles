@@ -644,6 +644,8 @@ The following is also available on terminals which support it:
   let g:CommandTWildIgnore.=',*/__snapshots__'
   let g:CommandTWildIgnore.=',*/helm'
   let g:CommandTWildIgnore.=',*/pipeline'
+  let g:CommandTWildIgnore.=',*/build'
+  let g:CommandTWildIgnore.=',*/coverage'
 #+END_SRC
 
 *** ctrlp.vim configuration

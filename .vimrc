@@ -211,6 +211,8 @@ if (g:os == "Linux") || (g:os == "Darwin")
     let g:CommandTWildIgnore.=',*/__snapshots__'
     let g:CommandTWildIgnore.=',*/helm'
     let g:CommandTWildIgnore.=',*/pipeline'
+    let g:CommandTWildIgnore.=',*/build'
+    let g:CommandTWildIgnore.=',*/coverage'
 endif
 
 if (has("termguicolors"))
