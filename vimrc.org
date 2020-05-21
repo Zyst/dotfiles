@@ -681,6 +681,82 @@ We add [[https://editorconfig.org/][editorconfig]] to Vim, which allows us to ed
   Plug 'editorconfig/editorconfig-vim'
 #+END_SRC
 
+** Projectionist
+I want to use [[https://github.com/tpope/vim-projectionist][vim-projectionst]], mainly for switching between alternate files.
+
+#+BEGIN_SRC vimrc :tangle no :noweb-ref plug
+  Plug 'tpope/vim-projectionist'
+#+END_SRC
+
+*** Alternate file configuration
+
+We configure the base global variable, with C support since it's fairly straight-forward to add.
+
+#+BEGIN_SRC vimrc
+  let g:projectionist_heuristics = {
+  \   '*': {
+  \     '*.c': {
+  \       'alternate': '{}.h',
+  \       'type': 'source'
+  \     },
+  \     '*.h': {
+  \       'alternate': '{}.c',
+  \       'type': 'header'
+  \     },
+  \
+  \   }
+  \ }
+#+END_SRC
+
+We then batch update JS/JSX/TS/TSX bindings using a super cool utility function by [[https://github.com/wincent][wincent]].
+
+#+BEGIN_SRC vimrc
+  " Helper function for batch-updating the g:projectionist_heuristics variable.
+  function! s:project(...)
+    for [l:pattern, l:projection] in a:000
+      let g:projectionist_heuristics['*'][l:pattern] = l:projection
+    endfor
+  endfunction
+
+  " Set up projections for JS variants.
+  for s:extension in ['.js', '.jsx', '.ts', '.tsx']
+    call s:project(
+          \ ['*' . s:extension, {
+          \   'alternate': [
+          \     '{dirname}/{basename}.test' . s:extension,
+          \     '{dirname}/__tests__/{basename}-test' . s:extension,
+          \     '{dirname}/__tests__/{basename}.test' . s:extension,
+          \     '{dirname}/__tests__/{basename}.test.js',
+          \   ],
+          \   'type': 'source'
+          \ }],
+          \ ['*.test' . s:extension, {
+          \   'alternate': '{basename}' . s:extension,
+          \   'type': 'test',
+          \ }],
+          \ ['**/__tests__/*-test' . s:extension, {
+          \   'alternate': '{dirname}/{basename}' . s:extension,
+          \   'type': 'test'
+          \ }],
+          \ ['**/__tests__/*.test' . s:extension, {
+          \   'alternate': [
+          \     '{dirname}/{basename}' . s:extension,
+          \     '{dirname}/{basename}.tsx',
+          \     '{dirname}/{basename}.ts',
+          \     '{dirname}/{basename}.js',
+          \     '{dirname}/{basename}.jsx',
+          \    ],
+          \   'type': 'test'
+          \ }])
+  endfor
+#+END_SRC
+
+Finally, we map =<Leader>= and =a= to go to our alternate file.
+
+#+BEGIN_SRC vimrc
+  nnoremap <Leader>a :A<CR>
+#+END_SRC
+
 * Coding
 
 ** General settings and modules

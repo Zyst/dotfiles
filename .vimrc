@@ -45,6 +45,7 @@ else
 endif
 Plug 'scrooloose/nerdtree'
 Plug 'editorconfig/editorconfig-vim'
+Plug 'tpope/vim-projectionist'
 " Plug 'autozimu/LanguageClient-neovim', {
 "     \ 'branch': 'next',
 "     \ 'do': 'bash install.sh',
@@ -234,6 +235,61 @@ endfunction
 let g:onedark_terminal_italics=1
 
 nmap <Leader>n :NERDTreeFind<CR>
+
+let g:projectionist_heuristics = {
+\   '*': {
+\     '*.c': {
+\       'alternate': '{}.h',
+\       'type': 'source'
+\     },
+\     '*.h': {
+\       'alternate': '{}.c',
+\       'type': 'header'
+\     },
+\
+\   }
+\ }
+
+" Helper function for batch-updating the g:projectionist_heuristics variable.
+function! s:project(...)
+  for [l:pattern, l:projection] in a:000
+    let g:projectionist_heuristics['*'][l:pattern] = l:projection
+  endfor
+endfunction
+
+" Set up projections for JS variants.
+for s:extension in ['.js', '.jsx', '.ts', '.tsx']
+  call s:project(
+        \ ['*' . s:extension, {
+        \   'alternate': [
+        \     '{dirname}/{basename}.test' . s:extension,
+        \     '{dirname}/__tests__/{basename}-test' . s:extension,
+        \     '{dirname}/__tests__/{basename}.test' . s:extension,
+        \     '{dirname}/__tests__/{basename}.test.js',
+        \   ],
+        \   'type': 'source'
+        \ }],
+        \ ['*.test' . s:extension, {
+        \   'alternate': '{basename}' . s:extension,
+        \   'type': 'test',
+        \ }],
+        \ ['**/__tests__/*-test' . s:extension, {
+        \   'alternate': '{dirname}/{basename}' . s:extension,
+        \   'type': 'test'
+        \ }],
+        \ ['**/__tests__/*.test' . s:extension, {
+        \   'alternate': [
+        \     '{dirname}/{basename}' . s:extension,
+        \     '{dirname}/{basename}.tsx',
+        \     '{dirname}/{basename}.ts',
+        \     '{dirname}/{basename}.js',
+        \     '{dirname}/{basename}.jsx',
+        \    ],
+        \   'type': 'test'
+        \ }])
+endfor
+
+nnoremap <Leader>a :A<CR>
 
 let g:deoplete#enable_at_startup = 1
 
