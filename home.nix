@@ -13,6 +13,7 @@ in
       gtypist
       htop
       jq
+      ncdu
       neofetch
       ranger
       ripgrep
