@@ -81,6 +81,7 @@ in
       ".xinitrc".text = "exec awesome";
 
       ".config/regolith/Xresources".source = "${dotfiles}/Xresources-regolith";
+      ".config/regolith/i3/config".source = "${dotfiles}/i3-config";
     };
 
     extraOutputsToInstall = [ "man" ];
