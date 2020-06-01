@@ -79,6 +79,8 @@ in
       };
 
       ".xinitrc".text = "exec awesome";
+
+      ".Xresources-regolith".source = "${dotfiles}/Xresources-regolith";
     };
 
     extraOutputsToInstall = [ "man" ];
