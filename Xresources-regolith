@@ -5,4 +5,4 @@ gnome.wallpaper:        /home/zyst/Drive/Pictures/Art/g8ke3e.jpg
 gnome.wm.theme: Arc-Dark
 rofi.icon-theme:        Mojave-CT-Night-Mode
 i3-wm.bar.position: top
-i3xrocks.date.format2: + %A %h %r
+i3xrocks.date.format2: + %b %d %I:%M %P
