@@ -40,6 +40,7 @@ alias fotas="cd ~/dev/fota/packages/amp-fota-server"
 alias fotaui="cd ~/dev/fota/packages/amp-fota-ui"
 alias pctest="npm run lint:ci && npm run test:ci && npm run build"
 alias dot="cd ~/dev/dotfiles"
+alias gcm="git checkout master --"
 
 # Game
 alias tron="ssh sshtron.zachlatta.com"
