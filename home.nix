@@ -65,6 +65,11 @@ in
         recursive = true;
       };
 
+      ".config/espanso" = {
+        source = "${dotfiles}/espanso";
+        recursive = true;
+      };
+
       ".vimrc".source = "${dotfiles}/.vimrc";
 
       ".bashrc".source = "${dotfiles}/bashrc";

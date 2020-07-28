@@ -1,0 +1,22 @@
+name: roam
+parent: default
+
+matches:
+  - trigger: ":wds"
+    force_clipboard: true
+    replace: |
+      Work day start:
+          {{[[TODO]]}} Catch up with Slack
+          {{[[TODO]]}} Catch up with Email
+          {{[[TODO]]}} Calendar plan day
+          {{[[TODO]]}} Update your habits
+          {{[[TODO]]}} Set goals for work day
+
+  - trigger: ":nds"
+    force_clipboard: true
+    replace: |
+      Day start:
+          {{[[TODO]]}} Catch up with Email
+          {{[[TODO]]}} Calendar plan day
+          {{[[TODO]]}} Update your habits
+          {{[[TODO]]}} Do you have any goals for the day?
