@@ -32,15 +32,11 @@ alias s="npm run start"
 alias l="npm run lint"
 alias lci="npm run lint:ci"
 alias lf="npm run lint:fix"
-alias vtp="cd ~/dev/vtp"
-alias vtps="cd ~/dev/vtp/packages/amp-vtp-server"
-alias vtpui="cd ~/dev/vtp/packages/amp-vtp-ui"
-alias fota="cd ~/dev/fota"
-alias fotas="cd ~/dev/fota/packages/amp-fota-server"
-alias fotaui="cd ~/dev/fota/packages/amp-fota-ui"
-alias pctest="npm run lint:ci && npm run test:ci && npm run build"
 alias dot="cd ~/dev/dotfiles"
+
 alias gcm="git checkout master --"
+
+alias dotall="dotnet.exe restore && dotnet.exe build && dotnet.exe msbuild && dotnet.exe run"
 
 # Game
 alias tron="ssh sshtron.zachlatta.com"
