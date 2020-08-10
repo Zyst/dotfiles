@@ -11,6 +11,7 @@ matches:
           {{[[TODO]]}} Calendar plan day
           {{[[TODO]]}} Update your habits
           {{[[TODO]]}} Set goals for work day
+          {{[[TODO]]}} What could I sacrifice to make things better?
 
   - trigger: ":nds"
     force_clipboard: true
@@ -20,3 +21,4 @@ matches:
           {{[[TODO]]}} Calendar plan day
           {{[[TODO]]}} Update your habits
           {{[[TODO]]}} Do you have any goals for the day?
+          {{[[TODO]]}} What could I sacrifice to make things better?
