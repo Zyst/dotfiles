@@ -11,6 +11,7 @@ matches:
           {{[[TODO]]}} Calendar plan day
           {{[[TODO]]}} Update your habits
           {{[[TODO]]}} Set goals for work day
+          {{[[TODO]]}} Update standup document
           {{[[TODO]]}} What could I sacrifice to make things better?
 
   - trigger: ":nds"
