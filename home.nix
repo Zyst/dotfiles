@@ -12,6 +12,7 @@ in
       git-quick-stats
       gtypist
       htop
+      jdk14
       jq
       ncdu
       neofetch
