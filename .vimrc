@@ -24,6 +24,8 @@ endif
 if has('nvim')
   call plug#begin('~/.config/nvim/plugged')
       Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+      Plug 'Shougo/deoplete-lsp'
+      Plug 'neovim/nvim-lsp'
 else
   call plug#begin('~/.vim/plugged')
       Plug 'Shougo/deoplete.nvim'
@@ -46,10 +48,6 @@ endif
 Plug 'scrooloose/nerdtree'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'tpope/vim-projectionist'
-" Plug 'autozimu/LanguageClient-neovim', {
-"     \ 'branch': 'next',
-"     \ 'do': 'bash install.sh',
-"     \ }
 Plug 'w0rp/ale'
 Plug 'jiangmiao/auto-pairs'
 Plug 'mattn/emmet-vim'
@@ -296,18 +294,22 @@ let g:deoplete#enable_at_startup = 1
 inoremap <expr> <TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
-" nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
+lua << END
+  require'nvim_lsp'.clojure_lsp.setup{}
+  require'nvim_lsp'.cssls.setup{}
+  require'nvim_lsp'.elmls.setup{}
+  require'nvim_lsp'.html.setup{}
+  require'nvim_lsp'.tsserver.setup{}
+  require'nvim_lsp'.rnix.setup{}
+  require'nvim_lsp'.pyls.setup{}
+  require'nvim_lsp'.yamlls.setup{}
+END
 
-" nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
+function g:InstallLangServProtocols ()
+  " Here we want to consider whether to automate calls like :LspInstall elmls
+endfunction
 
-" let g:LanguageClient_rootMarkers = {
-"       \   'javascript': ['tsconfig.json', '.flowconfig', 'package.json'],
-"       \   'typescript': ['tsconfig.json', '.flowconfig', 'package.json']
-"       \ }
-
-" let g:LanguageClient_loggingLevel = 'INFO'
-" let g:LanguageClient_loggingFile =  expand('~/.local/share/nvim/LanguageClient.log')
-" let g:LanguageClient_serverStderr = expand('~/.local/share/nvim/LanguageServer.log')
+nnoremap <silent>gd <cmd>lua vim.lsp.buf.declaration()<CR>
 
 let g:ale_fixers = {
 \   '*': ['remove_trailing_lines', 'trim_whitespace'],

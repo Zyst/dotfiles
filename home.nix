@@ -16,6 +16,7 @@ in
       jq
       ncdu
       neofetch
+      neovim-nightly
       ranger
       ripgrep
       tmux
@@ -27,6 +28,7 @@ in
       nodejs-12_x
       nodePackages.eslint
       nodePackages.http-server
+      nodePackages.neovim
       nodePackages.prettier
       nodePackages.yarn
     ]);
@@ -43,6 +45,8 @@ in
 
       alias work="sudo python3 /home/zyst/dev/get-shit-done/get-shit-done.py work"
       alias play="sudo python3 /home/zyst/dev/get-shit-done/get-shit-done.py play"
+
+      alias vim="nvim"
 
       function 2fa
         cat /home/zyst/.2fa/$argv | xargs -I {} oathtool --base32 --totp "{}"
@@ -71,6 +75,11 @@ in
         recursive = true;
       };
 
+      ".config/nixpkgs/overlays" = {
+        source = "${dotfiles}/nix-overlays";
+        recursive = true;
+      };
+
       ".vimrc".source = "${dotfiles}/.vimrc";
 
       ".bashrc".source = "${dotfiles}/bashrc";
@@ -94,7 +103,10 @@ in
   };
 
   programs = {
-    emacs.enable = true;
+    emacs = {
+      enable = true;
+      package = pkgs.emacs26;
+    };
 
     git = {
       enable = true;
@@ -104,11 +116,6 @@ in
     };
 
     home-manager.enable = true;
-
-    neovim = {
-      enable = true;
-      vimAlias = true;
-    };
 
     man.enable = true;
 
