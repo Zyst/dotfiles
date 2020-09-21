@@ -144,9 +144,9 @@
        ("DONE" . "green")
        ("CANCELED" . "blue")))
   :custom-face
-    (variable-pitch ((t (:family "SF Pro Display" :height 160 :weight light))))
+    (variable-pitch ((t (:family "SF Pro Display" :height 180 :weight light))))
     ;; (variable-pitch ((t (:family "Roboto" :height 180 :weight light))))
-    ;; (fixed-pitch ((t (:height 160 :family "Operator Mono SSm Book") )))
+    (fixed-pitch ((t (:family "Operator Mono SSm Book"))))
     (org-indent ((t (:inherit (org-hide fixed-pitch)))))
   :hook
     (org-babel-after-execute . org-redisplay-inline-images)

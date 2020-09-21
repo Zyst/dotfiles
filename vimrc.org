@@ -767,7 +767,6 @@ First, we add [[https://github.com/Shougo/deoplete.nvim][Shougo/deoplete.nvim]].
 
 #+BEGIN_SRC vimrc :tangle no :noweb-ref nvim plug
   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-  Plug 'Shougo/deoplete-lsp'
 #+END_SRC
 
 #+BEGIN_SRC vimrc :tangle no :noweb-ref vim plug
@@ -791,81 +790,49 @@ Tab should make deoplete select items in insert mode.
 
 *** Language Server Protocol
 
-We add our LSP implementation of choice, we're using the Neovim 0.5 LSP default configuration.
+*This is all disabled until I actually configure it*.
 
-#+BEGIN_SRC vimrc :tangle no :noweb-ref nvim plug
-  Plug 'neovim/nvim-lsp'
+We add our LSP implementation of choice, as of right now, [[https://github.com/autozimu/LanguageClient-neovim][autozimu/LanguageClient-neovim]] which allows us to use LSP inside of vim, which is baller.
+
+#+BEGIN_SRC vimrc :tangle no :noweb-ref plug
+  " Plug 'autozimu/LanguageClient-neovim', {
+  "     \ 'branch': 'next',
+  "     \ 'do': 'bash install.sh',
+  "     \ }
 #+END_SRC
 
-We begin a lua block for our configurations.
-
-#+BEGIN_SRC vimrc :noweb no-export
-  lua << END
-    <<Lua LSP>>
-  END
-#+END_SRC
-
-We also want to add a function for running our LSP installs.
-
-#+BEGIN_SRC vimrc :noweb no-export
-  function g:InstallLangServProtocols ()
-    " Here we want to consider whether to automate calls like :LspInstall elmls
-  endfunction
-#+END_SRC
-
-Now we add some hotkeys we'd like.
+We then make =gd= go to our file definition. My mnemonic of of choice is "Go to Destination".
 
 #+BEGIN_SRC vimrc
-  nnoremap <silent>gd <cmd>lua vim.lsp.buf.declaration()<CR>
+  " nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
 #+END_SRC
 
-**** Clojure
+We also add an entry to lookup keywords with LSP using =K= in normal mode.
 
-#+BEGIN_SRC vimrc :tangle no :noweb-ref Lua LSP
-  require'nvim_lsp'.clojure_lsp.setup{}
+#+BEGIN_SRC vimrc
+  " nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
 #+END_SRC
 
-**** CSS
+Adding rootmarkers lets LanguageClient know when it should be running, in this case we just add the necessary ones for JavaScript, and some common TypeScript ones.
 
-#+BEGIN_SRC vimrc :tangle no :noweb-ref Lua LSP
-  require'nvim_lsp'.cssls.setup{}
+#+BEGIN_SRC vimrc
+  " let g:LanguageClient_rootMarkers = {
+  "       \   'javascript': ['tsconfig.json', '.flowconfig', 'package.json'],
+  "       \   'typescript': ['tsconfig.json', '.flowconfig', 'package.json']
+  "       \ }
 #+END_SRC
 
-**** Elm
+We add settings to handle Language Server logs, saved to =~/.local/share/nvim=.
 
-#+BEGIN_SRC vimrc :tangle no :noweb-ref Lua LSP
-  require'nvim_lsp'.elmls.setup{}
-#+END_SRC
-
-**** HTML
-
-#+BEGIN_SRC vimrc :tangle no :noweb-ref Lua LSP
-  require'nvim_lsp'.html.setup{}
+#+BEGIN_SRC vimrc
+  " let g:LanguageClient_loggingLevel = 'INFO'
+  " let g:LanguageClient_loggingFile =  expand('~/.local/share/nvim/LanguageClient.log')
+  " let g:LanguageClient_serverStderr = expand('~/.local/share/nvim/LanguageServer.log')
 #+END_SRC
 
 **** JavaScript
 
-#+BEGIN_SRC vimrc :tangle no :noweb-ref Lua LSP
-  require'nvim_lsp'.tsserver.setup{}
-#+END_SRC
-
-**** Nix
-
-#+BEGIN_SRC vimrc :tangle no :noweb-ref Lua LSP
-  require'nvim_lsp'.rnix.setup{}
-#+END_SRC
-
-**** Python
-
-#+BEGIN_SRC vimrc :tangle no :noweb-ref Lua LSP
-  require'nvim_lsp'.pyls.setup{}
-#+END_SRC
-
-**** YAML
-
-#+BEGIN_SRC vimrc :tangle no :noweb-ref Lua LSP
-  require'nvim_lsp'.yamlls.setup{}
-#+END_SRC
+TODO: Here's our LSP JavaScript configuration.
 
 *** Linter
 
