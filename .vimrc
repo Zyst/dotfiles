@@ -26,7 +26,6 @@ if has('nvim')
       Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
       Plug 'Shougo/deoplete-lsp'
       Plug 'neovim/nvim-lsp'
-      Plug 'neovim/nvim-lspconfig'
 else
   call plug#begin('~/.vim/plugged')
       Plug 'Shougo/deoplete.nvim'

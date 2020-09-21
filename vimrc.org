@@ -795,7 +795,6 @@ We add our LSP implementation of choice, we're using the Neovim 0.5 LSP default 
 
 #+BEGIN_SRC vimrc :tangle no :noweb-ref nvim plug
   Plug 'neovim/nvim-lsp'
-  Plug 'neovim/nvim-lspconfig'
 #+END_SRC
 
 We begin a lua block for our configurations.
