@@ -7,13 +7,16 @@ in
   home = {
     packages = (with pkgs; [
       bat
+      clojure
       fortune
       fzf
       git-quick-stats
       gtypist
       htop
       jdk14
+      joker
       jq
+      leiningen
       ncdu
       neofetch
       ranger

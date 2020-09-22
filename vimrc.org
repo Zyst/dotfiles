@@ -788,6 +788,26 @@ Tab should make deoplete select items in insert mode.
   inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 #+END_SRC
 
+This helps trigger Deoplete through more patterns, ripped from Olical.
+
+#+BEGIN_SRC vimrc
+  call deoplete#custom#option('keyword_patterns', {'clojure': '[\w!$%&*+/:<=>?@\^_~\-\.#]*'})
+#+END_SRC
+
+*** Float preview
+
+We want to add [[https://github.com/ncm2/float-preview.nvim][ncm2/float-preview.nvim]]. This allows us to have documentation popups be way nicer. I just saw this on a post from [[https://oli.me.uk/getting-started-with-clojure-neovim-and-conjure-in-minutes/][Oliver Caldwell]].
+
+#+BEGIN_SRC vimrc :tangle no :noweb-ref nvim plug
+  Plug 'ncm2/float-preview.nvim'
+#+END_SRC
+
+This means we should disable the built in complete support, we'll be using the float stuff from Neovim.
+
+#+BEGIN_SRC vimrc
+  set completeopt-=preview
+#+END_SRC
+
 *** Language Server Protocol
 
 *This is all disabled until I actually configure it*.
@@ -857,6 +877,14 @@ We add configuration for our fixers. First, we want every filetype to remove tra
   \}
 #+END_SRC
 
+We also want to configure linters, my JavaScript ones seem to work out of the box, but some other languages need a bit more config.
+
+#+BEGIN_SRC vimrc
+  let g:ale_linters = {
+        \ 'clojure': ['clj-kondo', 'joker']
+        \}
+#+END_SRC
+
 We make our formatting tool run on <Leader> and f.
 
 #+BEGIN_SRC vimrc
@@ -883,6 +911,16 @@ We remap the o
 
 #+BEGIN_SRC vimrc
   let g:user_emmet_expandabbr_key = '<C-e>'
+#+END_SRC
+
+*** Conjure
+
+[[https://github.com/Olical/conjure][Olical/conjure]] is a REPL/playground/evaluator/"Conversational Software Development" tool. I've started to try it out, and it feels super fun!
+
+It helps with Clojure Development, but ties into more LISPs as well.
+
+#+BEGIN_SRC vimrc :tangle no :noweb-ref nvim plug
+  Plug 'Olical/conjure'
 #+END_SRC
 
 ** Programming languages

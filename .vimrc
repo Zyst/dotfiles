@@ -24,6 +24,8 @@ endif
 if has('nvim')
   call plug#begin('~/.config/nvim/plugged')
       Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+      Plug 'ncm2/float-preview.nvim'
+      Plug 'Olical/conjure'
 else
   call plug#begin('~/.vim/plugged')
       Plug 'Shougo/deoplete.nvim'
@@ -296,6 +298,10 @@ let g:deoplete#enable_at_startup = 1
 inoremap <expr> <TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
+call deoplete#custom#option('keyword_patterns', {'clojure': '[\w!$%&*+/:<=>?@\^_~\-\.#]*'})
+
+set completeopt-=preview
+
 " nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
 
 " nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
@@ -319,6 +325,10 @@ let g:ale_fixers = {
 \   'html': ['prettier'],
 \   'json': ['prettier'],
 \}
+
+let g:ale_linters = {
+      \ 'clojure': ['clj-kondo', 'joker']
+      \}
 
 nmap <Leader>f <Plug>(ale_fix)
 
