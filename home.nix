@@ -61,13 +61,6 @@ in
 
       ".config/kitty/kitty.conf".source = "${dotfiles}/kitty.conf";
 
-      ".config/nvim/init.vim".text =
-      ''
-      set runtimepath^=~/.vim runtimepath+=~/.vim/after
-      let &packpath = &runtimepath
-      source ~/.vimrc
-      '';
-
       ".config/mpv" = {
         source = "${dotfiles}/mpv";
         recursive = true;
@@ -115,6 +108,14 @@ in
     neovim = {
       enable = true;
       vimAlias = true;
+
+      extraConfig =
+        ''
+        set runtimepath^=~/.vim runtimepath+=~/.vim/after
+        let &packpath = &runtimepath
+        source ~/.vimrc
+        '';
+
     };
 
     man.enable = true;
