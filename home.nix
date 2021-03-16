@@ -13,7 +13,7 @@ in
       git-quick-stats
       gtypist
       htop
-      jdk14
+      jdk
       joker
       jq
       leiningen
@@ -21,9 +21,11 @@ in
       neofetch
       ranger
       ripgrep
+      termdown
       tmux
       tree
       xclip
+      xdelta
       youtube-dl
 
       # Node 12
