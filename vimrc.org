@@ -14,7 +14,7 @@
 #+title: My Nvim/Vim config file
 #+author: Erick Romero
 
-This is my Emacs configuration file.
+This is my Vim configuration file.
 
 This file is written in [[http://www.howardism.org/Technical/Emacs/literate-programming-tutorial.html][literate programming style]] using [[https://orgmode.org/][org-mode]]. See [[file:.vimrc][.vimrc]] for the generated file.
 
