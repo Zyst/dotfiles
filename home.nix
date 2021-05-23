@@ -28,8 +28,8 @@ in
       xdelta
       youtube-dl
 
-      # Node 12
-      nodejs-12_x
+      # Node 16
+      nodejs-16_x
       nodePackages.eslint
       nodePackages.http-server
       nodePackages.prettier
