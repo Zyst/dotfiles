@@ -586,127 +586,46 @@ We then initialize the plugin with "batteries included":
 
 ** Fuzzy finder
 
-We use two fuzzy finders, depending on the operating system, If we are on Unix systems, then we use [[https://github.com/wincent/command-t][wincent/command-t]], otherwise (Windows, in my case) we use [[https://github.com/ctrlpvim/ctrlp.vim][ctrlpvim/ctrlp.vim]].
+We use [[https://github.com/junegunn/fzf][junegunn/fzf]] for fuzzy finding.
 
 #+BEGIN_SRC vimrc :tangle no :noweb-ref plug
-  if !(g:os == "Windows")
-    Plug 'wincent/command-t', {
-          \   'do': 'cd ruby/command-t/ext/command-t && ruby extconf.rb && make'
-          \ }
-  else
-    Plug 'ctrlpvim/ctrlp.vim'
+  Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+  Plug 'junegunn/fzf.vim'
+#+END_SRC
+
+We want to add some hotkeys for opening files, buffers, and similar items:
+  - =Space + t= - file search
+  - =Space + b= - buffer search
+  - =Space + s= - finds a line inside our buffer
+  - =Space + S= - finds a line inside our project
+  - =Space + g= - opens a filter with our modified files
+
+#+BEGIN_SRC vimrc
+  nnoremap <Leader>t :Files<cr>
+  nnoremap <Leader>b :Buffers<cr>
+  nnoremap <Leader>s :BLines<cr>
+  nnoremap <Leader>S :Rg <cr>
+  nnoremap <Leader>g :GFiles?<cr>
+#+END_SRC
+
+- We make our FZF window a bit larger than the default:
+
+#+BEGIN_SRC vimrc
+  let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.8 } }
+#+END_SRC
+
+- Use RipGrep for grepping:
+
+#+BEGIN_SRC vimrc
+  set grepprg=rg\ --vimgrep\ --smart-case\ --hidden\ --follow
+#+END_SRC
+
+- We let Ripgrep find the root of the project:
+
+#+BEGIN_SRC vimrc
+  if executable('rg')
+    let g:rg_derive_root='true'
   endif
-#+END_SRC
-
-*** Command-T configuration
-:PROPERTIES:
-:header-args:vimrc: :tangle no :noweb-ref Unix settings
-:END:
-
-- These are the default hotkeys:
-
-The following mappings are active when the prompt has focus:
-
-#+BEGIN_SRC text
-  <BS>        delete the character to the left of the cursor
-  <Del>       delete the character at the cursor
-  <Left>      move the cursor one character to the left
-  <C-h>       move the cursor one character to the left
-  <Right>     move the cursor one character to the right
-  <C-l>       move the cursor one character to the right
-  <C-a>       move the cursor to the start (left)
-  <C-e>       move the cursor to the end (right)
-  <C-u>       clear the contents of the prompt
-  <Tab>       change focus to the file listing
-#+END_SRC
-
-The following mappings are active when the file listing has focus:
-
-#+BEGIN_SRC text
-  <Tab>       change focus to the prompt
-#+END_SRC
-
-The following mappings are active when either the prompt or the file listing
-has focus:
-
-#+BEGIN_SRC text
-  <CR>        open the selected file
-  <C-CR>      open the selected file in a new split window
-  <C-s>       open the selected file in a new split window
-  <C-v>       open the selected file in a new vertical split window
-  <C-t>       open the selected file in a new tab
-  <C-d>       delete the selected buffer
-  <C-j>       select next file in the file listing
-  <C-n>       select next file in the file listing
-  <Down>      select next file in the file listing
-  <C-k>       select previous file in the file listing
-  <C-p>       select previous file in the file listing
-  <Up>        select previous file in the file listing
-  <C-f>       flush the cache (see |:CommandTFlush| for details)
-  <C-q>       place the current matches in the quickfix window
-  <C-c>       cancel (dismisses file listing)
-#+END_SRC
-
-The following is also available on terminals which support it:
-
-#+BEGIN_SRC text
-  <Esc>       cancel (dismisses file listing)
-#+END_SRC
-
-- We remap =Leader= + =b= to use =CommandTMRU= instead of =CommandTBuffer=, which shows files in the most recently used order, rather than the default.
-
-#+BEGIN_SRC vimrc
-  nnoremap <silent> <leader>b :CommandTMRU<CR>
-#+END_SRC
-
-- We make the set of keys that close the search buffer different, =Escape= and =Ctrl= + =c= handle it.
-
-#+BEGIN_SRC vimrc
-  let g:CommandTCancelMap=['<ESC>', '<C-c>']
-#+END_SRC
-
-- Switch encoding so that it is =UTF-8= by default.
-
-#+BEGIN_SRC vimrc
-  let g:CommandTEncoding='UTF-8'
-#+END_SRC
-
-- We make the file scanner ~watchman~. which falls back to =find= by default. /For now, lets use the default unless we need watchman/.
-
-#+BEGIN_SRC vimrc
-  " let g:CommandTFileScanner='watchman'
-#+END_SRC
-
-- We add =wildignore= settings which allow us to ignore certain patterns automatically with CommandT
-
-#+BEGIN_SRC vimrc
-  let g:CommandTWildIgnore=&wildignore
-  let g:CommandTWildIgnore.=',*/.git'
-  let g:CommandTWildIgnore.=',*/.hg'
-  let g:CommandTWildIgnore.=',*/bower_components'
-  let g:CommandTWildIgnore.=',*/node_modules'
-  let g:CommandTWildIgnore.=',*/tmp'
-  let g:CommandTWildIgnore.=',*/vendor'
-  let g:CommandTWildIgnore.=',*/dist'
-  let g:CommandTWildIgnore.=',*/lcov-report'
-  let g:CommandTWildIgnore.=',*/public/static'
-  let g:CommandTWildIgnore.=',*/test-reports'
-  let g:CommandTWildIgnore.=',*/__snapshots__'
-  let g:CommandTWildIgnore.=',*/helm'
-  let g:CommandTWildIgnore.=',*/pipeline'
-  let g:CommandTWildIgnore.=',*/build'
-  let g:CommandTWildIgnore.=',*/coverage'
-#+END_SRC
-
-*** ctrlp.vim configuration
-:PROPERTIES:
-:header-args:vimrc: :tangle no :noweb-ref Windows settings
-:END:
-
-Allow ctrlp ignore the files inside of ~.gitignore~ files.
-
-#+BEGIN_SRC vimrc
-  let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
 #+END_SRC
 
 ** Nerdtree

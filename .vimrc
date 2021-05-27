@@ -39,13 +39,8 @@ Plug 'Zyst/egoist-one.vim'
 Plug 'ap/vim-css-color'
 Plug 'vim-airline/vim-airline'
 Plug 'tpope/vim-fugitive'
-if !(g:os == "Windows")
-  Plug 'wincent/command-t', {
-        \   'do': 'cd ruby/command-t/ext/command-t && ruby extconf.rb && make'
-        \ }
-else
-  Plug 'ctrlpvim/ctrlp.vim'
-endif
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
 Plug 'scrooloose/nerdtree'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'tpope/vim-projectionist'
@@ -189,7 +184,7 @@ if g:os == "Linux"
 endif
 
 if g:os == "Windows"
-    let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
+    
 endif
 
 if g:os == "Darwin"
@@ -197,26 +192,7 @@ if g:os == "Darwin"
 endif
 
 if (g:os == "Linux") || (g:os == "Darwin")
-    nnoremap <silent> <leader>b :CommandTMRU<CR>
-    let g:CommandTCancelMap=['<ESC>', '<C-c>']
-    let g:CommandTEncoding='UTF-8'
-    " let g:CommandTFileScanner='watchman'
-    let g:CommandTWildIgnore=&wildignore
-    let g:CommandTWildIgnore.=',*/.git'
-    let g:CommandTWildIgnore.=',*/.hg'
-    let g:CommandTWildIgnore.=',*/bower_components'
-    let g:CommandTWildIgnore.=',*/node_modules'
-    let g:CommandTWildIgnore.=',*/tmp'
-    let g:CommandTWildIgnore.=',*/vendor'
-    let g:CommandTWildIgnore.=',*/dist'
-    let g:CommandTWildIgnore.=',*/lcov-report'
-    let g:CommandTWildIgnore.=',*/public/static'
-    let g:CommandTWildIgnore.=',*/test-reports'
-    let g:CommandTWildIgnore.=',*/__snapshots__'
-    let g:CommandTWildIgnore.=',*/helm'
-    let g:CommandTWildIgnore.=',*/pipeline'
-    let g:CommandTWildIgnore.=',*/build'
-    let g:CommandTWildIgnore.=',*/coverage'
+    
 endif
 
 if (has("termguicolors"))
@@ -243,6 +219,20 @@ let g:airline_section_y = ''
 let g:airline_section_z = ''
 
 :lua require('gitsigns').setup()
+
+nnoremap <Leader>t :Files<cr>
+nnoremap <Leader>b :Buffers<cr>
+nnoremap <Leader>s :BLines<cr>
+nnoremap <Leader>S :Rg <cr>
+nnoremap <Leader>g :GFiles?<cr>
+
+let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.8 } }
+
+set grepprg=rg\ --vimgrep\ --smart-case\ --hidden\ --follow
+
+if executable('rg')
+  let g:rg_derive_root='true'
+endif
 
 nmap <Leader>n :NERDTreeFind<CR>
 
