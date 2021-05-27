@@ -96,6 +96,11 @@ in
         let &packpath = &runtimepath
         source ~/.vimrc
         '';
+
+      ".config/bat/config".text =
+        ''
+          --theme="base16"
+        '';
     };
 
     extraOutputsToInstall = [ "man" ];
@@ -109,6 +114,14 @@ in
       userName = "Erick Romero";
       userEmail = "erick.romero.dev@gmail.com";
       extraConfig.core.editor = "nvim";
+
+      delta = {
+        enable = true;
+
+        options = {
+          syntax-theme = "base16";
+        };
+      };
     };
 
     home-manager.enable = true;
