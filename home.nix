@@ -88,6 +88,14 @@ in
 
       ".config/regolith/Xresources".source = "${dotfiles}/Xresources-regolith";
       ".config/regolith/i3/config".source = "${dotfiles}/i3.config";
+
+      ".config/nvim/init.vim".text =
+        ''
+        set nocompatible
+        set runtimepath^=~/.vim runtimepath+=~/.vim/after
+        let &packpath = &runtimepath
+        source ~/.vimrc
+        '';
     };
 
     extraOutputsToInstall = [ "man" ];
@@ -104,19 +112,6 @@ in
     };
 
     home-manager.enable = true;
-
-    neovim = {
-      enable = true;
-      vimAlias = true;
-
-      extraConfig =
-        ''
-        set runtimepath^=~/.vim runtimepath+=~/.vim/after
-        let &packpath = &runtimepath
-        source ~/.vimrc
-        '';
-
-    };
 
     man.enable = true;
 

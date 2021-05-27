@@ -23,6 +23,8 @@ endif
 
 if has('nvim')
   call plug#begin('~/.config/nvim/plugged')
+      Plug 'nvim-lua/plenary.nvim'
+      Plug 'lewis6991/gitsigns.nvim'
       Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
       Plug 'ncm2/float-preview.nvim'
       Plug 'Olical/conjure'
@@ -37,7 +39,6 @@ Plug 'Zyst/egoist-one.vim'
 Plug 'ap/vim-css-color'
 Plug 'vim-airline/vim-airline'
 Plug 'tpope/vim-fugitive'
-Plug 'mhinz/vim-signify'
 if !(g:os == "Windows")
   Plug 'wincent/command-t', {
         \   'do': 'cd ruby/command-t/ext/command-t && ruby extconf.rb && make'
@@ -240,6 +241,8 @@ let g:airline_section_b = ''
 let g:airline_section_x = ''
 let g:airline_section_y = ''
 let g:airline_section_z = ''
+
+:lua require('gitsigns').setup()
 
 nmap <Leader>n :NERDTreeFind<CR>
 

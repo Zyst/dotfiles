@@ -571,10 +571,17 @@ We use [[https://github.com/tpope/vim-fugitive][tpope/vim-fugitive]] for git int
   Plug 'tpope/vim-fugitive'
 #+END_SRC
 
-[[https://github.com/mhinz/vim-signify][mhinz/vim-signify]] displays a git gutter with changes, or added lines.
+We use  [[https://github.com/lewis6991/gitsigns.nvim][lewis6991/gitsigns.nvim]] for a git gutter with changes, added lines, and support for things like chunk level add/reset. If we ever find ourselves back on Vim we could use [[https://github.com/mhinz/vim-signify][mhinz/vim-signify]] but honestly I can't be bothered to even configure it as an alternative, realistically I don't think we ever really switch between them anymore.
 
-#+BEGIN_SRC vimrc :tangle no :noweb-ref plug
-  Plug 'mhinz/vim-signify'
+#+BEGIN_SRC vimrc :tangle no :noweb-ref nvim plug
+  Plug 'nvim-lua/plenary.nvim'
+  Plug 'lewis6991/gitsigns.nvim'
+#+END_SRC
+
+We then initialize the plugin with "batteries included":
+
+#+BEGIN_SRC vimrc
+  :lua require('gitsigns').setup()
 #+END_SRC
 
 ** Fuzzy finder
