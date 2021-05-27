@@ -236,6 +236,11 @@ endfunction
 
 let g:onedark_terminal_italics=1
 
+let g:airline_section_b = ''
+let g:airline_section_x = ''
+let g:airline_section_y = ''
+let g:airline_section_z = ''
+
 nmap <Leader>n :NERDTreeFind<CR>
 
 let g:projectionist_heuristics = {

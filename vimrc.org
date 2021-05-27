@@ -450,7 +450,7 @@ There are no Unix-specific settings for now.
 
 * Org mode
 
-We will setup org mode later, for now, just get shit running. Reference [[file:init.org][init.org]] for reference on how to structure org mode.
+We will setup org mode later, for now, just get other stuff running. Reference [[file:init.org][init.org]] for reference on how to structure org mode.
 
 * Appearance, buffer/file management and theming
 
@@ -516,6 +516,49 @@ We are going to add [[https://github.com/vim-airline/vim-airline][vim-airline/vi
 
 #+BEGIN_SRC vimrc :tangle no :noweb-ref plug
   Plug 'vim-airline/vim-airline'
+#+END_SRC
+
+We want to disable some of our sections to reduce our levels of noise.
+
+#+BEGIN_SRC
++-----------------------------------------------------------------------------+
+|~                                                                            |
+|~                                                                            |
+|~                     VIM - Vi IMproved                                      |
+|~                                                                            |
+|~                       version 8.0                                          |
+|~                    by Bram Moolenaar et al.                                |
+|~           Vim is open source and freely distributable                      |
+|~                                                                            |
+|~           type :h :q<Enter>          to exit                               |
+|~           type :help<Enter> or <F1>  for on-line help                      |
+|~           type :help version8<Enter> for version info                      |
+|~                                                                            |
+|~                                                                            |
++-----------------------------------------------------------------------------+
+| A | B |                     C                            X | Y | Z |  [...] |
++-----------------------------------------------------------------------------+
+
+Where:
+
+ section|meaning (example)
+-------|------------------
+  A    | displays the mode + additional flags like crypt/spell/paste (INSERT)
+  B    | VCS information (branch, hunk summary) (master)
+  C    | filename + read-only flag (~/.vim/vimrc RO)
+  X    | filetype  (vim)
+  Y    | file encoding[fileformat] (utf-8[unix])
+  Z    | current position in the file
+ [...] | additional sections (warning/errors/statistics) from external plugins (e.g. YCM, syntastic, ...)
+#+END_SRC
+
+We want to remove the VCS information, the filetype, the file encoding, and our current position in the file.
+
+#+BEGIN_SRC vimrc
+let g:airline_section_b = ''
+let g:airline_section_x = ''
+let g:airline_section_y = ''
+let g:airline_section_z = ''
 #+END_SRC
 
 ** Version control management
