@@ -32,6 +32,7 @@ in
       nodejs-16_x
       nodePackages.eslint
       nodePackages.http-server
+      nodePackages.neovim
       nodePackages.prettier
       nodePackages.yarn
     ]);
