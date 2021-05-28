@@ -5,39 +5,39 @@ let
 in
 {
   home = {
-    packages = [
-      pkgs.bat
-      pkgs.fortune
-      pkgs.fzf
-      pkgs.git-quick-stats
-      pkgs.htop
-      pkgs.neofetch
-      pkgs.ranger
-      pkgs.ripgrep
-      pkgs.tree
+    packages = (with pkgs; [
+      bat
+      clojure
+      fortune
+      fzf
+      git-quick-stats
+      gtypist
+      htop
+      jdk
+      joker
+      jq
+      leiningen
+      ncdu
+      neofetch
+      ranger
+      ripgrep
+      termdown
+      tmux
+      tree
+      xclip
+      xdelta
+      youtube-dl
 
-      # Node 6
-      # pkgs.nodejs-6_x
-
-      # Node 8
-      # pkgs.nodejs-8_x
-
-      # Node 10
-      pkgs.nodejs-10_x
-      pkgs.nodePackages.eslint
-      pkgs.nodePackages.http-server
-      pkgs.nodePackages.prettier
-      pkgs.nodePackages.yarn
-    ];
+      # Node 16
+      # nodejs-10_x - Might need this one around
+      nodejs-16_x
+      nodePackages.eslint
+      nodePackages.http-server
+      nodePackages.prettier
+      nodePackages.yarn
+    ]);
 
     file = {
-      ".config/nvim/init.vim".text =
-      ''
-      set runtimepath^=~/.vim runtimepath+=~/.vim/after
-      let &packpath = &runtimepath
-      source ~/.vimrc
-      '';
-
       ".vimrc".source = "${dotfiles}/.vimrc";
 
       ".bashrc".source = "${dotfiles}/bashrc";
@@ -50,28 +50,44 @@ in
         source = "${dotfiles}/.emacs.d";
         recursive = true;
       };
+
+      ".config/nvim/init.vim".text =
+        ''
+        set nocompatible
+        set runtimepath^=~/.vim runtimepath+=~/.vim/after
+        let &packpath = &runtimepath
+        source ~/.vimrc
+        '';
+
+      ".config/bat/config".text =
+        ''
+          --theme="base16"
+        '';
     };
+
+    extraOutputsToInstall = [ "man" ];
   };
 
   programs = {
-    home-manager = {
-      enable = true;
-    };
+    emacs.enable = true;
 
     git = {
       enable = true;
       userName = "Erick Romero";
-      userEmail = "erick.romero@bouncex.com";
+      userEmail = "erick.romero.dev@gmail.com";
       extraConfig.core.editor = "nvim";
+
+      delta = {
+        enable = true;
+
+        options = {
+          syntax-theme = "base16";
+        };
+      };
     };
 
-    neovim = {
-      enable = true;
-      vimAlias = true;
-    };
+    home-manager.enable = true;
 
-    emacs = {
-      enable = true;
-    };
+    man.enable = true;
   };
 }
