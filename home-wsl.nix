@@ -28,9 +28,9 @@ in
       xdelta
       youtube-dl
 
-      # Node 16
-      # nodejs-10_x - Might need this one around
-      nodejs-16_x
+      # Node
+      nodejs-10_x
+      # nodejs-16_x
       nodePackages.eslint
       nodePackages.http-server
       nodePackages.neovim
