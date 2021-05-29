@@ -1059,7 +1059,7 @@ Our main language handler is [[https://github.com/sheerun/vim-polyglot][sheerun/
 
 * Other tools
 
-** Vim commentary
+** Vim Commentary
 
 [[https://github.com/tpope/vim-commentary][tpope/vim-commentary]] is a plugin that allows us to comment out code in a very natural way with a motion mainly mapped to ~gc~.
 
@@ -1067,7 +1067,7 @@ Our main language handler is [[https://github.com/sheerun/vim-polyglot][sheerun/
   Plug 'tpope/vim-commentary'
 #+END_SRC
 
-** Vim surround
+** Vim Surround
 
 [[https://github.com/tpope/vim-surround][tpope/vim-surround]] is all about "surroundings": parentheses, brackets, quotes, XML tags, and more. The plugin provides mappings to easily delete, change and add such surroundings in pairs.
 
@@ -1075,7 +1075,7 @@ Our main language handler is [[https://github.com/sheerun/vim-polyglot][sheerun/
   Plug 'tpope/vim-surround'
 #+END_SRC
 
-** Vim dispatch
+** Vim Dispatch
 
 [[https://github.com/tpope/vim-dispatch][tpope/vim-dispatch]] lets us dispatch arbitrary actions from inside Vim, into things like Tmux splits. So for example, we become able to run individual test files directly from inside Vim.
 
@@ -1091,7 +1091,7 @@ If this stops working we might need to either fork the library, or pin the Plug 
   let g:dispatch_tmux_height = '50% -h'
 #+END_SRC
 
-** Vim test
+** Vim Test
 
 [[https://github.com/vim-test/vim-test][vim-test/vim-test]] lets us runs tests from inside Vim.
 
@@ -1099,13 +1099,16 @@ If this stops working we might need to either fork the library, or pin the Plug 
   Plug 'vim-test/vim-test'
 #+END_SRC
 
+We make our testing strategy running in a Neovim terminal pane, although we might switch the strategy to Dispatch instead, which opens the pane in tmux.
+
 #+BEGIN_SRC vimrc
   let test#strategy = "neovim"
   let test#neovim#term_position = "vert"
 #+END_SRC
 
+We add some mappings for running tests.
+
 #+BEGIN_SRC vimrc
-  " these "Ctrl mappings" work well when Caps Lock is mapped to Ctrl
   nmap <silent> t<C-n> :TestNearest<CR>
   nmap <silent> t<C-f> :TestFile<CR>
   nmap <silent> t<C-s> :TestSuite<CR>
@@ -1135,11 +1138,32 @@ We use [[https://github.com/folke/which-key.nvim][folke/which-key.nvim]] to reme
   set timeoutlen=500
 #+END_SRC
 
-Initialize the Which Key plugin, and add some configuration.
+Initialize the Which Key plugin.
 
 #+BEGIN_SRC vimrc
   lua << EOF
-    require("which-key").setup {}
+    require('which-key').setup {}
+  EOF
+#+END_SRC
+
+*** Vim Test
+
+We add which key bindings for running tests with [[*Vim Test][Vim Test]].
+
+#+BEGIN_SRC vimrc
+  lua << EOF
+  local wk = require('which-key')
+
+  wk.register({
+    ['t'] = {
+      name = '+test',
+      ['<C-n>'] = 'Test Nearest',
+      ['<C-f>'] = 'Test File',
+      ['<C-s>'] = 'Test Suite',
+      ['<C-l>'] = 'Test Last',
+      ['<C-g>'] = 'Test Visit',
+    },
+  })
   EOF
 #+END_SRC
 

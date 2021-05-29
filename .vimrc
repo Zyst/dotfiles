@@ -483,7 +483,6 @@ let g:dispatch_tmux_height = '50% -h'
 let test#strategy = "neovim"
 let test#neovim#term_position = "vert"
 
-" these "Ctrl mappings" work well when Caps Lock is mapped to Ctrl
 nmap <silent> t<C-n> :TestNearest<CR>
 nmap <silent> t<C-f> :TestFile<CR>
 nmap <silent> t<C-s> :TestSuite<CR>
@@ -493,5 +492,20 @@ nmap <silent> t<C-g> :TestVisit<CR>
 set timeoutlen=500
 
 lua << EOF
-  require("which-key").setup {}
+  require('which-key').setup {}
+EOF
+
+lua << EOF
+local wk = require('which-key')
+
+wk.register({
+  ['t'] = {
+    name = '+test',
+    ['<C-n>'] = 'Test Nearest',
+    ['<C-f>'] = 'Test File',
+    ['<C-s>'] = 'Test Suite',
+    ['<C-l>'] = 'Test Last',
+    ['<C-g>'] = 'Test Visit',
+  },
+})
 EOF
