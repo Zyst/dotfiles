@@ -556,12 +556,13 @@ We choose a nice font for the document title and the section headings. The first
      `(org-document-title ((t (,@headline ,@variable-tuple :height 2.0 :underline nil))))))
 #+end_src
 
+#+RESULTS:
+
 I use proportional fonts in org-mode for the text, while keeping fixed-width fonts for blocks, so that source code, tables, etc. are shown correctly. These settings include:
 
 - Setting up the =variable-pitch= face to the proportional font I like to use. I myself use SF Pro Display, or [[https://fonts.google.com/specimen/Roboto][Roboto]].
   #+begin_src emacs-lisp :tangle no :noweb-ref org-mode-faces
-    (variable-pitch ((t (:family "SF Pro Display" :height 180 :weight light))))
-    ;; (variable-pitch ((t (:family "Roboto" :height 180 :weight light))))
+    (variable-pitch ((t (:family "SF Pro Display" :height 140 :weight light))))
   #+end_src
 
 - Setting up the =fixed-pitch= face to be the same as my usual =default= face, which is Operator Mono.
