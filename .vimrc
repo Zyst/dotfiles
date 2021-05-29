@@ -61,7 +61,7 @@ call plug#end()
 
 let mapleader="\<Space>"
 
-let maplocalleader="\\"
+let maplocalleader=","
 
 nnoremap <Leader><Leader> <C-^>
 

@@ -83,7 +83,7 @@ Keep stealing stuff from https://github.com/wincent/wincent/blob/master/roles/do
 - We also set our local leader key.
 
 #+BEGIN_SRC vimrc
-  let maplocalleader="\\"
+  let maplocalleader=","
 #+END_SRC
 
 - We make =<Leader> <Leader>= open the last buffer.
