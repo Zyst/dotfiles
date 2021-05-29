@@ -51,6 +51,8 @@ Plug 'sheerun/vim-polyglot'
 Plug 'dmix/elvish.vim', { 'on_ft': ['elvish']}
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
+Plug 'tpope/vim-dispatch'
+Plug 'vim-test/vim-test'
 Plug 'christoomey/vim-tmux-navigator'
 
 call plug#end()
@@ -90,6 +92,10 @@ xnoremap <C-l> <C-w>l
 
 vnoremap <S-j> :m '>+1<CR>gv=gv
 vnoremap <S-k> :m '<-2<CR>gv=gv
+
+tnoremap <Esc> <C-\><C-n>
+
+tnoremap <M-[> <Esc>
 
 set nomodeline
 
@@ -467,3 +473,15 @@ nmap <Leader>f <Plug>(ale_fix)
 let g:ale_disable_lsp = 1
 
 let g:user_emmet_expandabbr_key = '<C-e>'
+
+let g:dispatch_tmux_height = '50% -h'
+
+let test#strategy = "neovim"
+let test#neovim#term_position = "vert"
+
+" these "Ctrl mappings" work well when Caps Lock is mapped to Ctrl
+nmap <silent> t<C-n> :TestNearest<CR>
+nmap <silent> t<C-f> :TestFile<CR>
+nmap <silent> t<C-s> :TestSuite<CR>
+nmap <silent> t<C-l> :TestLast<CR>
+nmap <silent> t<C-g> :TestVisit<CR>

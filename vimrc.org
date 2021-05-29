@@ -168,6 +168,21 @@ Steal stuff from https://github.com/wincent/wincent/blob/master/roles/dotfiles/f
   vnoremap <S-k> :m '<-2<CR>gv=gv
 #+END_SRC
 
+** Terminal mode
+
+- Esc lets us exit back into normal mode
+
+#+BEGIN_SRC vimrc
+  tnoremap <Esc> <C-\><C-n>
+#+END_SRC
+
+- Since we use Escape to exit into normal mode, we bind =M-[= which is similar to =Ctrl-[= for sending an "Escape" keypress to the underlying terminal, in case we need to do that for whatever reason.
+
+#+BEGIN_SRC vimrc
+  tnoremap <M-[> <Esc>
+#+END_SRC
+
+
 * Settings
 
 - We disable module functionality [[https://www.techrepublic.com/blog/it-security/turn-off-modeline-support-in-vim/][for security]].
@@ -1053,6 +1068,44 @@ Our main language handler is [[https://github.com/sheerun/vim-polyglot][sheerun/
 
 #+BEGIN_SRC vimrc :tangle no :noweb-ref plug
   Plug 'tpope/vim-surround'
+#+END_SRC
+
+** Vim dispatch
+
+[[https://github.com/tpope/vim-dispatch][tpope/vim-dispatch]] lets us dispatch arbitrary actions from inside Vim, into things like Tmux splits. So for example, we become able to run individual test files directly from inside Vim.
+
+#+BEGIN_SRC vimrc :tangle no :noweb-ref plug
+  Plug 'tpope/vim-dispatch'
+#+END_SRC
+
+Here we make it so that our Tmux pane opens horizontally, and we set a width of 50%. See our post here for more info on how this works: https://github.com/tpope/vim-dispatch/issues/65#issuecomment-850751818
+
+If this stops working we might need to either fork the library, or pin the Plug install to a specific commit.
+
+#+BEGIN_SRC vimrc
+  let g:dispatch_tmux_height = '50% -h'
+#+END_SRC
+
+** Vim test
+
+[[https://github.com/vim-test/vim-test][vim-test/vim-test]] lets us runs tests from inside Vim.
+
+#+BEGIN_SRC vimrc :tangle no :noweb-ref plug
+  Plug 'vim-test/vim-test'
+#+END_SRC
+
+#+BEGIN_SRC vimrc
+  let test#strategy = "neovim"
+  let test#neovim#term_position = "vert"
+#+END_SRC
+
+#+BEGIN_SRC vimrc
+  " these "Ctrl mappings" work well when Caps Lock is mapped to Ctrl
+  nmap <silent> t<C-n> :TestNearest<CR>
+  nmap <silent> t<C-f> :TestFile<CR>
+  nmap <silent> t<C-s> :TestSuite<CR>
+  nmap <silent> t<C-l> :TestLast<CR>
+  nmap <silent> t<C-g> :TestVisit<CR>
 #+END_SRC
 
 ** Vim/Tmux interplay
