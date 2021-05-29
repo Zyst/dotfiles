@@ -41,6 +41,7 @@ Plug 'vim-airline/vim-airline'
 Plug 'tpope/vim-fugitive'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+Plug 'gfanto/fzf-lsp.nvim'
 Plug 'scrooloose/nerdtree'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'tpope/vim-projectionist'
@@ -54,6 +55,7 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-dispatch'
 Plug 'vim-test/vim-test'
 Plug 'christoomey/vim-tmux-navigator'
+Plug 'folke/which-key.nvim'
 
 call plug#end()
 
@@ -227,6 +229,9 @@ nnoremap <Leader>b :Buffers<cr>
 nnoremap <Leader>s :BLines<cr>
 nnoremap <Leader>S :Rg <cr>
 nnoremap <Leader>g :GFiles?<cr>
+nnoremap gr :References<cr>
+nnoremap <Leader>ed :Diagnostics<cr>
+nnoremap <Leader>eD :DiagnosticsAll<cr>
 
 let g:fzf_action = {
   \ 'ctrl-t': 'tab split',
@@ -388,7 +393,6 @@ local on_attach = function(client, bufnr)
   -- Mappings.
   local opts = { noremap=true, silent=true }
   buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
-  buf_set_keymap('n', 'gr', '<Cmd>lua vim.lsp.buf.references()<CR>', opts)
   buf_set_keymap('n', 'gi', '<Cmd>lua vim.lsp.buf.implementation()<CR>', opts)
   buf_set_keymap('n', 'gh', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
   buf_set_keymap('n', 'gH', '<Cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
@@ -485,3 +489,9 @@ nmap <silent> t<C-f> :TestFile<CR>
 nmap <silent> t<C-s> :TestSuite<CR>
 nmap <silent> t<C-l> :TestLast<CR>
 nmap <silent> t<C-g> :TestVisit<CR>
+
+set timeoutlen=500
+
+lua << EOF
+  require("which-key").setup {}
+EOF

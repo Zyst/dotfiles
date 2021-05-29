@@ -182,7 +182,6 @@ Steal stuff from https://github.com/wincent/wincent/blob/master/roles/dotfiles/f
   tnoremap <M-[> <Esc>
 #+END_SRC
 
-
 * Settings
 
 - We disable module functionality [[https://www.techrepublic.com/blog/it-security/turn-off-modeline-support-in-vim/][for security]].
@@ -601,11 +600,12 @@ We then initialize the plugin with "batteries included":
 
 ** Fuzzy finder
 
-We use [[https://github.com/junegunn/fzf][junegunn/fzf]] for fuzzy finding.
+We use [[https://github.com/junegunn/fzf][junegunn/fzf]] for fuzzy finding. We also add [[https://github.com/gfanto/fzf-lsp.nvim][gfanto/fzf-lsp.nvim]] to add some LSP specific bindings to trigger FZF search windows.
 
 #+BEGIN_SRC vimrc :tangle no :noweb-ref plug
   Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
   Plug 'junegunn/fzf.vim'
+  Plug 'gfanto/fzf-lsp.nvim'
 #+END_SRC
 
 We want to add some hotkeys for opening files, buffers, and similar items:
@@ -614,6 +614,9 @@ We want to add some hotkeys for opening files, buffers, and similar items:
   - =Space + s= - finds a line inside our buffer
   - =Space + S= - finds a line inside our project
   - =Space + g= - opens a filter with our modified files
+  - =gr= - opens an LSP window for references of the item under the cursor.
+  - =<Leader>ed= - shows the LSP diagnostics for the current buffer
+  - =<Leader>eD= - show the LSP diagnostics for the current project
 
 #+BEGIN_SRC vimrc
   nnoremap <Leader>t :Files<cr>
@@ -621,6 +624,9 @@ We want to add some hotkeys for opening files, buffers, and similar items:
   nnoremap <Leader>s :BLines<cr>
   nnoremap <Leader>S :Rg <cr>
   nnoremap <Leader>g :GFiles?<cr>
+  nnoremap gr :References<cr>
+  nnoremap <Leader>ed :Diagnostics<cr>
+  nnoremap <Leader>eD :DiagnosticsAll<cr>
 #+END_SRC
 
 My hotkeys for opening in separate tabs, splits, and vertical splits will use =Ctrl + t=, =Ctrl + s=, and =Ctrl + v= respectively.
@@ -893,7 +899,6 @@ We configure our LSP Install configuration, and some hotkeys.
     -- Mappings.
     local opts = { noremap=true, silent=true }
     buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
-    buf_set_keymap('n', 'gr', '<Cmd>lua vim.lsp.buf.references()<CR>', opts)
     buf_set_keymap('n', 'gi', '<Cmd>lua vim.lsp.buf.implementation()<CR>', opts)
     buf_set_keymap('n', 'gh', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
     buf_set_keymap('n', 'gH', '<Cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
@@ -1114,6 +1119,28 @@ We use [[https://github.com/christoomey/vim-tmux-navigator][christoomey/vim-tmux
 
 #+BEGIN_SRC vimrc :tangle no :noweb-ref plug
   Plug 'christoomey/vim-tmux-navigator'
+#+END_SRC
+
+** Which Key
+
+We use [[https://github.com/folke/which-key.nvim][folke/which-key.nvim]] to remember key bindings, this is intended to help us remember hotkeys whose existance would potentially be forgotten otherwise.
+
+#+BEGIN_SRC vimrc :tangle no :noweb-ref plug
+  Plug 'folke/which-key.nvim'
+#+END_SRC
+
+- We set a timeout length of half a second, the popup won't show up before that.
+
+#+BEGIN_SRC vimrc
+  set timeoutlen=500
+#+END_SRC
+
+Initialize the Which Key plugin, and add some configuration.
+
+#+BEGIN_SRC vimrc
+  lua << EOF
+    require("which-key").setup {}
+  EOF
 #+END_SRC
 
 * General text editing
