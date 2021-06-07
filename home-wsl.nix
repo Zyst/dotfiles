@@ -8,6 +8,7 @@ in
     packages = (with pkgs; [
       bat
       clojure
+      ffmpeg
       fortune
       fzf
       git-quick-stats
@@ -29,12 +30,14 @@ in
       youtube-dl
 
       # Node
-      nodejs-10_x
+      # nodejs-10_x
       # nodejs-16_x
+      nodejs
       nodePackages.eslint
       nodePackages.http-server
       nodePackages.neovim
       nodePackages.prettier
+      nodePackages.typescript
       nodePackages.yarn
     ]);
 

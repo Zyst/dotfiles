@@ -8,6 +8,7 @@ in
     packages = (with pkgs; [
       bat
       clojure
+      ffmpeg
       fortune
       fzf
       git-quick-stats
