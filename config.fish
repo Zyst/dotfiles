@@ -11,4 +11,6 @@ set -gx FZF_DEFAULT_COMMAND "rg --files --hidden --follow --glob '!.git'"
 set -gx FZF_CTRL_T_COMMAND "$FZF_DEFAULT_COMMAND"
 set -gx FZF_DEFAULT_OPTS "--layout=reverse --height 40%"
 
+status --is-interactive; and source (rbenv init -|psub)
+
 starship init fish | source
