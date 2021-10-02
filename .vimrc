@@ -25,6 +25,7 @@ if has('nvim')
   call plug#begin('~/.config/nvim/plugged')
       Plug 'nvim-lua/plenary.nvim'
       Plug 'lewis6991/gitsigns.nvim'
+      Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
       Plug 'hrsh7th/nvim-compe'
       Plug 'ncm2/float-preview.nvim'
       Plug 'neovim/nvim-lspconfig'
@@ -224,6 +225,10 @@ let g:airline_section_z = ''
 
 :lua require('gitsigns').setup()
 
+nnoremap gad :G add %<CR>
+
+nnoremap gac :G commit<CR>
+
 nnoremap <Leader>t :Files<cr>
 nnoremap <Leader>b :Buffers<cr>
 nnoremap <Leader>s :BLines<cr>
@@ -302,6 +307,15 @@ for s:extension in ['.js', '.jsx', '.ts', '.tsx']
 endfor
 
 nnoremap <Leader>a :A<CR>
+
+lua <<EOF
+require'nvim-treesitter.configs'.setup {
+  ensure_installed = "maintained",
+  highlight = {
+    enable = true,
+  },
+}
+EOF
 
 set completeopt=menuone,noselect
 
