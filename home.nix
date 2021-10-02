@@ -71,6 +71,8 @@ in
         recursive = true;
       };
 
+      ".config/openmw/settings.cfg".source = "${dotfiles}/openmw/settings.cfg";
+
       ".xinitrc".text = "exec awesome";
 
       ".config/regolith/Xresources".source = "${dotfiles}/Xresources-regolith";
