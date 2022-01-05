@@ -29,7 +29,7 @@ if has('nvim')
       Plug 'hrsh7th/nvim-compe'
       Plug 'ncm2/float-preview.nvim'
       Plug 'neovim/nvim-lspconfig'
-      Plug 'kabouzeid/nvim-lspinstall'
+      Plug 'williamboman/nvim-lsp-installer'
       Plug 'Olical/conjure'
 else
   call plug#begin('~/.vim/plugged')
@@ -84,6 +84,11 @@ nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 
+nnoremap <C-m> <C-w>h
+nnoremap <C-n> <C-w>j
+nnoremap <C-e> <C-w>k
+nnoremap <C-i> <C-w>l
+
 nmap <Esc><Esc> :noh<CR><Esc>
 
 nnoremap <Leader>ev :vsp ~/.vimrc<CR>
@@ -92,6 +97,11 @@ xnoremap <C-h> <C-w>h
 xnoremap <C-j> <C-w>j
 xnoremap <C-k> <C-w>k
 xnoremap <C-l> <C-w>l
+
+xnoremap <C-m> <C-w>h
+xnoremap <C-n> <C-w>j
+xnoremap <C-e> <C-w>k
+xnoremap <C-i> <C-w>l
 
 vnoremap <S-j> :m '>+1<CR>gv=gv
 vnoremap <S-k> :m '<-2<CR>gv=gv
@@ -328,6 +338,7 @@ require'compe'.setup {
   preselect = 'enable';
   throttle_time = 80;
   source_timeout = 200;
+  resolve_timeout = 800;
   incomplete_delay = 400;
   max_abbr_width = 100;
   max_kind_width = 100;
@@ -356,11 +367,7 @@ end
 
 local check_back_space = function()
     local col = vim.fn.col('.') - 1
-    if col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') then
-        return true
-    else
-        return false
-    end
+    return col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') ~= nil
 end
 
 -- Use (s-)tab to:
@@ -369,7 +376,7 @@ end
 _G.tab_complete = function()
   if vim.fn.pumvisible() == 1 then
     return t "<C-n>"
-  elseif vim.fn.call("vsnip#available", {1}) == 1 then
+  elseif vim.fn['vsnip#available'](1) == 1 then
     return t "<Plug>(vsnip-expand-or-jump)"
   elseif check_back_space() then
     return t "<Tab>"
@@ -380,7 +387,7 @@ end
 _G.s_tab_complete = function()
   if vim.fn.pumvisible() == 1 then
     return t "<C-p>"
-  elseif vim.fn.call("vsnip#jumpable", {-1}) == 1 then
+  elseif vim.fn['vsnip#jumpable'](-1) == 1 then
     return t "<Plug>(vsnip-jump-prev)"
   else
     -- If <S-Tab> is not working in your terminal, change it to <C-h>
@@ -446,29 +453,15 @@ local function make_config()
   }
 end
 
--- Check out https://github.com/kabouzeid/nvim-lspinstall/wiki
--- To see how to manually install servers
--- lsp-install
-local function setup_servers()
-  require'lspinstall'.setup()
+local lsp_installer = require("nvim-lsp-installer")
 
-  -- get all installed servers
-  local servers = require'lspinstall'.installed_servers()
+-- Register a handler that will be called for all installed servers.
+-- Alternatively, you may also register handlers on specific server instances instead (see example below).
+lsp_installer.on_server_ready(function(server)
+  local config = make_config()
 
-  for _, server in pairs(servers) do
-    local config = make_config()
-
-    require'lspconfig'[server].setup(config)
-  end
-end
-
-setup_servers()
-
--- Automatically reload after `:LspInstall <server>` so we don't have to restart neovim
-require'lspinstall'.post_install_hook = function ()
-  setup_servers() -- reload installed servers
-  vim.cmd("bufdo e") -- this triggers the FileType autocmd that starts the server
-end
+  server:setup(config)
+end)
 EOF
 
 let g:ale_fixers = {
@@ -502,6 +495,11 @@ nmap <silent> t<C-f> :TestFile<CR>
 nmap <silent> t<C-s> :TestSuite<CR>
 nmap <silent> t<C-l> :TestLast<CR>
 nmap <silent> t<C-g> :TestVisit<CR>
+
+nnoremap <silent> {C-m} :TmuxNavigateLeft<cr>
+nnoremap <silent> {C-n} :TmuxNavigateDown<cr>
+nnoremap <silent> {C-e} :TmuxNavigateUp<cr>
+nnoremap <silent> {C-i} :TmuxNavigateRight<cr>
 
 set timeoutlen=500
 

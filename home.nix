@@ -20,6 +20,7 @@ in
       leiningen
       ncdu
       neofetch
+      neovim
       ranger
       ripgrep
       termdown

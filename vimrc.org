@@ -138,6 +138,15 @@ Steal stuff from https://github.com/wincent/wincent/blob/master/roles/dotfiles/f
   nnoremap <C-l> <C-w>l
 #+END_SRC
 
+- This is Colemak specific, I also want to move between panes in normal mode using =Ctrl= + =mnei=.
+
+#+BEGIN_SRC vimrc
+  nnoremap <C-m> <C-w>h
+  nnoremap <C-n> <C-w>j
+  nnoremap <C-e> <C-w>k
+  nnoremap <C-i> <C-w>l
+#+END_SRC
+
 - Pressing =<Esc> <Esc>= disables/hides the progressive search mode.
 
 #+BEGIN_SRC vimrc
@@ -159,6 +168,15 @@ Steal stuff from https://github.com/wincent/wincent/blob/master/roles/dotfiles/f
   xnoremap <C-j> <C-w>j
   xnoremap <C-k> <C-w>k
   xnoremap <C-l> <C-w>l
+#+END_SRC
+
+-  Same pane changes applied for Colemak:
+
+#+BEGIN_SRC vimrc
+  xnoremap <C-m> <C-w>h
+  xnoremap <C-n> <C-w>j
+  xnoremap <C-e> <C-w>k
+  xnoremap <C-i> <C-w>l
 #+END_SRC
 
 - J and K can be used to move selected lines in visual mode.
@@ -810,35 +828,36 @@ We must set =completeopt= to =menuone,noselect=:
 We setup the plugin options.
 
 #+BEGIN_SRC vimrc
-  lua << EOF
-  require'compe'.setup {
-    enabled = true;
-    autocomplete = true;
-    debug = false;
-    min_length = 1;
-    preselect = 'enable';
-    throttle_time = 80;
-    source_timeout = 200;
-    incomplete_delay = 400;
-    max_abbr_width = 100;
-    max_kind_width = 100;
-    max_menu_width = 100;
-    documentation = true;
+    lua << EOF
+    require'compe'.setup {
+      enabled = true;
+      autocomplete = true;
+      debug = false;
+      min_length = 1;
+      preselect = 'enable';
+      throttle_time = 80;
+      source_timeout = 200;
+      resolve_timeout = 800;
+      incomplete_delay = 400;
+      max_abbr_width = 100;
+      max_kind_width = 100;
+      max_menu_width = 100;
+      documentation = true;
 
-    source = {
-      path = true;
-      buffer = true;
-      calc = true;
-      vsnip = true;
-      nvim_lsp = true;
-      nvim_lua = true;
-      spell = true;
-      tags = true;
-      snippets_nvim = true;
-      treesitter = true;
-    };
-  }
-  EOF
+      source = {
+        path = true;
+        buffer = true;
+        calc = true;
+        vsnip = true;
+        nvim_lsp = true;
+        nvim_lua = true;
+        spell = true;
+        tags = true;
+        snippets_nvim = true;
+        treesitter = true;
+      };
+    }
+    EOF
 #+END_SRC
 
 Finally, we make the Tab, and Shift Tab bindings work to select options. This is copied from the compre README:
@@ -851,11 +870,7 @@ Finally, we make the Tab, and Shift Tab bindings work to select options. This is
 
   local check_back_space = function()
       local col = vim.fn.col('.') - 1
-      if col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') then
-          return true
-      else
-          return false
-      end
+      return col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') ~= nil
   end
 
   -- Use (s-)tab to:
@@ -864,7 +879,7 @@ Finally, we make the Tab, and Shift Tab bindings work to select options. This is
   _G.tab_complete = function()
     if vim.fn.pumvisible() == 1 then
       return t "<C-n>"
-    elseif vim.fn.call("vsnip#available", {1}) == 1 then
+    elseif vim.fn['vsnip#available'](1) == 1 then
       return t "<Plug>(vsnip-expand-or-jump)"
     elseif check_back_space() then
       return t "<Tab>"
@@ -875,7 +890,7 @@ Finally, we make the Tab, and Shift Tab bindings work to select options. This is
   _G.s_tab_complete = function()
     if vim.fn.pumvisible() == 1 then
       return t "<C-p>"
-    elseif vim.fn.call("vsnip#jumpable", {-1}) == 1 then
+    elseif vim.fn['vsnip#jumpable'](-1) == 1 then
       return t "<Plug>(vsnip-jump-prev)"
     else
       -- If <S-Tab> is not working in your terminal, change it to <C-h>
@@ -912,10 +927,10 @@ We add [[https://github.com/neovim/nvim-lspconfig][neovim/nvim-lspconfig]] for o
   Plug 'neovim/nvim-lspconfig'
 #+END_SRC
 
-We also want to add [[https://github.com/kabouzeid/nvim-lspinstall][kabouzeid/nvim-lspinstall]] which allows us to easily install LSP servers using a syntax that looks like =:LspInstall <language>=.
+We also want to add [[https://github.com/williamboman/nvim-lsp-installer][williamboman/nvim-lsp-installer]] which allows us to easily install LSP servers using a syntax that looks like =:LspInstall <language>=.
 
 #+BEGIN_SRC vimrc :tangle no :noweb-ref nvim plug
-  Plug 'kabouzeid/nvim-lspinstall'
+  Plug 'williamboman/nvim-lsp-installer'
 #+END_SRC
 
 We configure our LSP Install configuration, and some hotkeys.
@@ -971,29 +986,15 @@ We configure our LSP Install configuration, and some hotkeys.
     }
   end
 
-  -- Check out https://github.com/kabouzeid/nvim-lspinstall/wiki
-  -- To see how to manually install servers
-  -- lsp-install
-  local function setup_servers()
-    require'lspinstall'.setup()
+  local lsp_installer = require("nvim-lsp-installer")
 
-    -- get all installed servers
-    local servers = require'lspinstall'.installed_servers()
+  -- Register a handler that will be called for all installed servers.
+  -- Alternatively, you may also register handlers on specific server instances instead (see example below).
+  lsp_installer.on_server_ready(function(server)
+    local config = make_config()
 
-    for _, server in pairs(servers) do
-      local config = make_config()
-
-      require'lspconfig'[server].setup(config)
-    end
-  end
-
-  setup_servers()
-
-  -- Automatically reload after `:LspInstall <server>` so we don't have to restart neovim
-  require'lspinstall'.post_install_hook = function ()
-    setup_servers() -- reload installed servers
-    vim.cmd("bufdo e") -- this triggers the FileType autocmd that starts the server
-  end
+    server:setup(config)
+  end)
   EOF
 #+END_SRC
 
@@ -1155,6 +1156,15 @@ We use [[https://github.com/christoomey/vim-tmux-navigator][christoomey/vim-tmux
 
 #+BEGIN_SRC vimrc :tangle no :noweb-ref plug
   Plug 'christoomey/vim-tmux-navigator'
+#+END_SRC
+
+I want to add Colemak-DH support here as well, so we need to add this section which overrides the defaults. This adds support for =mnei= as alternatives.
+
+#+BEGIN_SRC vimrc
+  nnoremap <silent> {C-m} :TmuxNavigateLeft<cr>
+  nnoremap <silent> {C-n} :TmuxNavigateDown<cr>
+  nnoremap <silent> {C-e} :TmuxNavigateUp<cr>
+  nnoremap <silent> {C-i} :TmuxNavigateRight<cr>
 #+END_SRC
 
 ** Which Key
