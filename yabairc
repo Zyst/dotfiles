@@ -43,7 +43,8 @@ yabai -m rule --add app="^Logi Options$" manage=off
 yabai -m rule --add app="^Cisco Webex Start$" manage=off
 yabai -m rule --add app="^Private Internet Access$" manage=off
 yabai -m rule --add app="^Cisco AnyConnect Secure Mobility Client$" manage=off
-
+yabai -m rule --add app="^Emacs$" manage=on
+yabai -m rule --add app="^To Do$" manage=on
 
 ## Some random global settings
 # New window spawns to the right if vertical split, or bottom if horizontal split
