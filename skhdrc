@@ -59,7 +59,7 @@ alt - f  : yabai -m window --toggle zoom-fullscreen
 alt + shift - f : yabai -m window --toggle float
 
 # Toggle between floating & tiled layouts on command
-alt + shift - l : yabai -m config --space $(yabai -m query --spaces --space|\jq -r .index) layout $(yabai -m query --spaces --space |jq -r 'if .type|contains("float") then "bsp" else "float" end')
+alt + shift - b : yabai -m config --space $(yabai -m query --spaces --space|\jq -r .index) layout $(yabai -m query --spaces --space |jq -r 'if .type|contains("float") then "bsp" else "float" end')
 
 ###############################################################################
 # Session Management
