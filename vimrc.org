@@ -141,10 +141,10 @@ Steal stuff from https://github.com/wincent/wincent/blob/master/roles/dotfiles/f
 - This is Colemak specific, I also want to move between panes in normal mode using =Ctrl= + =mnei=.
 
 #+BEGIN_SRC vimrc
-  nnoremap <C-m> <C-w>h
-  nnoremap <C-n> <C-w>j
-  nnoremap <C-e> <C-w>k
-  nnoremap <C-i> <C-w>l
+  " nnoremap <C-m> <C-w>h
+  " nnoremap <C-n> <C-w>j
+  " nnoremap <C-e> <C-w>k
+  " nnoremap <C-i> <C-w>l
 #+END_SRC
 
 - Pressing =<Esc> <Esc>= disables/hides the progressive search mode.
@@ -173,10 +173,10 @@ Steal stuff from https://github.com/wincent/wincent/blob/master/roles/dotfiles/f
 -  Same pane changes applied for Colemak:
 
 #+BEGIN_SRC vimrc
-  xnoremap <C-m> <C-w>h
-  xnoremap <C-n> <C-w>j
-  xnoremap <C-e> <C-w>k
-  xnoremap <C-i> <C-w>l
+  " xnoremap <C-m> <C-w>h
+  " xnoremap <C-n> <C-w>j
+  " xnoremap <C-e> <C-w>k
+  " xnoremap <C-i> <C-w>l
 #+END_SRC
 
 - J and K can be used to move selected lines in visual mode.
@@ -504,17 +504,7 @@ We also want to set ~syntax~ to ~on~, which makes the editor allow syntax highli
 
 ** Theme
 
-Our theme is the bespoke [[https://github.com/Zyst/egoist-one.vim][Zyst/egoist-one.vim]], which is in turn based on [[https://github.com/joshdick/onedark.vim][joshdick/onedark.vim]]. It customizes some elements to my liking.
-
-#+BEGIN_SRC vimrc :tangle no :noweb-ref plug
-  Plug 'Zyst/egoist-one.vim'
-#+END_SRC
-
-We proceed to assign our ~colorscheme~ as ~onedark~.
-
-#+BEGIN_SRC vimrc
-  colorscheme onedark
-#+END_SRC
+We have a few themes we like, so I want to have them in different blocks to switch between them as needed. We should comment out anything we're not using. We do add some global functionality though:
 
 Echo highlight group under cursor. This can be called using =:call HighlightEcho()= in our Vim commands. I mainly use this to find out the name of highlight groups I want to modify in my own theme.
 
@@ -528,11 +518,75 @@ Echo highlight group under cursor. This can be called using =:call HighlightEcho
   endfunction
 #+END_SRC
 
+*** Egoist One
+
+Our main theme is the bespoke [[https://github.com/Zyst/egoist-one.vim][Zyst/egoist-one.vim]], which is in turn based on [[https://github.com/joshdick/onedark.vim][joshdick/onedark.vim]]. It customizes some elements to my liking.
+
+#+BEGIN_SRC vimrc :tangle no :noweb-ref plug
+  " Plug 'Zyst/egoist-one.vim'
+#+END_SRC
+
+We proceed to assign our ~colorscheme~ as ~onedark~.
+
+#+BEGIN_SRC vimrc
+  " colorscheme onedark
+#+END_SRC
+
 Finally, we set ~g:onedark_terminal_italics~ to ~1~ which enables some of the theme's italics functionality.
 
 #+BEGIN_SRC vimrc
-  let g:onedark_terminal_italics=1
+  " let g:onedark_terminal_italics=1
 #+END_SRC
+
+*** Edge
+
+Sainnhe has some really nice themes! This one is [[https://github.com/sainnhe/edge][sainnhe/edge]]. A mix of Material & One Dark. Lots of overlap with Egoist One, but we like it too.
+
+#+BEGIN_SRC vimrc :tangle no :noweb-ref plug
+  " Plug 'sainnhe/edge'
+#+END_SRC
+
+We set the theme to edge, and set some self explanatory configuration variables.
+
+#+BEGIN_SRC vimrc
+  " let g:edge_enable_italic = 1
+
+  " colorscheme edge
+#+END_SRC
+
+*** Everforest
+
+This one is [[https://github.com/sainnhe/everforest][sainnhe/everforest]]. My favorite green theme ever.
+
+#+BEGIN_SRC vimrc :tangle no :noweb-ref plug
+  Plug 'sainnhe/everforest'
+#+END_SRC
+
+We set the theme to everforest, and set some self explanatory configuration variables.
+
+#+BEGIN_SRC vimrc
+  let g:everforest_enable_italic = 1
+
+  colorscheme everforest
+#+END_SRC
+
+*** Melange
+
+[[https://github.com/savq/melange][savq/melange]] is a mix of Ayu, and Gruvbox. What's there not to love here.
+
+#+BEGIN_SRC vimrc :tangle no :noweb-ref plug
+  " Plug 'savq/melange'
+#+END_SRC
+
+We set the theme to everforest, and set some self explanatory configuration variables.
+
+#+BEGIN_SRC vimrc
+  " colorscheme melange
+#+END_SRC
+
+*** TODO Gruvbox
+
+Add Gruvbox
 
 ** CSS colors
 
@@ -613,7 +667,47 @@ We use  [[https://github.com/lewis6991/gitsigns.nvim][lewis6991/gitsigns.nvim]] 
 We then initialize the plugin with "batteries included":
 
 #+BEGIN_SRC vimrc
-  :lua require('gitsigns').setup()
+  lua <<EOF
+    require('gitsigns').setup {
+      current_line_blame = false,
+      on_attach = function(bufnr)
+        local gs = package.loaded.gitsigns
+
+        local function map(mode, l, r, opts)
+          opts = opts or {}
+          opts.buffer = bufnr
+          vim.keymap.set(mode, l, r, opts)
+        end
+
+        -- Navigation
+        map('n', ']c', function()
+          if vim.wo.diff then return ']c' end
+          vim.schedule(function() gs.next_hunk() end)
+          return '<Ignore>'
+        end, {expr=true})
+
+        map('n', '[c', function()
+          if vim.wo.diff then return '[c' end
+          vim.schedule(function() gs.prev_hunk() end)
+          return '<Ignore>'
+        end, {expr=true})
+
+        -- Actions
+        map({'n', 'v'}, '<leader>hs', ':Gitsigns stage_hunk<CR>')
+        map({'n', 'v'}, '<leader>hr', ':Gitsigns reset_hunk<CR>')
+        map('n', '<leader>hS', gs.stage_buffer)
+        map('n', '<leader>hu', gs.undo_stage_hunk)
+        map('n', '<leader>hR', gs.reset_buffer)
+        map('n', '<leader>hp', gs.preview_hunk)
+        map('n', '<leader>hd', gs.diffthis)
+        map('n', '<leader>hD', function() gs.diffthis('~') end)
+        map('n', '<leader>td', gs.toggle_deleted)
+
+        -- Text object
+        map({'o', 'x'}, 'ih', ':<C-U>Gitsigns select_hunk<CR>')
+      end
+    }
+  EOF
 #+END_SRC
 
 - =gad= Adds stages the current file in Git
@@ -799,7 +893,6 @@ We enable treesitter highlight groups, and ensure that the language support entr
 #+BEGIN_SRC vimrc
 lua <<EOF
 require'nvim-treesitter.configs'.setup {
-  ensure_installed = "maintained",
   highlight = {
     enable = true,
   },
@@ -860,7 +953,7 @@ We setup the plugin options.
     EOF
 #+END_SRC
 
-Finally, we make the Tab, and Shift Tab bindings work to select options. This is copied from the compre README:
+Finally, we make the Tab, and Shift Tab bindings work to select options. This is copied from the compe README:
 
 #+BEGIN_SRC vimrc
   lua << EOF
@@ -1161,10 +1254,10 @@ We use [[https://github.com/christoomey/vim-tmux-navigator][christoomey/vim-tmux
 I want to add Colemak-DH support here as well, so we need to add this section which overrides the defaults. This adds support for =mnei= as alternatives.
 
 #+BEGIN_SRC vimrc
-  nnoremap <silent> {C-m} :TmuxNavigateLeft<cr>
-  nnoremap <silent> {C-n} :TmuxNavigateDown<cr>
-  nnoremap <silent> {C-e} :TmuxNavigateUp<cr>
-  nnoremap <silent> {C-i} :TmuxNavigateRight<cr>
+  " nnoremap <silent> {C-m} :TmuxNavigateLeft<cr>
+  " nnoremap <silent> {C-n} :TmuxNavigateDown<cr>
+  " nnoremap <silent> {C-e} :TmuxNavigateUp<cr>
+  " nnoremap <silent> {C-i} :TmuxNavigateRight<cr>
 #+END_SRC
 
 ** Which Key

@@ -36,7 +36,10 @@ else
       
 endif
 
-Plug 'Zyst/egoist-one.vim'
+" Plug 'Zyst/egoist-one.vim'
+" Plug 'sainnhe/edge'
+Plug 'sainnhe/everforest'
+" Plug 'savq/melange'
 Plug 'ap/vim-css-color'
 Plug 'vim-airline/vim-airline'
 Plug 'tpope/vim-fugitive'
@@ -84,10 +87,10 @@ nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 
-nnoremap <C-m> <C-w>h
-nnoremap <C-n> <C-w>j
-nnoremap <C-e> <C-w>k
-nnoremap <C-i> <C-w>l
+" nnoremap <C-m> <C-w>h
+" nnoremap <C-n> <C-w>j
+" nnoremap <C-e> <C-w>k
+" nnoremap <C-i> <C-w>l
 
 nmap <Esc><Esc> :noh<CR><Esc>
 
@@ -98,10 +101,10 @@ xnoremap <C-j> <C-w>j
 xnoremap <C-k> <C-w>k
 xnoremap <C-l> <C-w>l
 
-xnoremap <C-m> <C-w>h
-xnoremap <C-n> <C-w>j
-xnoremap <C-e> <C-w>k
-xnoremap <C-i> <C-w>l
+" xnoremap <C-m> <C-w>h
+" xnoremap <C-n> <C-w>j
+" xnoremap <C-e> <C-w>k
+" xnoremap <C-i> <C-w>l
 
 vnoremap <S-j> :m '>+1<CR>gv=gv
 vnoremap <S-k> :m '<-2<CR>gv=gv
@@ -216,8 +219,6 @@ endif
 
 syntax on
 
-colorscheme onedark
-
 function g:HighlightEcho ()
   " Echo under mouse
   echom synIDattr(synID(line("."),col("."),1),"name")
@@ -226,14 +227,66 @@ function g:HighlightEcho ()
   echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
 endfunction
 
-let g:onedark_terminal_italics=1
+" colorscheme onedark
+
+" let g:onedark_terminal_italics=1
+
+" let g:edge_enable_italic = 1
+
+" colorscheme edge
+
+let g:everforest_enable_italic = 1
+
+colorscheme everforest
+
+" colorscheme melange
 
 let g:airline_section_b = ''
 let g:airline_section_x = ''
 let g:airline_section_y = ''
 let g:airline_section_z = ''
 
-:lua require('gitsigns').setup()
+lua <<EOF
+  require('gitsigns').setup {
+    current_line_blame = false,
+    on_attach = function(bufnr)
+      local gs = package.loaded.gitsigns
+
+      local function map(mode, l, r, opts)
+        opts = opts or {}
+        opts.buffer = bufnr
+        vim.keymap.set(mode, l, r, opts)
+      end
+
+      -- Navigation
+      map('n', ']c', function()
+        if vim.wo.diff then return ']c' end
+        vim.schedule(function() gs.next_hunk() end)
+        return '<Ignore>'
+      end, {expr=true})
+
+      map('n', '[c', function()
+        if vim.wo.diff then return '[c' end
+        vim.schedule(function() gs.prev_hunk() end)
+        return '<Ignore>'
+      end, {expr=true})
+
+      -- Actions
+      map({'n', 'v'}, '<leader>hs', ':Gitsigns stage_hunk<CR>')
+      map({'n', 'v'}, '<leader>hr', ':Gitsigns reset_hunk<CR>')
+      map('n', '<leader>hS', gs.stage_buffer)
+      map('n', '<leader>hu', gs.undo_stage_hunk)
+      map('n', '<leader>hR', gs.reset_buffer)
+      map('n', '<leader>hp', gs.preview_hunk)
+      map('n', '<leader>hd', gs.diffthis)
+      map('n', '<leader>hD', function() gs.diffthis('~') end)
+      map('n', '<leader>td', gs.toggle_deleted)
+
+      -- Text object
+      map({'o', 'x'}, 'ih', ':<C-U>Gitsigns select_hunk<CR>')
+    end
+  }
+EOF
 
 nnoremap gad :G add %<CR>
 
@@ -320,7 +373,6 @@ nnoremap <Leader>a :A<CR>
 
 lua <<EOF
 require'nvim-treesitter.configs'.setup {
-  ensure_installed = "maintained",
   highlight = {
     enable = true,
   },
@@ -496,10 +548,10 @@ nmap <silent> t<C-s> :TestSuite<CR>
 nmap <silent> t<C-l> :TestLast<CR>
 nmap <silent> t<C-g> :TestVisit<CR>
 
-nnoremap <silent> {C-m} :TmuxNavigateLeft<cr>
-nnoremap <silent> {C-n} :TmuxNavigateDown<cr>
-nnoremap <silent> {C-e} :TmuxNavigateUp<cr>
-nnoremap <silent> {C-i} :TmuxNavigateRight<cr>
+" nnoremap <silent> {C-m} :TmuxNavigateLeft<cr>
+" nnoremap <silent> {C-n} :TmuxNavigateDown<cr>
+" nnoremap <silent> {C-e} :TmuxNavigateUp<cr>
+" nnoremap <silent> {C-i} :TmuxNavigateRight<cr>
 
 set timeoutlen=500
 
