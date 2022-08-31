@@ -8,6 +8,7 @@ in
     packages = (with pkgs; [
       bat
       clojure
+      exa
       ffmpeg
       fortune
       fzf
@@ -29,6 +30,7 @@ in
       xclip
       xdelta
       youtube-dl
+      yt-dlp
 
       # Node 16
       nodejs-16_x

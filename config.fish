@@ -1,6 +1,7 @@
 set fish_greeting
 
 alias clrepl="clojure -Sdeps '{:deps {nrepl {:mvn/version \"0.7.0\"} cider/cider-nrepl {:mvn/version \"0.25.0\"}}}' -m nrepl.cmdline --middleware '[\"cider.nrepl/cider-middleware\"]'"
+alias ls="exa --tree --level=1"
 
 function 2fa
   cat /home/zyst/.2fa/$argv | xargs -I {} oathtool --base32 --totp "{}"
