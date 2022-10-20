@@ -43,6 +43,10 @@ yabai -m rule --add app="^Logi Options$" manage=off
 yabai -m rule --add app="^Cisco Webex Start$" manage=off
 yabai -m rule --add app="^Private Internet Access$" manage=off
 yabai -m rule --add app="^Cisco AnyConnect Secure Mobility Client$" manage=off
+yabai -m rule --add app="^littlegears_macos$" manage=off
+yabai -m rule --add app="^playground_macos$" manage=off
+yabai -m rule --add app="^srcpy$" manage=off
+yabai -m rule --add app="^Quest 2$" manage=off
 yabai -m rule --add app="^Emacs$" manage=on
 yabai -m rule --add app="^To Do$" manage=on
 
