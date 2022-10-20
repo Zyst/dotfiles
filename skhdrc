@@ -15,7 +15,6 @@ alt - return : /Applications/kitty.app/Contents/MacOS/kitty --single-instance --
 alt + shift - return : open -n -a "Google Chrome"
 alt + shift - k : open /Users/erickromero
 
-
 ###############################################################################
 # Window and Space Navigation
 ###############################################################################
@@ -33,7 +32,7 @@ alt + shift - e : yabai -m window --swap north || $(yabai -m window --display no
 alt + shift - i : yabai -m window --swap east || $(yabai -m window --display east; yabai -m display --focus east)
 
 ## Rotate windows clockwise
-alt + shift - r : yabai -m space --rotate 90
+alt + shift - t : yabai -m space --rotate 90
 
 ## Move window to another desktop
 
@@ -59,7 +58,7 @@ alt - f  : yabai -m window --toggle zoom-fullscreen
 alt + shift - f : yabai -m window --toggle float
 
 # Toggle between floating & tiled layouts on command
-alt + shift - b : yabai -m config --space $(yabai -m query --spaces --space|\jq -r .index) layout $(yabai -m query --spaces --space |jq -r 'if .type|contains("float") then "bsp" else "float" end')
+alt + shift - z : yabai -m config --space $(yabai -m query --spaces --space|\jq -r .index) layout $(yabai -m query --spaces --space |jq -r 'if .type|contains("float") then "bsp" else "float" end')
 
 ###############################################################################
 # Session Management
