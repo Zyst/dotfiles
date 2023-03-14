@@ -94,6 +94,10 @@ in
     };
 
     extraOutputsToInstall = [ "man" ];
+
+    stateVersion = "22.05";
+    username = "zyst";
+    homeDirectory = "/home/zyst";
   };
 
   programs = {
