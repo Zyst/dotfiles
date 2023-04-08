@@ -146,12 +146,12 @@ local bindings = {
    { "Any+sc_'", "togglelos"             },
    { "Any+sc_'", "losradar"              },
 
-   { "Ctrl+meta+5", "viewta"                 },
-   { "Ctrl+meta+6", "viewspring"             },
-   { "meta+5" , "LastMsgPos"             },
-   { "meta+6" , "ShowPathTraversability" },
-   { "meta+7" , "ShowMetalMap"           },
-   { "meta+8" , "ShowElevation"          },
+   { "meta+1", "LastMsgPos"             },
+   { "meta+2", "ShowPathTraversability" },
+   { "meta+3", "ShowMetalMap"           },
+   { "meta+4", "ShowElevation"          },
+   { "meta+5", "viewta"                 },
+   { "meta+6", "viewspring"             },
 
    {    "f11" , "luaui selector"         },
    { "Any+f12", "screenshot"     , "png" },
@@ -174,13 +174,16 @@ local bindings = {
    { "Any+ctrl",  "movetilt"   }, -- rotate on x with mousewheel
 
    { "Ctrl+sc_f",    "select", "AllMap++_ClearSelection_SelectAll+"                                                                                       },
-   -- TODO: Consider replacing TAB entries with the default mode entries, and
-   -- adding hotkeys for selecting commander/idle workers
-   {  "Ctrl+tab",    "select", "AllMap+_Builder_Idle+_ClearSelection_SelectOne+"                                                                          },
-   {       "tab",    "select", "AllMap+_ManualFireUnit_Not_IdMatches_cordecom_Not_IdMatches_armdecom_Not_IdMatches_armthor+_ClearSelection_SelectOne+"    },
-   {      "sc_q",    "select", "Visible+_InPrevSel+_ClearSelection_SelectAll+"                                                                                       },
-   { "Ctrl+sc_q",    "select", "PrevSelection++_ClearSelection_SelectPart_50+"                                                                                       },
+   {      "sc_q",    "select", "Visible+_InPrevSel+_ClearSelection_SelectAll+"                                                                            },
+   { "Ctrl+sc_q",    "select", "PrevSelection++_ClearSelection_SelectPart_50+"                                                                            },
    { "Ctrl+sc_w",    "select", "AllMap+_InPrevSel+_ClearSelection_SelectAll+"                                                                             },
+
+   -- We steal Tab behavior from default keymap, and rebind select
+   -- commander/idle worker to other keys instead
+   { "Any+tab", "toggleoverview" },
+
+   { "Ctrl+sc_d", "select", "AllMap+_Builder_Idle+_ClearSelection_SelectOne+"                                                                       },
+   { "Ctrl+sc_c", "select", "AllMap+_ManualFireUnit_Not_IdMatches_cordecom_Not_IdMatches_armdecom_Not_IdMatches_armthor+_ClearSelection_SelectOne+" },
 
    -- numpad movement
    { "numpad2", "moveback"    },
@@ -211,12 +214,11 @@ for i = 0, 9 do
 
 end
 
--- TODO: Consider replacing 1-4 with the 5-8 keys instead
---camera anchors
-for i = 1, 4 do
-   table.insert(bindings, { 'Ctrl+meta+'..i , "set_camera_anchor", i })
-   table.insert(bindings, { 'meta+'..i , "focus_camera_anchor", i })
+--camera anchors in default 60% Grid, commented out, we use 1-4 for map/game controls
+-- for i = 1, 4 do
+--    table.insert(bindings, { 'Ctrl+meta+'..i , "set_camera_anchor", i })
+--    table.insert(bindings, { 'meta+'..i , "focus_camera_anchor", i })
 
-end
+-- end
 
 return bindings
