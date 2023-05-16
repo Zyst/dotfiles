@@ -32,9 +32,10 @@ in
       youtube-dl
       yt-dlp
 
-      # Node 16
-      nodejs-16_x
+      # Node 18
+      nodejs-18_x
       nodePackages.eslint
+      nodePackages.graphite-cli
       nodePackages.http-server
       nodePackages.neovim
       nodePackages.prettier
