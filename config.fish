@@ -1,7 +1,7 @@
 set fish_greeting
 
 alias clrepl="clojure -Sdeps '{:deps {nrepl {:mvn/version \"0.7.0\"} cider/cider-nrepl {:mvn/version \"0.25.0\"}}}' -m nrepl.cmdline --middleware '[\"cider.nrepl/cider-middleware\"]'"
-alias ls="exa --tree --level=1"
+alias ls="eza --tree --level=1"
 alias juiceme="adb shell ls /sdcard/Oculus/VideoShots/ | sort -r | head -n1 | xargs -I '{}' adb pull /sdcard/Oculus/VideoShots/'{}'"
 alias re="watch -n 1 -g '$1'"
 alias gst="git status"

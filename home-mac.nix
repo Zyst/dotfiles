@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 
 let
-  dotfiles = "/home/zyst/dev/dotfiles";
+  dotfiles = "/Users/zyst/dev/dotfiles";
 in
 {
   home = {
@@ -30,7 +30,6 @@ in
       termdown
       tmux
       tree
-      xclip
       xdelta
       yt-dlp
 
@@ -44,11 +43,6 @@ in
     ]);
 
     file = {
-      ".config/awesome" = {
-        source = "${dotfiles}/awesome";
-        recursive = true;
-      };
-
       ".config/fish/config.fish".source = "${dotfiles}/config.fish";
 
       ".config/kitty/kitty.conf".source = "${dotfiles}/kitty.conf";
@@ -78,11 +72,6 @@ in
 
       ".config/openmw/settings.cfg".source = "${dotfiles}/openmw/settings.cfg";
 
-      ".xinitrc".text = "exec awesome";
-
-      ".config/regolith/Xresources".source = "${dotfiles}/Xresources-regolith";
-      ".config/regolith/i3/config".source = "${dotfiles}/i3.config";
-
       ".config/nvim/init.vim".text =
         ''
         set nocompatible
@@ -101,7 +90,7 @@ in
 
     stateVersion = "22.05";
     username = "zyst";
-    homeDirectory = "/home/zyst";
+    homeDirectory = "/Users/zyst";
   };
 
   programs = {
@@ -119,7 +108,7 @@ in
           editor = "nvim";
         };
 
-        credential.helper = "libsecret";
+        credential.helper = "osxkeychain";
       };
     };
 

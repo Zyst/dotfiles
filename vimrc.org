@@ -885,7 +885,7 @@ Finally, we map =<Leader>= and =a= to go to our alternate file.
 We want [[https://github.com/nvim-treesitter/nvim-treesitter][nvim-treesitter/nvim-treesitter]], which we'll primarily use to make our highlights look better.
 
 #+BEGIN_SRC vimrc :tangle no :noweb-ref nvim plug
-  Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+  Plug 'nvim-treesitter/nvim-treesitter', {'branch': 'master', 'do': ':TSUpdate'}
 #+END_SRC
 
 We enable treesitter highlight groups, and ensure that the language support entries we install are being maintained.
