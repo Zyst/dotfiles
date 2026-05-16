@@ -7,6 +7,9 @@
 .config/nvim
 .config/nvim-gtk
 
+# Nix build output symlink (GC root) created by `nix-build` / `home-manager build`
+/result
+
 # Emacs whitelist some specific files
 !.emacs.d
 .emacs.d/*

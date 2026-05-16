@@ -6,7 +6,6 @@ in
 {
   home = {
     packages = (with pkgs; [
-      jj
       bat
       clojure
       eza
@@ -119,13 +118,27 @@ in
           editor = "nvim";
         };
 
-        credential.helper = "libsecret";
+        credential = {
+          helper = [ "!gh auth git-credential" "libsecret" ];
+        };
+      };
+    };
+
+    jujutsu = {
+      enable = true;
+      settings = {
+        user = {
+          name = "Erick Romero";
+          email = "erick.romero.dev@gmail.com";
+        };
+        ui.editor = "nvim";
       };
     };
 
     delta = {
       enable = true;
       enableGitIntegration = true;
+      enableJujutsuIntegration = true;
 
       options = {
         syntax-theme = "base16";
