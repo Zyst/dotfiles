@@ -113,5 +113,4 @@ When adding a package or option, decide whether it belongs in the shared `home.n
 
 ## Related repo conventions
 
-- `makesymlinks.sh` / `makesymlinks.js` predate the home-manager workflow; home-manager is the canonical mechanism now.
 - Per-app config dirs (`alacritty.yml`, `kitty.conf`, `i3.config`, `espanso/`, `mpv/`, `awesome/`, `openmw/`, `BAR/`, etc.) are wired up via home-manager — check the relevant `home*.nix` to see how a given file lands in `$HOME`.
