@@ -52,6 +52,24 @@ rm -rf ~/.config/nvim/plugged/<plugin>
 nvim --headless '+PlugInstall --sync' '+qa'    # run from a valid cwd like ~
 ```
 
+## tmux.conf upstream reference
+
+`~/dev/dotfiles/tmux.conf` is **heavily lifted from wincent/wincent**: <https://github.com/wincent/wincent/blob/main/aspects/dotfiles/files/.config/tmux/tmux.conf>
+
+Spot-check on 2026-05-21: 73 of the first 180 lines are byte-identical (same prefix `C-Space`, same vim-tmux-navigator block, same `#{pane_current_path}` splits, same SHLVL-reset, same `❯`-search prompt bindings, etc.). Treat wincent's file as the canonical upstream — check it **first** when making tmux changes for an existing pattern.
+
+Patterns the user hasn't yet adopted but may want to:
+
+- **`o`/`i` prompt-navigation pair** (wincent's lines 384-428): `[o]ut` back / `[i]n` forward. Has both an OSC-133 native path (`send-keys -X previous-prompt`/`next-prompt`, tmux 3.4+) and a `❯`-search fallback. `-r` on the `-T copy-mode-vi` variants lets you tap repeatedly without re-pressing prefix.
+- **`{}` block syntax** everywhere — wincent never uses `\;` chains. Avoids parser quirks that bite `\;`-chained bindings (e.g. `list-keys` rendering them as `\;\;` after TPM loads).
+- **Version gating with `%hidden`**: `%hidden IS_TMUX_3_4_OR_ABOVE="#{e|>=|f|0:$TMUX_VERSION,3.4}"` enables `%if $IS_TMUX_3_4_OR_ABOVE` preprocessor blocks. Requires tmux 3.2+.
+- **Vim-style VISUAL / VISUAL_LINE / VISUAL_BLOCK in copy-mode** (lines 204-261) with `@mode` option tracking.
+- **`set-hook -g pane-mode-changed`** for reacting to copy-mode transitions.
+- **Naked `/` and `?` from normal mode** (lines 439-450): drop into copy-mode AND start a search in one go.
+- **Pane border showing copy-mode indicator + search count** (lines 277-328).
+
+When borrowing, keep the borrowed code recognizable (similar comments and structure) so the lineage stays visible.
+
 ## home-manager options reference
 
 Gold-standard reference: <https://nix-community.github.io/home-manager/options.xhtml>
@@ -76,6 +94,12 @@ Guidelines:
 When adding a package or option, decide whether it belongs in the shared `home.nix` or a platform file.
 
 ## Open dotfile-related TODOs
+
+### Run the home-manager idiomaticity audit on `home.nix` / `home-mac.nix`
+
+- **Status:** Not started. Audit brief lives at `/Users/zyst/ai-notes/home-manager-audit/agent-prompt.md`.
+- **Why:** Both configs have grown organically — packages in `home.packages` and configs via `home.file."…".source` — without consistently reaching for first-class `programs.<name>` modules. The audit produces a ranked, read-only report (High/Medium/Low findings) the user can apply selectively.
+- **How to apply:** Dispatch a general-purpose `Agent` with the brief at `~/ai-notes/home-manager-audit/agent-prompt.md`. Read-only — does **not** edit files or run `home-manager switch`. Scope is strictly the two `.nix` files; do NOT let it propose changes to referenced dotfiles (`config.fish`, `kitty.conf`, `tmux.conf`, `vimrc.org`, etc.) — those are deferred-pending-scope-expansion. Each finding must cite a specific home-manager option from <https://nix-community.github.io/home-manager/options.xhtml> and be verified against the local channel via `nix-instantiate --eval`. After the report lands, surface High-impact findings (especially deprecations) for the user to decide on; don't auto-apply.
 
 ### Migrate `nvim-compe` → `nvim-cmp`, and `nvim-treesitter` to the new `main` API
 
