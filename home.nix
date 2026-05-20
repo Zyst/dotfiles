@@ -22,7 +22,6 @@ in
       leiningen
       ncdu
       fastfetch
-      fish
       neovim
       ranger
       ripgrep
@@ -47,8 +46,6 @@ in
         source = "${dotfiles}/awesome";
         recursive = true;
       };
-
-      ".config/fish/config.fish".source = "${dotfiles}/config.fish";
 
       ".config/kitty/kitty.conf".source = "${dotfiles}/kitty.conf";
 
@@ -98,6 +95,10 @@ in
 
     extraOutputsToInstall = [ "man" ];
 
+    sessionVariables = {
+      LESS = "-FRX";
+    };
+
     stateVersion = "22.05";
     username = "zyst";
     homeDirectory = "/home/zyst";
@@ -105,6 +106,11 @@ in
 
   programs = {
     emacs.enable = true;
+
+    fish = {
+      enable = true;
+      interactiveShellInit = builtins.readFile "${dotfiles}/config.fish";
+    };
 
     git = {
       enable = true;
@@ -132,6 +138,7 @@ in
           email = "erick.romero.dev@gmail.com";
         };
         ui.editor = "nvim";
+        ui.default-command = "log";
       };
     };
 
