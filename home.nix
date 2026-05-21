@@ -61,6 +61,11 @@ in
         recursive = true;
       };
 
+      ".claude/skills/didactic-upstream-diff-iteration" = {
+        source = "${dotfiles}/.claude/skills/didactic-upstream-diff-iteration";
+        recursive = true;
+      };
+
       ".vimrc".source = "${dotfiles}/.vimrc";
 
       ".bashrc".source = "${dotfiles}/bashrc";
