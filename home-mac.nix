@@ -138,6 +138,22 @@ in
         };
         ui.editor = "nvim";
         ui.default-command = "log";
+
+        # When `jj describe` opens the editor, include the full git-style diff
+        # below a `JJ: ignore-rest` marker (jj's equivalent of git commit -v's
+        # `>8` cut line). Everything past the marker is stripped on save, so
+        # the diff is read-only context, not part of the description.
+        templates.draft_commit_description = ''
+          concat(
+            coalesce(description, "\n"),
+            surround(
+              "\nJJ: This commit contains the following changes:\n", "",
+              indent("JJ:     ", diff.summary()),
+            ),
+            "\nJJ: ignore-rest\n",
+            diff.git(),
+          )
+        '';
       };
     };
 

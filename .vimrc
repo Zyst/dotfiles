@@ -127,6 +127,8 @@ augroup numbertoggle
   autocmd BufLeave,FocusLost,WinLeave   * if &nu | set nornu | endif
 augroup END
 
+autocmd BufRead,BufNewFile *.jjdescription setfiletype jjdescription
+
 set hidden
 
 augroup myvimrc

@@ -236,6 +236,12 @@ Steal stuff from https://github.com/wincent/wincent/blob/master/roles/dotfiles/f
   augroup END
 #+END_SRC
 
+- We tell nvim that =*.jjdescription= files (what =jj describe= opens in the editor) should use the bundled =jjdescription= filetype. That syntax already understands =JJ:= comments and embeds =syntax/diff.vim= for any =diff --git= block, so this one line gives us proper diff highlighting in the describe buffer.
+
+#+BEGIN_SRC vimrc
+  autocmd BufRead,BufNewFile *.jjdescription setfiletype jjdescription
+#+END_SRC
+
 - We =set hidden= which does some operations around renames, and others. Also lets us hide buffers with unsaved changes without being promted.
 
 #+BEGIN_SRC vimrc
