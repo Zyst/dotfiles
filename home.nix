@@ -13,7 +13,6 @@ in
       fastfetch
       ffmpeg
       fortune
-      gh
       git-quick-stats
       gtypist
       htop
@@ -137,6 +136,11 @@ in
       ];
     };
 
+    gh = {
+      enable = true;
+      settings.aliases.co = "pr checkout";
+    };
+
     git = {
       enable = true;
       settings = {
@@ -150,7 +154,7 @@ in
         };
 
         credential = {
-          helper = [ "!gh auth git-credential" "libsecret" ];
+          helper = [ "libsecret" ];
         };
       };
     };
