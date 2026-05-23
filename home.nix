@@ -8,7 +8,9 @@ in
     packages = (with pkgs; [
       bat
       clojure
+      eslint
       eza
+      fastfetch
       ffmpeg
       fortune
       fzf
@@ -16,13 +18,16 @@ in
       git-quick-stats
       gtypist
       htop
+      http-server
       jdk
       joker
       jq
       leiningen
       ncdu
-      fastfetch
       neovim
+      neovim-node-client
+      nodejs_22
+      prettier
       ranger
       ripgrep
       termdown
@@ -30,15 +35,8 @@ in
       tree
       xclip
       xdelta
-      yt-dlp
-
-      # Node 22
-      nodejs_22
-      eslint
-      http-server
-      neovim-node-client
-      prettier
       yarn
+      yt-dlp
     ]);
 
     file = {
