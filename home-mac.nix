@@ -22,8 +22,6 @@ in
       jq
       leiningen
       ncdu
-      neovim
-      neovim-node-client
       nodejs_22
       prettier
       ranger
@@ -68,14 +66,6 @@ in
       };
 
       ".config/openmw/settings.cfg".source = "${dotfiles}/openmw/settings.cfg";
-
-      ".config/nvim/init.vim".text =
-        ''
-        set nocompatible
-        set runtimepath^=~/.vim runtimepath+=~/.vim/after
-        let &packpath = &runtimepath
-        source ~/.vimrc
-        '';
 
       ".config/bat/config".text =
         ''
@@ -185,6 +175,20 @@ in
     man.enable = true;
 
     mpv.enable = true;
+
+    neovim = {
+      enable = true;
+      withNodeJs = true;
+      withPython3 = false;
+      withRuby = false;
+      # Sourced at runtime via ~/.config/nvim/init.lua
+      extraConfig = ''
+        set nocompatible
+        set runtimepath^=~/.vim runtimepath+=~/.vim/after
+        let &packpath = &runtimepath
+        source ~/.vimrc
+      '';
+    };
 
     starship.enable = true;
   };
