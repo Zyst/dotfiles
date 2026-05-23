@@ -101,13 +101,19 @@ When adding a package or option, decide whether it belongs in the shared `home.n
 
 ## Open dotfile-related TODOs
 
-### Audit upstream wincent `tmux.conf` for new / polished patterns via didactic-upstream-diff-iteration
+Grouped by applicability. **Generic** = repo-wide items that affect the shared config (vimrc.org, tmux.conf, home-manager idioms) regardless of platform. **Linux** and **Mac** = platform-specific items.
+
+For Linux, the long-form prose for big/speculative items (Wayland switch, tiling WM choice, status bar stack) lives at `.claude/todos/linux.md`. Add new platform-specific entries to that file (and link from the Linux subsection here) when they're too involved to inline. Mac would follow the same convention if/when it accumulates similar items.
+
+### Generic
+
+#### Audit upstream wincent `tmux.conf` for new / polished patterns via didactic-upstream-diff-iteration
 
 - **Status:** Not started. Audit prompt lives at the repo-relative path `.claude/agents/tmux-upstream-audit/agent-prompt.md`; rejection state at the sibling `rejected.md`.
 - **Why:** `tmux.conf` is heavily lifted from `wincent/wincent` (see "tmux.conf upstream reference" above), and there are known unadopted patterns — but new bindings compete with muscle memory, so each candidate needs to be tested individually before it stays. The audit drives the `didactic-upstream-diff-iteration` skill over a seeded candidate list (one-at-a-time review, no bulk import).
 - **How to apply:** Open the agent prompt at `.claude/agents/tmux-upstream-audit/agent-prompt.md` and ask Claude to follow it. The first instruction in that prompt is to load the `didactic-upstream-diff-iteration` skill (symlinked into `$HOME/.claude/skills/` via home-manager); the skill then walks the seeded "Pending candidates" section one entry at a time. Declines land in `./rejected.md` so they don't re-surface on later runs.
 
-### Vendor `wincent/wincent` as an upstream subrepo + add an auto-sync skill
+#### Vendor `wincent/wincent` as an upstream subrepo + add an auto-sync skill
 
 - **Status:** Not started. We currently reference wincent's configs by raw GitHub URL on each audit.
 - **Why:** A local checkout (e.g. under a repo-relative `upstream/wincent/` path — mechanism TBD: git submodule, git subtree, or `git-subrepo`) would let `rg`, `git log`, and the existing audit tooling work against it for fast diffs, make the upstream readable offline, and let us pin to a known commit and bump deliberately instead of racing whatever `main` is on each `WebFetch`. A companion **sync skill** keeps the checkout fresh on demand so it doesn't go stale silently.
@@ -120,13 +126,13 @@ When adding a package or option, decide whether it belongs in the shared `home.n
   3. Add the authority-vs-staleness rule to `.claude/CLAUDE.md` (probably under the existing "tmux.conf upstream reference" section, generalized): when consulting a vendored upstream file, check the file's recent commit activity first; if it looks abandoned, treat it as a historical reference rather than canonical.
   4. Once vendored, repoint `.claude/agents/tmux-upstream-audit/agent-prompt.md` at the local checkout instead of the GitHub URL — the audit gets faster and works offline.
 
-### Run the home-manager idiomaticity audit on `home.nix` / `home-mac.nix`
+#### Run the home-manager idiomaticity audit on `home.nix` / `home-mac.nix`
 
 - **Status:** Not started. Audit brief lives at `/Users/zyst/ai-notes/home-manager-audit/agent-prompt.md`.
 - **Why:** Both configs have grown organically — packages in `home.packages` and configs via `home.file."…".source` — without consistently reaching for first-class `programs.<name>` modules. The audit produces a ranked, read-only report (High/Medium/Low findings) the user can apply selectively.
 - **How to apply:** Dispatch a general-purpose `Agent` with the brief at `~/ai-notes/home-manager-audit/agent-prompt.md`. Read-only — does **not** edit files or run `home-manager switch`. Scope is strictly the two `.nix` files; do NOT let it propose changes to referenced dotfiles (`config.fish`, `kitty.conf`, `tmux.conf`, `vimrc.org`, etc.) — those are deferred-pending-scope-expansion. Each finding must cite a specific home-manager option from <https://nix-community.github.io/home-manager/options.xhtml> and be verified against the local channel via `nix-instantiate --eval`. After the report lands, surface High-impact findings (especially deprecations) for the user to decide on; don't auto-apply.
 
-### Migrate `nvim-compe` → `nvim-cmp`, and `nvim-treesitter` to the new `main` API
+#### Migrate `nvim-compe` → `nvim-cmp`, and `nvim-treesitter` to the new `main` API
 
 - **Status (as of 2026-05-13):** `nvim-treesitter` is pinned to its legacy `master` branch in `~/dev/dotfiles/vimrc.org:888` so the old `require'nvim-treesitter.configs'.setup{}` API still works and `nvim-compe`'s internal `compe_treesitter` source still loads. `nvim-compe` is archived/deprecated by its author in favor of `hrsh7th/nvim-cmp`.
 - **Why it matters:** Eventually the `master` branch of `nvim-treesitter` will bitrot and the workaround stops working.
@@ -135,6 +141,16 @@ When adding a package or option, decide whether it belongs in the shared `home.n
   2. Drop the legacy `master` pin on `nvim-treesitter` and migrate the `setup{}` call to the new API — `:TSInstall <langs>` (no more `ensure_installed = "all"` in setup) plus a `FileType` autocmd calling `vim.treesitter.start()`.
 
   Then: re-tangle → `home-manager switch` → `rm -rf` the affected plugin dirs → `:PlugInstall`. See the vim-plug branch-change note above.
+
+### Linux
+
+For long-form / speculative items (Wayland switch, Wayland-native tiling WM, status bar + niceties stack), see `.claude/todos/linux.md`. Short inline items below.
+
+#### Install Mono Lisa, and validate it's picked up
+
+### Mac
+
+#### Install Mono Lisa, and validate it's picked up
 
 ## Related repo conventions
 
