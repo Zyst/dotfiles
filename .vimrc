@@ -507,14 +507,12 @@ EOF
 lua << EOF
 local wk = require('which-key')
 
-wk.register({
-  ['t'] = {
-    name = '+test',
-    ['<C-n>'] = 'Test Nearest',
-    ['<C-f>'] = 'Test File',
-    ['<C-s>'] = 'Test Suite',
-    ['<C-l>'] = 'Test Last',
-    ['<C-g>'] = 'Test Visit',
-  },
+wk.add({
+  { 't', group = 'test' },
+  { 't<C-n>', desc = 'Test Nearest' },
+  { 't<C-f>', desc = 'Test File' },
+  { 't<C-s>', desc = 'Test Suite' },
+  { 't<C-l>', desc = 'Test Last' },
+  { 't<C-g>', desc = 'Test Visit' },
 })
 EOF

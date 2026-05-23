@@ -1231,21 +1231,19 @@ Initialize the Which Key plugin.
 
 *** Vim Test
 
-We add which key bindings for running tests with [[*Vim Test][Vim Test]].
+We add which key bindings for running tests with [[*Vim Test][Vim Test]]. Spec format follows which-key v3 (=wk.add= with a flat list of entries); the old v2 =wk.register= nested-table form still works but emits a deprecation warning at startup.
 
 #+BEGIN_SRC vimrc
   lua << EOF
   local wk = require('which-key')
 
-  wk.register({
-    ['t'] = {
-      name = '+test',
-      ['<C-n>'] = 'Test Nearest',
-      ['<C-f>'] = 'Test File',
-      ['<C-s>'] = 'Test Suite',
-      ['<C-l>'] = 'Test Last',
-      ['<C-g>'] = 'Test Visit',
-    },
+  wk.add({
+    { 't', group = 'test' },
+    { 't<C-n>', desc = 'Test Nearest' },
+    { 't<C-f>', desc = 'Test File' },
+    { 't<C-s>', desc = 'Test Suite' },
+    { 't<C-l>', desc = 'Test Last' },
+    { 't<C-g>', desc = 'Test Visit' },
   })
   EOF
 #+END_SRC
