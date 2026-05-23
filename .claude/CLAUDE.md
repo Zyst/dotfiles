@@ -175,6 +175,8 @@ For long-form / speculative items (Wayland switch, Wayland-native tiling WM, sta
 
 ### Mac
 
+For long-form / speculative items (tiling WM choice, status bar stack), see `.claude/todos/mac.md`. Short inline items below.
+
 #### Install Mono Lisa, and validate it's picked up
 
 ## Related repo conventions
