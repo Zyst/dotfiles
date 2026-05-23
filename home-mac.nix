@@ -98,6 +98,8 @@ in
     homeDirectory = "/Users/zyst";
   };
 
+  news.display = "silent";
+
   programs = {
     emacs.enable = true;
 

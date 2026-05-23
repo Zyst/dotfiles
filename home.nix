@@ -115,6 +115,8 @@ in
 
   targets.genericLinux.enable = true;
 
+  news.display = "silent";
+
   programs = {
     emacs.enable = true;
 
