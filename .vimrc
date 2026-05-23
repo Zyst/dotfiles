@@ -374,7 +374,7 @@ nnoremap <Leader>a :A<CR>
 lua <<EOF
 require'nvim-treesitter.configs'.setup {
   ensure_installed = "all",
-  ignore_install = { "norg" },
+  ignore_install = { "norg", "ipkg" },
   highlight = {
     enable = true,
   },
