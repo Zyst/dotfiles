@@ -79,6 +79,10 @@ in
 
       ".config/openmw/settings.cfg".source = "${dotfiles}/openmw/settings.cfg";
 
+      ".config/environment.d/10-shell.conf".text = ''
+        SHELL=${config.home.homeDirectory}/.nix-profile/bin/fish
+      '';
+
       ".xinitrc".text = "exec awesome";
 
       ".config/regolith/Xresources".source = "${dotfiles}/Xresources-regolith";
@@ -109,11 +113,18 @@ in
     homeDirectory = "/home/zyst";
   };
 
+  targets.genericLinux.enable = true;
+
   programs = {
     emacs.enable = true;
 
     fish = {
       enable = true;
+      shellInit = ''
+        if test -e /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.fish
+          source /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.fish
+        end
+      '';
       interactiveShellInit = builtins.readFile "${dotfiles}/config.fish";
     };
 
