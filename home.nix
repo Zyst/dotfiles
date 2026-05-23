@@ -13,7 +13,6 @@ in
       fastfetch
       ffmpeg
       fortune
-      fzf
       gh
       git-quick-stats
       gtypist
@@ -126,6 +125,16 @@ in
         end
       '';
       interactiveShellInit = builtins.readFile "${dotfiles}/config.fish";
+    };
+
+    fzf = {
+      enable = true;
+      enableFishIntegration = true;
+      historyWidgetOptions = [
+        "--delimiter=\\t"
+        "--with-nth=3.."
+        "--nth=3..,.."
+      ];
     };
 
     git = {
