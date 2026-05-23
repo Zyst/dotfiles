@@ -890,10 +890,13 @@ We want [[https://github.com/nvim-treesitter/nvim-treesitter][nvim-treesitter/nv
 
 We enable treesitter highlight groups, and ensure that the language support entries we install are being maintained.
 
+The =norg= parser is excluded because it's the only parser linked against libstdc++ (others are pure C). On non-NixOS Linux, the Nix-built nvim can't dlopen the system =libstdc++.so.6=, so loading the parser fails with =uv_dlopen=. Easier to skip it than to plumb library paths through nvim's runtime.
+
 #+BEGIN_SRC vimrc
 lua <<EOF
 require'nvim-treesitter.configs'.setup {
   ensure_installed = "all",
+  ignore_install = { "norg" },
   highlight = {
     enable = true,
   },

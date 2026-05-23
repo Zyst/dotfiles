@@ -45,8 +45,9 @@ If it is a regular file (not a symlink), it's a stale copy and must be re-linked
 1. Edit `~/dev/dotfiles/vimrc.org` (the org source, not the tangled `.vimrc`).
 2. Re-tangle:
    ```
-   cd ~/dev/dotfiles && emacs --batch --eval "(progn (require 'org) (find-file \"vimrc.org\") (org-babel-tangle))"
+   cd ~/dev/dotfiles && command emacs --batch --eval "(progn (require 'org) (find-file \"vimrc.org\") (org-babel-tangle))"
    ```
+   (Use `command emacs` to bypass the bashrc alias `emacs="emacs -nw -a \"\""`, which prepends emacsclient-style flags that break the main binary's batch mode.)
 3. `home-manager switch` to publish the new `.vimrc` into the Nix store and update the `~/.vimrc` symlink.
 
 ### Special case — vim-plug plugin branch/version changes
