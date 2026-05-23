@@ -150,11 +150,18 @@ For Linux, the long-form prose for big/speculative items (Wayland switch, tiling
   3. Add the authority-vs-staleness rule to `.claude/CLAUDE.md` (probably under the existing "tmux.conf upstream reference" section, generalized): when consulting a vendored upstream file, check the file's recent commit activity first; if it looks abandoned, treat it as a historical reference rather than canonical.
   4. Once vendored, repoint `.claude/agents/tmux-upstream-audit/agent-prompt.md` at the local checkout instead of the GitHub URL — the audit gets faster and works offline.
 
-#### Run the home-manager idiomaticity audit on `home.nix` / `home-mac.nix`
+#### Home-manager idiomaticity audit — mid-walk
 
-- **Status:** Not started. Audit brief lives at `/Users/zyst/ai-notes/home-manager-audit/agent-prompt.md`.
-- **Why:** Both configs have grown organically — packages in `home.packages` and configs via `home.file."…".source` — without consistently reaching for first-class `programs.<name>` modules. The audit produces a ranked, read-only report (High/Medium/Low findings) the user can apply selectively.
-- **How to apply:** Dispatch a general-purpose `Agent` with the brief at `~/ai-notes/home-manager-audit/agent-prompt.md`. Read-only — does **not** edit files or run `home-manager switch`. Scope is strictly the two `.nix` files; do NOT let it propose changes to referenced dotfiles (`config.fish`, `kitty.conf`, `tmux.conf`, `vimrc.org`, etc.) — those are deferred-pending-scope-expansion. Each finding must cite a specific home-manager option from <https://nix-community.github.io/home-manager/options.xhtml> and be verified against the local channel via `nix-instantiate --eval`. After the report lands, surface High-impact findings (especially deprecations) for the user to decide on; don't auto-apply.
+- **Status (as of 2026-05-23):** Audit was run and a ranked report produced (18 findings — 3 High, 8 Medium, 7 Low + 1 structural). Walking findings one at a time using `didactic-upstream-diff-iteration` principles (per-candidate adopt / decline / apply minimally / test / record). Currently paused with **L4 (`programs.fzf.tmux.enableShellIntegration`) as the next pending candidate**. Resume by presenting L4 to the user for adopt/decline.
+- **Source of truth files (in-repo so they survive an OS hop):**
+  - `.claude/agents/home-manager-audit/agent-prompt.md` — original audit brief.
+  - `.claude/agents/home-manager-audit/report.md` — full ranked findings.
+  - `.claude/agents/home-manager-audit/state.md` — iteration state (Pending / Adopted / Declined / no-op confirmations). Authoritative for what's been decided.
+- **Adopted so far:** H2 (`programs.gh` + scoped credential helper, commit `8f747340`); M4 (`programs.neovim` + node-only providers, commit `6ea486fe`).
+- **Declined so far:** H1 bat, H3 eza, M1 htop, M2 jq, M3 ripgrep, M5 tmux, M6 fastfetch, M7 yt-dlp, M8 ranger (clash-tested), L3 fzf.enableFishIntegration (kept explicit). Reasoning per-finding lives in `state.md`.
+- **Why declines pattern:** the user prefers `pkgs.X` + raw `home.file` for tools used across non-Nix environments (servers, ssh hosts) — the literal form is closer to what they'd write by hand on bootstrap. Small `programs.X.enable`-only swaps with no other behavioral change generally fall to this reasoning.
+- **Still to walk:** L4 (fzf tmux popup), L5 (environment.d investigation, Linux-only), and the structural `common.nix` question.
+- **How to resume:** read `state.md`, surface the next "Pending" item to the user with a brief (current vs. recommended, tradeoffs, ask adopt/decline). On adopt: apply minimally, give test steps, wait for confirmation, then jj-commit the change as its own focused commit before moving on.
 
 #### Migrate `nvim-compe` → `nvim-cmp`, and `nvim-treesitter` to the new `main` API
 
