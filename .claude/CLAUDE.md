@@ -171,26 +171,6 @@ For Linux, the long-form prose for big/speculative items (Wayland switch, tiling
   - Sanity-check: does pane content (the visible scrollback) come back via `pane_contents.tar.gz`? If yes, even without true session reattach, the previous transcript is at least visible.
   - Document the final mechanism here once it's wired up so the next reader doesn't have to re-derive it.
 
-#### Enable the jujutsu module in starship
-
-- **Status (investigated 2026-05-23):** Starship 1.25.1 ships a jujutsu module, but it is **opt-in** — the default `format = "$all"` does not include `$jujutsu_*` modules, and the user has no `~/.config/starship.toml`. Net result: starship shows git info in jj-colocated repos but nothing about the jj change-id / bookmark / op-log state. Fish-side completions for `jj` are unrelated and already work OOTB (nixpkgs jujutsu ships `share/fish/vendor_completions.d/jj.fish` which the home-manager profile auto-links).
-- **Why:** Visibility into jj state in the prompt — current change-id (short), description, bookmark, conflict marker — without needing `jj log` every time. Especially useful in colocated repos where git's view and jj's view diverge.
-- **How to apply:** Add a `settings` block under `programs.starship` in `home-mac.nix` (and mirror to `home.nix` for upstreaming):
-  ```nix
-  starship = {
-    enable = true;
-    settings = {
-      format = "$all"; # keep default for now
-      jujutsu_change.disabled = false;
-      jujutsu_commit.disabled = false;
-      jujutsu_bookmarks.disabled = false;
-      jujutsu_state.disabled = false;
-      # Optional: jujutsu_description.disabled = false;
-    };
-  };
-  ```
-  Then re-run `home-manager switch` and open a jj repo to see the modules appear. If the modules don't show up after enabling, override `format` to explicitly include `$jujutsu_change$jujutsu_bookmarks$jujutsu_state` adjacent to `$git_branch$git_status` — `$all` only auto-includes modules that are part of starship's "default group," and the jujutsu modules may not be in it (verify against the locally-pinned starship docs). Decide on placement (next to git? before directory?) to taste.
-
 #### Wire up nvim LSP properly (Mason install + nvim-lspconfig setup calls)
 
 - **Status (investigated 2026-05-23):** Plumbing is half-installed. `vimrc.org` has `Plug 'neovim/nvim-lspconfig'`, `Plug 'williamboman/mason.nvim'`, and `require("mason").setup()` (~line 1043), but no `lspconfig.<server>.setup{}` calls anywhere — and Mason's packages directory (`~/.local/share/nvim/mason/packages/`) doesn't exist on Mac, meaning no servers were ever actually installed. Net result: zero LSP clients attach to any buffer. nvim-compe's `nvim_lsp = true` source has nothing to draw from; completion is buffer/path/treesitter-only. Also: `:LspInfo` is gone in modern nvim-lspconfig — use `:checkhealth vim.lsp` or `:lua =vim.lsp.get_clients()` instead.
