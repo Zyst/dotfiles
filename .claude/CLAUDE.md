@@ -22,6 +22,33 @@ Existing references like `~/dev/dotfiles/` are technically machine-specific too 
 - When diagnosing: read from `$HOME` (that's the live config), but make the fix in `~/dev/dotfiles/` and cite line numbers from the source.
 - When suggesting a tool install, frame it as a home-manager package addition, not `brew install` or similar.
 
+## Version control: jj on top of git
+
+This repo is **jj-managed** — `.jj/` exists alongside `.git/`, the git remote `origin` (`github.com/Zyst/dotfiles`) is what we push to, but locally we drive everything through jj. Default to `jj` surface commands, **not** `git`, for any work here.
+
+Standard commit-and-push flow:
+
+1. Edit files — jj auto-amends the working-copy change `@` as you save; no `git add` step.
+2. `jj describe -m "..."` to set the message on `@`.
+3. `jj bookmark move master --to @` to advance the local `master` bookmark onto the new commit.
+4. `jj git push --bookmark master` to publish to the git remote.
+5. Verify with `jj bookmark list --all` — `master`, `@git`, and `@origin` should all point at the same revision.
+6. Optionally `jj new` to start a fresh empty working copy on top (jj will prompt you to do this on the next edit otherwise).
+
+**Why prefer jj over git here:** jj keeps the working copy as a real commit (`@`) with no staging area, and intentionally leaves git's HEAD detached. Running plain `git` against the repo produces confusing or actively harmful output — `git status` reports "Not currently on any branch", and a stray `git commit` would create a commit jj's working copy is unaware of, splitting state across the two tools. The mental model from the default instructions (review diff → message → push) still applies; translate the commands to jj's surface.
+
+**Command translation (jj | git equivalent):**
+
+- `jj st` | `git status`
+- `jj diff` | `git diff`
+- `jj log` | `git log --oneline`
+- `jj describe -m "..."` | `git commit -m "..."` (operates on the working-copy change, not a staged snapshot)
+- `jj bookmark move <name> --to @` | (no direct equivalent — git's branch pointer advances implicitly via commit/push)
+- `jj git push --bookmark <name>` | `git push origin <name>`
+- `jj bookmark list --all` | `git branch -avv`
+
+**Commit-message style:** see recent `jj log` output. Short, lowercase verb start, optional file-prefix (e.g. `.claude/CLAUDE.md: ...`), no `Co-Authored-By:` trailers. The default-instruction trailer convention is overridden here by the local style — match what's already in the log.
+
 ## `home-manager switch` workflow
 
 For most files (non-tangled): edit the source in `~/dev/dotfiles/`, then `home-manager switch` to relink `$HOME`.
