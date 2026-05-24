@@ -261,6 +261,35 @@ For Linux, the long-form prose for big/speculative items (Wayland switch, tiling
   3. If Sync does NOT cover it: identify which Logseq files are canonical plugin config (likely `<graph>/logseq/config.edn` and parts of `<graph>/logseq/plugins/` — distinguish from cached plugin binaries we don't want to vendor) and wire them into `home.nix` via `home.file."…".source = ${dotfiles}/logseq/…;`, matching how other per-app configs are managed. Decide whether plugin binaries themselves are (a) re-downloaded by Logseq on first run from a synced plugin list, (b) vendored in the repo, or (c) Nix-packaged (unlikely for niche community plugins).
   4. Mirror the resolution back to global `todos.md` so both indexes stay in sync.
 
+#### Extract shared home-manager config into a `common.nix` module
+
+- **Status:** Not started. Audit completed 2026-05-24 — `home.nix` and `home-mac.nix` are ~90% byte-identical. (`home-wsl.nix` is explicitly deferred per user direction; revisit when WSL is next worked on.)
+- **Why:** Adding a package, tweaking a `programs.<name>` block, or touching the jj template currently requires editing both files identically; drift between them is a real ongoing cost (WSL is already behind, per the "Per-platform entrypoints" section above). A shared `common.nix` module imported by each platform entrypoint collapses the duplication and makes the platform-specific bits explicit.
+- **Concrete differences between `home.nix` and `home-mac.nix` (as of 2026-05-24 audit):**
+  - `dotfiles` let-binding path (`/home/zyst/dev/dotfiles` vs `/Users/zyst/dev/dotfiles`).
+  - `home.homeDirectory` (`/home/zyst` vs `/Users/zyst`).
+  - Linux-only packages: `wl-clipboard`, `xclip`.
+  - Linux-only `home.file` entries: `.config/awesome`, `.config/environment.d/10-shell.conf` (SHELL env var), `.xinitrc` (`exec awesome`), `.config/regolith/Xresources`, `.config/regolith/i3/config`.
+  - `targets.genericLinux.enable = true;` (Linux only — home-manager option that doesn't exist on Mac).
+  - Git credential helper: `libsecret` (Linux) vs `osxkeychain` (Mac).
+- **Everything else is byte-identical** — all 25 shared packages, the 8 shared `home.file` entries (kitty / ranger / mpv / espanso / didactic-upstream-diff-iteration / vimrc / bashrc / tmux.conf / .emacs.d / openmw / bat), `extraOutputsToInstall`, `sessionVariables`, `stateVersion`, `username`, `news.display`, and all 12 `programs.*` blocks (including the full jj `templates.draft_commit_description`).
+- **Recommended shape:** new `common.nix` as a home-manager module, imported via `imports = [ ./common.nix ]` from each platform entrypoint. Within `common.nix`, derive `dotfiles = "${config.home.homeDirectory}/dev/dotfiles"` from `config.home.homeDirectory` instead of hardcoding — eliminates the per-platform `dotfiles` let-binding entirely (the "Source of truth" section above guarantees the repo always lives at `$HOME/dev/dotfiles`).
+- **Resulting platform files:**
+  - `home-mac.nix` (~10 lines): `imports = [ ./common.nix ]`, `home.homeDirectory`, `programs.git.settings.credential.helper = [ "osxkeychain" ]`.
+  - `home.nix` (~30 lines): `imports = [ ./common.nix ]`, `home.homeDirectory`, Linux-only packages (`wl-clipboard`, `xclip`), Linux-only `home.file` entries (awesome / xinitrc / regolith / environment.d), `targets.genericLinux.enable = true;`, `programs.git.settings.credential.helper = [ "libsecret" ]`.
+- **How to apply:**
+  1. Write `common.nix` by copying the shared portion from `home-mac.nix` (cleaner starting point — no Linux-only entries to strip). Replace the `let dotfiles = "/Users/zyst/..."` with `let dotfiles = "${config.home.homeDirectory}/dev/dotfiles"`.
+  2. Rewrite `home-mac.nix` to the slim shape above.
+  3. Rewrite `home.nix` to the slim shape above.
+  4. `home-manager switch` on Mac (immediate verification on the current machine). The `~/.config/home-manager/home.nix` symlink (→ `home-mac.nix`) is unchanged; Nix imports follow the symlink target, so `./common.nix` resolves correctly against the repo dir with no bootstrap step changes.
+  5. Update the "Per-platform entrypoints" section of this file: the statement "The three files are not `imports`-chained at the Nix level — each is a complete, standalone home-manager config for its platform" is no longer true for Mac+Linux. Note `home-wsl.nix` stays standalone until its own refactor.
+  6. Linux side gets exercised next time the user is on that machine. Existing Linux TODOs (e.g. Logseq on Linux, Tailscale below) will exercise the new structure as they land.
+- **Risks (small):**
+  - The git credential helper must stay only in the per-platform files; if added to `common.nix` too, the list-type merge would concatenate both helpers. Same caution applies to any future option with conflicting values per platform — prefer leaving conflicting options out of `common.nix` entirely, or use `lib.mkForce` in the platform file.
+  - `home.packages` (list) and `home.file` (attrset) merge naturally across modules — no extra work needed.
+  - WSL is explicitly deferred (per user direction 2026-05-24); `home-wsl.nix` can adopt `common.nix` opportunistically next time someone touches it.
+- **Effort estimate:** 30–60 minutes of focused work plus one `home-manager switch` per platform to verify.
+
 ### Linux
 
 For long-form / speculative items (Wayland switch, Wayland-native tiling WM, status bar + niceties stack), see `.claude/todos/linux.md`. Short inline items below.
@@ -275,6 +304,33 @@ For long-form / speculative items (Wayland switch, Wayland-native tiling WM, sta
   3. Launch Logseq on Linux, sign in with the same account used on Mac / iOS, enable Sync, pull the synced graph.
   4. Round-trip a test edit Linux → Mac (or iOS) and back to confirm both directions before treating this as done.
   5. While on this, opportunistically test the **plugin-sync open question** from the global `todos.md` "Bring Logseq plugin set..." entry: does the `Cologler/logseq-remove-empty-blocks-typescript` plugin (once installed on Mac) auto-appear on Linux after Sync? Answering it here unblocks the plugin-sync TODO.
+
+#### Set up Tailscale on Linux and verify Mac → Linux SSH
+
+- **Status:** Not started. Surfaced 2026-05-24.
+- **Why:** User wants Mac-from-anywhere SSH access to the Linux box without exposing it to the public internet, port-forwarding on the router, or maintaining dynamic DNS. Tailscale gives both machines a stable name on the user's tailnet with WireGuard-backed connectivity, and (optionally) replaces `~/.ssh/authorized_keys` management with tailnet ACLs via Tailscale SSH. This unblocks workflows like editing on Mac while running long jobs on Linux, and is a prerequisite for "rebuild a machine and rejoin the fleet" being a real story.
+- **How to apply:**
+  1. **Linux daemon install.** Tailscale needs a root daemon (`tailscaled`), which is *not* a home-manager option. Two paths depending on the distro:
+     - **Non-NixOS Linux (current Ubuntu-flavored box):** install via the upstream apt repo (`curl -fsSL https://tailscale.com/install.sh | sh`) and `sudo systemctl enable --now tailscaled`. This is imperative and won't survive a rebuild-from-dotfiles-alone — note this caveat here when done.
+     - **NixOS (if the box is ever migrated):** add `services.tailscale.enable = true;` in `/etc/nixos/configuration.nix`, then `nixos-rebuild switch`. Fully declarative.
+  2. `sudo tailscale up` on Linux, authenticate via browser, note the resulting tailnet hostname (e.g. `linux-box.tailXXXX.ts.net` or whatever short name is assigned). Record the hostname here once known.
+  3. **Mac side:** verify Tailscale is installed and authenticated to the same tailnet. If not, install — the Mac App Store binary is the most featureful (system extension for the magic-DNS resolver); `brew install --cask tailscale` is the equivalent path; `pkgs.tailscale` (home-manager) gives the CLI only. Decide which Mac path to commit to and capture the decision here.
+  4. **SSH baseline (Linux):** confirm `sshd` is running (`systemctl status sshd` or `systemctl status ssh` depending on the distro — Ubuntu uses `ssh.service`). If absent, `sudo apt install openssh-server` and enable the service. Check the firewall (`ufw status` if active) isn't blocking 22 over the tailnet interface — Tailscale by default accepts inbound on its own interface, but a strict `ufw default deny` plus no explicit allow may interfere.
+  5. **Authentication — pick one of two paths:**
+     - **Traditional `authorized_keys`:** copy the Mac's SSH public key to Linux (`ssh-copy-id zyst@<linux-tailnet-hostname>` once Tailscale connectivity is up, or paste `~/.ssh/id_ed25519.pub` directly into Linux's `~/.ssh/authorized_keys`).
+     - **Tailscale SSH** (`tailscale up --ssh` on Linux): replaces `authorized_keys` entirely. Auth is gated by tailnet ACLs in the Tailscale admin console. Lower maintenance, but means losing access to the Linux box if the tailnet is unreachable for any reason (auth-server-side outage, expired auth keys, etc.). For a single-user setup either is fine; document the choice.
+  6. **Verify:** from Mac, `ssh zyst@<linux-tailnet-hostname>` should land in a Linux shell. Then test resilience:
+     - Reboot Linux → confirm `tailscaled` rejoins the tailnet automatically and SSH still resolves.
+     - Close Mac lid, reopen → confirm SSH still resolves (Tailscale should reconnect transparently).
+     - Move Mac to a different network → confirm tailnet hostname still resolves and SSH still works.
+  7. **Decide on `tailscale up` flags worth keeping:**
+     - `--ssh` — enable Tailscale SSH (see auth choice above).
+     - `--operator=$USER` — lets the non-root user run `tailscale` CLI commands (status, ping, etc.) without sudo. Strongly recommended.
+     - `--accept-routes` — only matters if you ever run subnet routers on the tailnet; safe to omit until that's a thing.
+     - `--exit-node=<host>` — only for routing all traffic through another tailnet node; not relevant for SSH-only access.
+  8. **Document the final setup here once done:** install path used on each side, Tailscale-SSH vs `authorized_keys` outcome, resulting tailnet hostnames. This makes the "rebuild a fresh Linux box" story repeatable without re-deriving every decision.
+- **Open question worth resolving up front:** is the goal *only* Mac → Linux, or also bidirectional (Linux → Mac, plus eventually iOS / WSL on the same tailnet)? Tailscale handles all directions transparently once each device is on the tailnet, but the auth model (Tailscale SSH ACLs vs. per-device `authorized_keys`) is easier to design once than retrofit.
+- **Adjacent:** once the path is settled, consider adding `pkgs.tailscale` to `home.nix` (and `home-mac.nix` if the Mac side ends up using the CLI rather than the GUI binary) so the dotfiles repo at least captures the CLI dependency, even though the daemon itself stays system-level. If the `common.nix` refactor (Generic section above) lands first, add Tailscale there only if both platforms end up using the home-manager CLI; otherwise keep it in the relevant platform file.
 
 ### Mac
 
