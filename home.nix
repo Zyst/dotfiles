@@ -23,6 +23,7 @@ in
       leiningen
       ncdu
       nodejs_22
+      noti
       prettier
       ranger
       ripgrep

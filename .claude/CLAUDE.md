@@ -305,6 +305,12 @@ For long-form / speculative items (Wayland switch, Wayland-native tiling WM, sta
   4. Round-trip a test edit Linux → Mac (or iOS) and back to confirm both directions before treating this as done.
   5. While on this, opportunistically test the **plugin-sync open question** from the global `todos.md` "Bring Logseq plugin set..." entry: does the `Cologler/logseq-remove-empty-blocks-typescript` plugin (once installed on Mac) auto-appear on Linux after Sync? Answering it here unblocks the plugin-sync TODO.
 
+#### Verify `noti` fires notifications on Linux
+
+- **Status:** `noti` is installed via `home.nix` (cross-platform package, lands on Linux via the same Nix expression). Mac side verified working 2026-05-24. Linux side untested.
+- **Why:** `noti` uses libnotify's `notify-send` mechanism on Linux, which requires a notification daemon running on the bus. On GNOME-Wayland (the current Linux session) that daemon should be GNOME Shell's built-in one. After the Sway migration, the daemon is part of the Sway plan candidate set (mako / dunst / fnott — see `.claude/todos/linux.md`).
+- **How to apply:** Next time on Linux, run `noti -t Test -m hi` from a fresh fish prompt. If it pops a notification, done — record here and move on. If not, debug: confirm a notification daemon is active (`busctl --user list | grep Notif`), confirm libnotify CLI works (`notify-send Test hi`), then diagnose noti's libnotify backend.
+
 #### Set up Tailscale on Linux and verify Mac → Linux SSH
 
 - **Status:** Not started. Surfaced 2026-05-24.
@@ -345,20 +351,11 @@ Short inline items below.
   - **Sleep tuning:** Inspect current policy via `pmset -g`. Likely adjustments worth considering: `displaysleep` (display blank), `sleep` (system sleep), `disksleep` (spin-down), `tcpkeepalive` (let the Mac stay reachable on the network while asleep), `womp` (wake on LAN), `powernap`. Whatever the final values, capture them as a documented `pmset` invocation here so the policy is reproducible on a new machine.
   - **Decide on scope:** is the policy global (same on AC + battery) or per-source? `pmset` distinguishes `-a` (all), `-c` (charger), `-b` (battery). Long-task wakefulness usually wants `-c` only.
 
-#### Verify terminal notifications surface to macOS Notification Center
-
-- **Status:** Not started. Surfaced 2026-05-23.
-- **Why:** Long-running commands, Claude Code prompts, build-finished signals, etc. should be able to ping the user via the native macOS Notification Center instead of relying on the user watching the terminal. Multiple layers could be the producer (Claude Code's own notification setting, `tmux display-message`-style alerts, `terminal-notifier` from a shell hook, Kitty's `OSC 9 / OSC 777` notification escape sequences, fish event hooks, etc.) — but the question this TODO answers is the *plumbing*: do notifications emitted from inside a tmux pane in Kitty actually reach the OS-level notification surface, and is macOS configured to permit it (System Settings → Notifications → Kitty / Terminal / etc.).
-- **How to apply:**
-  - Quick first probe: from a fish prompt inside tmux+Kitty, fire an OSC 9 escape — `printf '\e]9;hello from terminal\a'` — and see whether macOS pops a notification. If not, repeat from outside tmux to isolate (does tmux block/strip the escape?), then from outside Kitty (does Kitty support OSC 9? It supports OSC 99 / `kitten notify` natively).
-  - If Kitty + tmux strip OSC notification escapes, look at `kitten notify` (Kitty's first-class API) and/or `terminal-notifier` as a fallback path. Either can be wired into long-running-command hooks (fish event, shell wrapper, `&& terminal-notifier ...`).
-  - macOS side: confirm the emitting app (Kitty) has Notifications permission in System Settings → Notifications. Without this, OS-level surfacing fails silently.
-  - Document the final working pattern here and decide whether to make it usable from Claude Code, fish prompt hooks, and ad-hoc shell commands uniformly.
-
 ## Related repo conventions
 
 - Per-app config dirs (`alacritty.yml`, `kitty.conf`, `i3.config`, `espanso/`, `mpv/`, `awesome/`, `openmw/`, `BAR/`, etc.) are wired up via home-manager — check the relevant `home*.nix` to see how a given file lands in `$HOME`.
 - **X11-era WM configs are semi-abandoned** as of 2026-05-24: `i3.config`, `awesome/`, `Xresources-regolith`, `.xinitrc`. The Linux side is migrating to Sway from-scratch (see `.claude/todos/linux.md`); when porting bindings to the new Sway config, **Regolith's upstream Sway/i3 configs are the canonical reference**, not the local files. Local `i3.config` is consulted only for the Colemak-DH directional bindings (`i3.config:112-116, 171-175`) that Regolith doesn't ship.
+- **Notification primitive is `noti`** (adopted 2026-05-24). Installed cross-platform via `home.packages` in `home.nix` + `home-mac.nix`. Bypasses terminal-escape protocols (OSC 9 / OSC 99 / `kitten notify`) entirely — those don't reliably traverse tmux+Kitty on macOS even with `allow-passthrough all` (known issues: [kitty#8090](https://github.com/kovidgoyal/kitty/issues/8090), [kitty#8086](https://github.com/kovidgoyal/kitty/issues/8086), [claude-code#19976](https://github.com/anthropics/claude-code/issues/19976)). `noti` calls macOS's UserNotifications and Linux's libnotify natively. CLI: `noti -t Title -m Message` or `noti some-long-command` to fire on completion.
 
 ### Local skills
 
