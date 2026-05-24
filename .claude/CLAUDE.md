@@ -184,22 +184,12 @@ For Linux, the long-form prose for big/speculative items (Wayland switch, tiling
   - Sanity-check: does pane content (the visible scrollback) come back via `pane_contents.tar.gz`? If yes, even without true session reattach, the previous transcript is at least visible.
   - Document the final mechanism here once it's wired up so the next reader doesn't have to re-derive it.
 
-#### Install and wire up zoxide across platforms
+#### Verify zoxide works on Linux
 
-- **Status (surfaced 2026-05-23):** Not installed anywhere — no entry in `home.nix`, `home-mac.nix`, or `home-wsl.nix`; `zoxide` binary not on PATH on Mac. User noticed while testing the fresh fzf integration that `Alt+C` opens an fzf cd picker but `z <dir>` does nothing (no smart-cd at all).
-- **Why:** zoxide is the frecency-tracked `cd` replacement (`z <partial>` jumps to most-likely match; `zi` opens an interactive fzf picker). Pairs naturally with the fzf integration that was just added and the tmux-driven workflow. Worth having on every machine the user works on.
-- **How to apply:**
-  1. Verify the option name on the locally-pinned home-manager channel via `nix-instantiate --eval -E '... .options.programs.zoxide.enable.description'` (and similarly for `enableFishIntegration` — that name may have collapsed into "automatic" like `programs.jujutsu.enableFishIntegration` did; check before assuming).
-  2. Add to `home-mac.nix` AND `home.nix` (per the canonical-source convention) under the `programs = { ... };` block:
-     ```nix
-     zoxide = {
-       enable = true;
-       enableFishIntegration = true; # if still required by the channel
-     };
-     ```
-  3. `home-manager switch` on Mac, then in a fresh fish session verify: `cd` around a few dirs to seed the database, then `z <partial>` should jump; `zi` should open an interactive picker.
-  4. **Linux verification step:** next time the user is on Linux (or runs `home-manager switch` there after this lands in `home.nix`), repeat step 3 to confirm parity. If something is Linux-only broken (e.g. fish version mismatch, init script path), capture findings here.
-  5. Decide whether to alias `cd` to `z` (some users do, some keep them distinct). Default to keeping them distinct — `z` for smart, `cd` for explicit.
+- **Status:** Installed and verified working on Mac (2026-05-23). `programs.zoxide = { enable = true; enableFishIntegration = true; };` landed in both `home.nix` and `home-mac.nix`. Live-tree check confirmed both options exist and are `visible` (the `enableFishIntegration` option had not collapsed to automatic at the time of adoption — defaults to `true` but kept explicit per the L3 reasoning pattern).
+- **Why:** Mac confirmed `z <partial>` jumps to frecency-ranked dir and `zi` opens an interactive picker. Linux side hasn't been retested since the config landed.
+- **How to apply:** Next time you're on Linux: `home-manager switch`, then in a fresh fish session, `cd` around a few dirs to seed the database, then verify `z <partial>` jumps and `zi` opens an interactive picker. If anything's broken on Linux specifically (e.g. fish version mismatch, fzf path divergence affecting `zi`), capture findings here.
+- **Open style decision (parked):** whether to alias `cd` to `z` (some users do, some keep them distinct). Current default: keep distinct — `z` for smart, `cd` for explicit.
 
 #### Enable the jujutsu module in starship
 

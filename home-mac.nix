@@ -191,5 +191,10 @@ in
     };
 
     starship.enable = true;
+
+    zoxide = {
+      enable = true;
+      enableFishIntegration = true;
+    };
   };
 }
