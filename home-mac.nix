@@ -90,7 +90,6 @@ in
     aerospace = {
       enable = true;
       launchd.enable = true;
-      # Bindings ported from ~/dev/dotfiles/skhdrc (yabai-era muscle memory);
       # Colemak-DH directionals m/n/e/i = west/south/north/east.
       settings = {
         start-at-login = true;
@@ -113,10 +112,10 @@ in
             e = "k";
             i = "l";
             # Other letters Colemak-DH relocates that we bind
-            f = "e";  # Colemak-DH f is at QWERTY-e (top row)
-            t = "f";  # Colemak-DH t is at QWERTY-f (home row)
-            k = "n";  # Colemak-DH k is at QWERTY-n (bottom row)
-            r = "s";  # Colemak-DH r is at QWERTY-s (home row)
+            f = "e";
+            t = "f";
+            k = "n";
+            r = "s";
           };
         };
 
