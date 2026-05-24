@@ -100,6 +100,32 @@ Patterns the user hasn't yet adopted but may want to:
 
 When borrowing, keep the borrowed code recognizable (similar comments and structure) so the lineage stays visible.
 
+## tmux-resurrect failure modes
+
+`tmux-resurrect` + `tmux-continuum` auto-save tmux state every 15 minutes to `~/.local/share/tmux/resurrect/`, with a `last` symlink pointing at the most recent save. Two failure modes present as "tmux is broken at launch" and are worth recognizing before reaching for a heavier fix:
+
+### Empty `last` save → tmux instantly closes on launch
+
+- **Symptom:** Launching `tmux` (or `tmux attach`) from a fresh shell instantly exits, sometimes after a brief `Restoring...` status line in the bottom-right. Under Wayland the same root cause may surface as a TPM "exited with code 1" toast just before the session dies. Confirmed once: 2026-05-24, immediately after a Wayland → X11 switch.
+- **Why:** If tmux is killed mid-save (display-server switch, hard logout, continuum auto-save racing a session crash, OOM, etc.), the save file gets truncated to 0 bytes — but `last` has *already* been repointed to it. On next launch, continuum's auto-restore hook reads the empty file, the restore script fails, and the new session unwinds. TPM happens to run in the same startup path, so its non-zero exit is collateral, not the real bug.
+- **How to debug:**
+  1. `ls -la ~/.local/share/tmux/resurrect/last` — note the symlink target.
+  2. `ls -la $(readlink -f ~/.local/share/tmux/resurrect/last)` — check the target's size. 0 bytes = bug.
+  3. `ls -la ~/.local/share/tmux/resurrect/ | tail` — find the most recent non-empty `tmux_resurrect_*.txt`. There will usually be one from the previous 15-minute auto-save tick.
+- **How to fix (recover from backup, do NOT just wipe):**
+  ```
+  cd ~/.local/share/tmux/resurrect
+  rm last
+  ln -s tmux_resurrect_<good-timestamp>.txt last
+  rm tmux_resurrect_<empty-timestamp>.txt    # optional, tidies the dir
+  ```
+  This restores the previous good snapshot; you lose at most one auto-save interval (≤15 min) of state. Verify with `tmux new-session -d -s verify && tmux ls` — the session should stay alive.
+- **What does NOT help, so skip these as a first move:** reinstalling all plugins (`prefix + I` / `prefix + alt + u`), clearing `~/.tmux/plugins/`, rebuilding tmux, restarting the display manager. If `last` is the corruption, none of these touch it; if `last` is fine, look elsewhere.
+
+### Stray `pmset: command not found` on Linux
+
+Unrelated but adjacent — tmux-continuum invokes `pmset` (macOS-only) on every interval and on certain hooks, visible as `/bin/bash: line 1: pmset: command not found` in output captured from non-TTY tmux invocations on Linux. Harmless noise. Worth flagging because it shows up in any captured-output debug session and looks alarming; it is not the culprit for startup failures.
+
 ## home-manager options reference
 
 Gold-standard reference: <https://nix-community.github.io/home-manager/options.xhtml>
