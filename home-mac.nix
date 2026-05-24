@@ -170,9 +170,12 @@ in
           alt-shift-f = "layout floating tiling";
           alt-shift-t = "layout horizontal vertical";
 
-          # Launchers (parallels skhdrc alt-return / alt-shift-return / alt-shift-k)
-          alt-enter = "exec-and-forget open -na /Applications/kitty.app/Contents/MacOS/kitty";
-          alt-shift-enter = ''exec-and-forget open -na "Google Chrome"'';
+          # Launchers — bypass `open -n` (which forks a new .app instance and
+          # dock icon every press). Kitty's --single-instance daemon mode opens
+          # new windows inside the existing process; AppleScript tells the
+          # running Chrome to make a new window without spawning a new instance.
+          alt-enter = "exec-and-forget /Applications/kitty.app/Contents/MacOS/kitty --single-instance --directory ~";
+          alt-shift-enter = ''exec-and-forget osascript -e 'tell application "Google Chrome" to make new window' '';
           alt-shift-k = "exec-and-forget open $HOME";
 
           # Daemon
