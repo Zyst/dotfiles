@@ -100,33 +100,3 @@ When picking an item, walk it didactically (one change at a time, adopt/decline,
   3. If Sync does NOT cover it: identify which Logseq files are canonical plugin config (likely `<graph>/logseq/config.edn` and parts of `<graph>/logseq/plugins/` — distinguish from cached plugin binaries we don't want to vendor) and wire them into `home.nix` via `home.file."…".source = ${dotfiles}/logseq/…;`, matching how other per-app configs are managed. Decide whether plugin binaries themselves are (a) re-downloaded by Logseq on first run from a synced plugin list, (b) vendored in the repo, or (c) Nix-packaged (unlikely for niche community plugins).
   4. Mirror the resolution back to global `todos.md` so both indexes stay in sync.
 
----
-
-## Extract shared home-manager config into a `common.nix` module
-
-- **Status:** Not started. Audit completed 2026-05-24 — `home.nix` and `home-mac.nix` are ~90% byte-identical. (`home-wsl.nix` is explicitly deferred per user direction; revisit when WSL is next worked on.)
-- **Why:** Adding a package, tweaking a `programs.<name>` block, or touching the jj template currently requires editing both files identically; drift between them is a real ongoing cost (WSL is already behind, per CLAUDE.md's "Per-platform entrypoints"). A shared `common.nix` module imported by each platform entrypoint collapses the duplication and makes the platform-specific bits explicit.
-- **Concrete differences between `home.nix` and `home-mac.nix` (as of 2026-05-24 audit):**
-  - `dotfiles` let-binding path (`/home/zyst/dev/dotfiles` vs `/Users/zyst/dev/dotfiles`).
-  - `home.homeDirectory` (`/home/zyst` vs `/Users/zyst`).
-  - Linux-only packages: `wl-clipboard`, `xclip`.
-  - Linux-only `home.file` entries: `.config/awesome`, `.config/environment.d/10-shell.conf` (SHELL env var), `.xinitrc` (`exec awesome`), `.config/regolith/Xresources`, `.config/regolith/i3/config`.
-  - `targets.genericLinux.enable = true;` (Linux only — home-manager option that doesn't exist on Mac).
-  - Git credential helper: `libsecret` (Linux) vs `osxkeychain` (Mac).
-- **Everything else is byte-identical** — all 25 shared packages, the 8 shared `home.file` entries (kitty / ranger / mpv / espanso / didactic-upstream-diff-iteration / vimrc / bashrc / tmux.conf / .emacs.d / openmw / bat), `extraOutputsToInstall`, `sessionVariables`, `stateVersion`, `username`, `news.display`, and all 12 `programs.*` blocks (including the full jj `templates.draft_commit_description`).
-- **Recommended shape:** new `common.nix` as a home-manager module, imported via `imports = [ ./common.nix ]` from each platform entrypoint. Within `common.nix`, derive `dotfiles = "${config.home.homeDirectory}/dev/dotfiles"` from `config.home.homeDirectory` instead of hardcoding — eliminates the per-platform `dotfiles` let-binding entirely (CLAUDE.md "Source of truth" section guarantees the repo always lives at `$HOME/dev/dotfiles`).
-- **Resulting platform files:**
-  - `home-mac.nix` (~10 lines): `imports = [ ./common.nix ]`, `home.homeDirectory`, `programs.git.settings.credential.helper = [ "osxkeychain" ]`.
-  - `home.nix` (~30 lines): `imports = [ ./common.nix ]`, `home.homeDirectory`, Linux-only packages (`wl-clipboard`, `xclip`), Linux-only `home.file` entries (awesome / xinitrc / regolith / environment.d), `targets.genericLinux.enable = true;`, `programs.git.settings.credential.helper = [ "libsecret" ]`.
-- **How to apply:**
-  1. Write `common.nix` by copying the shared portion from `home-mac.nix` (cleaner starting point — no Linux-only entries to strip). Replace the `let dotfiles = "/Users/zyst/..."` with `let dotfiles = "${config.home.homeDirectory}/dev/dotfiles"`.
-  2. Rewrite `home-mac.nix` to the slim shape above.
-  3. Rewrite `home.nix` to the slim shape above.
-  4. `home-manager switch` on Mac (immediate verification on the current machine). The `~/.config/home-manager/home.nix` symlink (→ `home-mac.nix`) is unchanged; Nix imports follow the symlink target, so `./common.nix` resolves correctly against the repo dir with no bootstrap step changes.
-  5. Update CLAUDE.md's "Per-platform entrypoints" section: the statement "The three files are not `imports`-chained at the Nix level — each is a complete, standalone home-manager config for its platform" is no longer true for Mac+Linux. Note `home-wsl.nix` stays standalone until its own refactor.
-  6. Linux side gets exercised next time the user is on that machine. Existing Linux TODOs (e.g. Logseq on Linux, Tailscale) will exercise the new structure as they land.
-- **Risks (small):**
-  - The git credential helper must stay only in the per-platform files; if added to `common.nix` too, the list-type merge would concatenate both helpers. Same caution applies to any future option with conflicting values per platform — prefer leaving conflicting options out of `common.nix` entirely, or use `lib.mkForce` in the platform file.
-  - `home.packages` (list) and `home.file` (attrset) merge naturally across modules — no extra work needed.
-  - WSL is explicitly deferred (per user direction 2026-05-24); `home-wsl.nix` can adopt `common.nix` opportunistically next time someone touches it.
-- **Effort estimate:** 30–60 minutes of focused work plus one `home-manager switch` per platform to verify.

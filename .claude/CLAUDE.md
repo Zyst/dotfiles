@@ -15,7 +15,7 @@ The reverse also applies: if you add a new dotfiles fact to this file (or to `.c
 
 ## Path conventions
 
-This repo ships to multiple machines (macOS, Linux, WSL) with different `$HOME` values, hostnames, and project locations. Anything written into a repo-versioned file must use **abstract paths** — `$HOME`, `~`, the `${dotfiles}` Nix let-binding, repo-relative paths, or prose ("Claude's memory directory," "this prompt's sibling file"). Hardcoded `/Users/<name>/...` or machine-specific project IDs do not belong in tracked files (the `let dotfiles = "..."` lines in each `home-*.nix` are the deliberate exception — they're the machine-specific anchor).
+This repo ships to multiple machines (macOS, Linux, WSL) with different `$HOME` values, hostnames, and project locations. Anything written into a repo-versioned file must use **abstract paths** — `$HOME`, `~`, the `${dotfiles}` Nix let-binding, repo-relative paths, or prose ("Claude's memory directory," "this prompt's sibling file"). Hardcoded `/Users/<name>/...` or machine-specific project IDs do not belong in tracked files (the `home.homeDirectory` value in each `home-*.nix` entrypoint is the deliberate exception — that's the machine-specific anchor; everything else, including the `${dotfiles}` path itself, is derived from it. `home-wsl.nix` still hardcodes its own `let dotfiles = "..."` until it adopts `common.nix`).
 
 Existing references like `~/dev/dotfiles/` are technically machine-specific too and should migrate toward "the dotfiles repo root" phrasing over time.
 
@@ -175,11 +175,12 @@ Guidelines:
 
 ## Per-platform entrypoints
 
-- `home.nix` — Linux entrypoint and the canonical starting point that the other platform files reference.
-- `home-mac.nix` — macOS entrypoint (symlinked into `~/.config/home-manager/home.nix` on this Mac).
-- `home-wsl.nix` — WSL entrypoint.
+- `common.nix` — shared module imported by the Mac and Linux entrypoints. Holds packages, `home.file`, `programs.*`, etc. that are identical across both. Derives `dotfiles = "${config.home.homeDirectory}/dev/dotfiles"` from `home.homeDirectory`, so it stays portable across the differing `$HOME` paths.
+- `home.nix` — Linux entrypoint. `imports = [ ./common.nix ]` plus Linux-only deltas: `home.homeDirectory`, Linux-only packages (`wl-clipboard`, `xclip`), Linux-only `home.file` entries (awesome / regolith / `.xinitrc` / `environment.d`), `targets.genericLinux.enable`, `programs.git.settings.credential.helper = [ "libsecret" ]`.
+- `home-mac.nix` — macOS entrypoint (symlinked into `~/.config/home-manager/home.nix` on the current Mac). `imports = [ ./common.nix ]` plus Mac-only deltas: `home.homeDirectory`, `caffeine` package + `Applications/Caffeine.app` link, `programs.aerospace`, `programs.git.settings.credential.helper = [ "osxkeychain" ]`.
+- `home-wsl.nix` — WSL entrypoint. **Still standalone** — does not yet `imports` `common.nix` (deferred per the WSL catch-up TODO).
 
-The three files are not `imports`-chained at the Nix level — each is a complete, standalone home-manager config for its platform. But `home.nix` is treated as the **conceptual / manual reference**: improvements made on the Mac side (or elsewhere) are routinely upstreamed back into `home.nix` so it stays the up-to-date baseline for bootstrapping new machines (e.g. WSL is currently behind and needs catch-up). When adding a package or option, decide whether it belongs in `home.nix` (likely to propagate) or only in a platform file.
+Mac and Linux are now `imports`-chained through `common.nix`; WSL remains a standalone config until its own catch-up pass adopts the same shape. When adding a package or option, prefer putting it in `common.nix` unless it's genuinely platform-specific. Platform-conflicting options (e.g. git's `credential.helper`, which is a list-merged attribute) must stay in the platform files only — adding them to `common.nix` would concatenate both helpers on every platform.
 
 ## Open dotfile-related TODOs
 
