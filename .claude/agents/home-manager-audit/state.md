@@ -4,11 +4,10 @@ Tracks adopt/decline decisions on findings from `report-2026-05-23.md` so the di
 
 ## Pending
 
-- L4 — Consider `programs.fzf.tmux.enableShellIntegration` for popup integration
-- L5 — Investigate whether `.config/environment.d/10-shell.conf` (Linux) is still needed
+- L5 — Investigate whether `.config/environment.d/10-shell.conf` (Linux) is still needed (Linux-only; not actionable from Mac)
 
 Structural (separate decision):
-- Cross-file parity → factor a shared `common.nix`
+- Cross-file parity → factor a shared `common.nix` (deferred — big refactor, not in scope for short sessions)
 
 ## Adopted
 
@@ -23,6 +22,8 @@ Structural (separate decision):
 - **M1 — `programs.htop`** (declined 2026-05-23). htop used only casually; current bare-package install fine. Reconsider only if/when the user starts declaring `~/.config/htop/htoprc` from Nix.
 
 - **M2 — `programs.jq`** (declined 2026-05-23). User tested default jq colors against a mixed-type JSON object and was satisfied. Module's only knob (`colors`) doesn't offer anything wanted.
+
+- **L4 — `programs.fzf.tmux.enableShellIntegration`** (declined 2026-05-23 after empirical test). Applied the change, ran `home-manager switch`, then hit an env-var caching surprise: `hm-session-vars.fish` has an `if [ -n "$__HM_SESS_VARS_SOURCED" ]; return; end` re-source guard, so all already-running terminals (including new tmux panes/sessions) skipped re-exporting and FZF_TMUX stayed unset. A tmux restart wasn't enough — needed a full Kitty restart so the parent fish would re-source from scratch. After hard restart, popup overlay worked correctly. User tested and prefers the inline 40%-height takeover; popup felt different/disruptive. Rolled back via `jj restore` + `home-manager switch`. **Side-finding worth remembering for future audits:** any home-manager option that adds to `home.sessionVariables` won't be visible to running terminal sessions without a full terminal-emulator restart — a tmux restart alone is insufficient.
 
 - **L3 — Remove redundant `programs.fzf.enableFishIntegration`** (declined 2026-05-23). User prefers keeping the explicit `enableFishIntegration = true` as documentation — defends against silent regression if home-manager ever flips the default in a future release. Symmetric counter-argument to the "explicit on non-Nix" pattern: here, "explicit on default-changes" reads more conservatively.
 

@@ -152,16 +152,16 @@ For Linux, the long-form prose for big/speculative items (Wayland switch, tiling
 
 #### Home-manager idiomaticity audit — mid-walk
 
-- **Status (as of 2026-05-23):** Audit was run and a ranked report produced (18 findings — 3 High, 8 Medium, 7 Low + 1 structural). Walking findings one at a time using `didactic-upstream-diff-iteration` principles (per-candidate adopt / decline / apply minimally / test / record). Currently paused with **L4 (`programs.fzf.tmux.enableShellIntegration`) as the next pending candidate**. Resume by presenting L4 to the user for adopt/decline.
+- **Status (as of 2026-05-23):** Audit was run and a ranked report produced (18 findings — 3 High, 8 Medium, 7 Low + 1 structural). All Mac-actionable findings walked one at a time using `didactic-upstream-diff-iteration` principles. **Walk is effectively complete on Mac.** Only L5 (`environment.d` investigation — Linux-only, not testable from Mac) and the structural `common.nix` refactor (intentionally deferred — too large for short sessions) remain.
 - **Source of truth files (in-repo so they survive an OS hop):**
   - `.claude/agents/home-manager-audit/agent-prompt.md` — original audit brief.
   - `.claude/agents/home-manager-audit/report.md` — full ranked findings.
   - `.claude/agents/home-manager-audit/state.md` — iteration state (Pending / Adopted / Declined / no-op confirmations). Authoritative for what's been decided.
-- **Adopted so far:** H2 (`programs.gh` + scoped credential helper, commit `8f747340`); M4 (`programs.neovim` + node-only providers, commit `6ea486fe`).
-- **Declined so far:** H1 bat, H3 eza, M1 htop, M2 jq, M3 ripgrep, M5 tmux, M6 fastfetch, M7 yt-dlp, M8 ranger (clash-tested), L3 fzf.enableFishIntegration (kept explicit). Reasoning per-finding lives in `state.md`.
+- **Adopted (2 of 14 actionable findings):** H2 (`programs.gh` + scoped credential helper, commit `8f747340`); M4 (`programs.neovim` + node-only providers, commit `6ea486fe`).
+- **Declined (12 — reasoning per-finding lives in `state.md`):** H1 bat, H3 eza, M1 htop, M2 jq, M3 ripgrep, M5 tmux, M6 fastfetch, M7 yt-dlp, M8 ranger (clash-tested), L3 fzf.enableFishIntegration (kept explicit), L4 fzf tmux popup (tested-then-rolled-back).
 - **Why declines pattern:** the user prefers `pkgs.X` + raw `home.file` for tools used across non-Nix environments (servers, ssh hosts) — the literal form is closer to what they'd write by hand on bootstrap. Small `programs.X.enable`-only swaps with no other behavioral change generally fall to this reasoning.
-- **Still to walk:** L4 (fzf tmux popup), L5 (environment.d investigation, Linux-only), and the structural `common.nix` question.
-- **How to resume:** read `state.md`, surface the next "Pending" item to the user with a brief (current vs. recommended, tradeoffs, ask adopt/decline). On adopt: apply minimally, give test steps, wait for confirmation, then jj-commit the change as its own focused commit before moving on.
+- **Side-finding from L4 worth remembering:** any home-manager option that adds to `home.sessionVariables` won't propagate to running terminal sessions because of the `__HM_SESS_VARS_SOURCED` re-source guard in `hm-session-vars.fish`. Full terminal-emulator restart (not just tmux) is required for new env vars to appear in existing sessions.
+- **How to resume L5 / common.nix:** read `state.md`. For L5 (Linux-only), boot Linux and check whether enabling `home.shell.enableShellIntegration` makes the manual `.config/environment.d/10-shell.conf` redundant. For `common.nix`, schedule a dedicated session — it's a multi-file refactor with cross-platform implications.
 
 #### Migrate `nvim-compe` → `nvim-cmp`, and `nvim-treesitter` to the new `main` API
 
