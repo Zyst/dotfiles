@@ -150,19 +150,6 @@ For Linux, the long-form prose for big/speculative items (Wayland switch, tiling
   3. Add the authority-vs-staleness rule to `.claude/CLAUDE.md` (probably under the existing "tmux.conf upstream reference" section, generalized): when consulting a vendored upstream file, check the file's recent commit activity first; if it looks abandoned, treat it as a historical reference rather than canonical.
   4. Once vendored, repoint `.claude/agents/tmux-upstream-audit/agent-prompt.md` at the local checkout instead of the GitHub URL — the audit gets faster and works offline.
 
-#### Home-manager idiomaticity audit — mid-walk
-
-- **Status (as of 2026-05-23):** Audit was run and a ranked report produced (18 findings — 3 High, 8 Medium, 7 Low + 1 structural). All Mac-actionable findings walked one at a time using `didactic-upstream-diff-iteration` principles. **Walk is effectively complete on Mac.** Only L5 (`environment.d` investigation — Linux-only, not testable from Mac) and the structural `common.nix` refactor (intentionally deferred — too large for short sessions) remain.
-- **Source of truth files (in-repo so they survive an OS hop):**
-  - `.claude/agents/home-manager-audit/agent-prompt.md` — original audit brief.
-  - `.claude/agents/home-manager-audit/report.md` — full ranked findings.
-  - `.claude/agents/home-manager-audit/state.md` — iteration state (Pending / Adopted / Declined / no-op confirmations). Authoritative for what's been decided.
-- **Adopted (2 of 14 actionable findings):** H2 (`programs.gh` + scoped credential helper, commit `8f747340`); M4 (`programs.neovim` + node-only providers, commit `6ea486fe`).
-- **Declined (12 — reasoning per-finding lives in `state.md`):** H1 bat, H3 eza, M1 htop, M2 jq, M3 ripgrep, M5 tmux, M6 fastfetch, M7 yt-dlp, M8 ranger (clash-tested), L3 fzf.enableFishIntegration (kept explicit), L4 fzf tmux popup (tested-then-rolled-back).
-- **Why declines pattern:** the user prefers `pkgs.X` + raw `home.file` for tools used across non-Nix environments (servers, ssh hosts) — the literal form is closer to what they'd write by hand on bootstrap. Small `programs.X.enable`-only swaps with no other behavioral change generally fall to this reasoning.
-- **Side-finding from L4 worth remembering:** any home-manager option that adds to `home.sessionVariables` won't propagate to running terminal sessions because of the `__HM_SESS_VARS_SOURCED` re-source guard in `hm-session-vars.fish`. Full terminal-emulator restart (not just tmux) is required for new env vars to appear in existing sessions.
-- **How to resume L5 / common.nix:** read `state.md`. For L5 (Linux-only), boot Linux and check whether enabling `home.shell.enableShellIntegration` makes the manual `.config/environment.d/10-shell.conf` redundant. For `common.nix`, schedule a dedicated session — it's a multi-file refactor with cross-platform implications.
-
 #### Migrate `nvim-compe` → `nvim-cmp`, and `nvim-treesitter` to the new `main` API
 
 - **Status (as of 2026-05-13):** `nvim-treesitter` is pinned to its legacy `master` branch in `~/dev/dotfiles/vimrc.org:888` so the old `require'nvim-treesitter.configs'.setup{}` API still works and `nvim-compe`'s internal `compe_treesitter` source still loads. `nvim-compe` is archived/deprecated by its author in favor of `hrsh7th/nvim-cmp`.
@@ -183,13 +170,6 @@ For Linux, the long-form prose for big/speculative items (Wayland switch, tiling
   - Decide policy: always reattach (might be jarring if the prior conversation is stale), or reattach only when continuum-restore fires within N minutes of save (continuum saves a timestamp; we can gate on freshness).
   - Sanity-check: does pane content (the visible scrollback) come back via `pane_contents.tar.gz`? If yes, even without true session reattach, the previous transcript is at least visible.
   - Document the final mechanism here once it's wired up so the next reader doesn't have to re-derive it.
-
-#### Verify zoxide works on Linux
-
-- **Status:** Installed and verified working on Mac (2026-05-23). `programs.zoxide = { enable = true; enableFishIntegration = true; };` landed in both `home.nix` and `home-mac.nix`. Live-tree check confirmed both options exist and are `visible` (the `enableFishIntegration` option had not collapsed to automatic at the time of adoption — defaults to `true` but kept explicit per the L3 reasoning pattern).
-- **Why:** Mac confirmed `z <partial>` jumps to frecency-ranked dir and `zi` opens an interactive picker. Linux side hasn't been retested since the config landed.
-- **How to apply:** Next time you're on Linux: `home-manager switch`, then in a fresh fish session, `cd` around a few dirs to seed the database, then verify `z <partial>` jumps and `zi` opens an interactive picker. If anything's broken on Linux specifically (e.g. fish version mismatch, fzf path divergence affecting `zi`), capture findings here.
-- **Open style decision (parked):** whether to alias `cd` to `z` (some users do, some keep them distinct). Current default: keep distinct — `z` for smart, `cd` for explicit.
 
 #### Enable the jujutsu module in starship
 
@@ -267,36 +247,6 @@ For long-form / speculative items (Wayland switch, Wayland-native tiling WM, sta
 
 For long-form / speculative items (tiling WM choice, status bar stack), see `.claude/todos/mac.md`. Short inline items below.
 
-#### Verify recent Tmux changes still work on Mac
-
-- **Status:** Not started. A run of Linux-side tmux iteration (commits roughly 089716b..HEAD) reshaped `tmux.conf`; needs a Mac sweep.
-- **Why:** Mac and Linux run the same `tmux.conf` but differ on tmux build (Homebrew vs. nixpkgs), terminal (Kitty here), and version string formatting. Anything keyed on version detection, terminal capabilities, or the fish+starship stack can quietly drift.
-- **How to apply:** Reload on Mac (`tmux source-file ~/.config/tmux/tmux.conf` from inside tmux, or restart tmux) and walk these spot-checks:
-  - `prefix + ]` copies the last command's output (commit `58776fa`).
-  - Shift+Enter under Kitty inserts a newline in Claude Code's prompt instead of submitting (commit `661d4f0`).
-  - `prefix + o` / `prefix + i` cleanly use the `❯`-search fallback under fish+starship (commit `603df25`); the OSC-133 branch is intentionally skipped — see the OSC-133 TODO above for the re-enable plan.
-  - Tmux version arithmetic (`%if $IS_TMUX_3_4_OR_ABOVE`) resolves correctly on Mac's tmux build (commit `9b3202d`); if it resolves the wrong way you'll see the wrong navigation branch.
-  - `tmux-resurrect` / `tmux-continuum` save+restore round-trips cleanly after the session-0 hook removal (commit `41427ab`).
-
-#### Verify recent Nvim changes still work on Mac
-
-- **Status:** Not started.
-- **Why:** Several `vimrc.org` edits were motivated by Linux-specific issues (non-NixOS `libstdc++` dlopen, deprecation warnings on a specific plugin version) but landed in the shared file. Mac needs a sanity pass.
-- **How to apply:** Open nvim on Mac after a re-tangle + `home-manager switch` and verify:
-  - No which-key deprecation warning at startup (commit `9bd85f7`).
-  - Treesitter loads cleanly with no errors mentioning `norg` (commit `dcf82c6`) or `ipkg` (commit `0d69bc1`).
-  - `*.jjdescription` files get diff-style highlighting — open one via `jj describe` to confirm (commit `70b3e89`).
-  - LSP, completion (nvim-compe), and treesitter highlighting still work end-to-end (regression check; the migration TODO is separately tracked above).
-
-#### Verify recent Fish / home-manager changes still work on Mac
-
-- **Status:** Not started.
-- **Why:** `home.nix` reshuffles (alphabetize deps, silence the news notice, Ubuntu-leaning improvements) could nudge something Mac-relevant; want a clean `home-manager switch` and a sane fish session.
-- **How to apply:**
-  - Run `home-manager switch` on Mac; expect no new warnings beyond the usual (commits `036b128`, `b86bf5e`, `089746b`).
-  - Open a fresh fish session and confirm: starship prompt renders, aliases work, jujutsu shell integration is active.
-  - Cross-check `home.nix` for anything Linux-only that leaked into the shared file via `089746b` — should be either Mac-safe or platform-gated.
-
 #### Install a Caffeine-style keep-awake tool + tune Mac sleep settings
 
 - **Status:** Not started. Surfaced 2026-05-23.
@@ -315,10 +265,6 @@ For long-form / speculative items (tiling WM choice, status bar stack), see `.cl
   - If Kitty + tmux strip OSC notification escapes, look at `kitten notify` (Kitty's first-class API) and/or `terminal-notifier` as a fallback path. Either can be wired into long-running-command hooks (fish event, shell wrapper, `&& terminal-notifier ...`).
   - macOS side: confirm the emitting app (Kitty) has Notifications permission in System Settings → Notifications. Without this, OS-level surfacing fails silently.
   - Document the final working pattern here and decide whether to make it usable from Claude Code, fish prompt hooks, and ad-hoc shell commands uniformly.
-
-#### Up next, once the verify-Linux-on-Mac items above are resolved
-
-Revisit the **Mac tiling window manager** decision in `.claude/todos/mac.md` (SIP question → yabai vs. AeroSpace vs. Amethyst → SketchyBar stack). Surface the prompt then; don't act before the verify sweep is done, since a tiling WM swap will itself disturb tmux/Kitty interactions and we want a stable baseline first.
 
 ## Related repo conventions
 
