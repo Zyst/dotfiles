@@ -10,8 +10,13 @@ alias rgg="rg --files -g"
 alias nz="nvim ~/.zshrc"
 
 function 2fa
-  cat /home/zyst/.2fa/$argv | xargs -I {} oathtool --base32 --totp "{}"
-  cat /home/zyst/.2fa/$argv | xargs -I {} oathtool --base32 --totp "{}" | xclip -sel clip
+  set -l code (cat /home/zyst/.2fa/$argv | xargs -I {} oathtool --base32 --totp "{}")
+  echo $code
+  if test -n "$WAYLAND_DISPLAY"
+    echo $code | wl-copy
+  else
+    echo $code | xclip -sel clip
+  end
 end
 
 fish_add_path -g $HOME/.local/bin

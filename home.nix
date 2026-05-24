@@ -29,6 +29,7 @@ in
       termdown
       tmux
       tree
+      wl-clipboard
       xclip
       xdelta
       yarn
