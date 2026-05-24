@@ -358,6 +358,7 @@ For long-form / speculative items (tiling WM choice, status bar stack), see `.cl
 ## Related repo conventions
 
 - Per-app config dirs (`alacritty.yml`, `kitty.conf`, `i3.config`, `espanso/`, `mpv/`, `awesome/`, `openmw/`, `BAR/`, etc.) are wired up via home-manager — check the relevant `home*.nix` to see how a given file lands in `$HOME`.
+- **X11-era WM configs are semi-abandoned** as of 2026-05-24: `i3.config`, `awesome/`, `Xresources-regolith`, `.xinitrc`. The Linux side is migrating to Sway from-scratch (see `.claude/todos/linux.md`); when porting bindings to the new Sway config, **Regolith's upstream Sway/i3 configs are the canonical reference**, not the local files. Local `i3.config` is consulted only for the Colemak-DH directional bindings (`i3.config:112-116, 171-175`) that Regolith doesn't ship. The Mac side adopted AeroSpace 2026-05-24 with bindings ported from `skhdrc` (also still in-repo and authoritative for Mac muscle memory).
 
 ### Local skills
 
