@@ -7,6 +7,7 @@ in
   home = {
     packages = (with pkgs; [
       bat
+      caffeine
       clojure
       eslint
       eza
@@ -36,6 +37,11 @@ in
     ]);
 
     file = {
+      # Surface nix-installed Caffeine.app under ~/Applications so Spotlight /
+      # Launchpad find it. The bare nix-profile install lands at
+      # ~/.nix-profile/Applications/, which macOS doesn't index.
+      "Applications/Caffeine.app".source = "${pkgs.caffeine}/Applications/Caffeine.app";
+
       ".config/kitty/kitty.conf".source = "${dotfiles}/kitty.conf";
 
       ".config/ranger/rc.conf".source = "${dotfiles}/ranger/rc.conf";

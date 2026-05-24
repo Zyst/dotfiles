@@ -183,11 +183,11 @@ The three files are not `imports`-chained at the Nix level — each is a complet
 
 ## Open dotfile-related TODOs
 
-Live in three sibling files under `.claude/todos/`:
+Live in sibling files under `.claude/todos/`:
 
 - `.claude/todos/todos.md` — generic / cross-platform dotfile TODOs
 - `.claude/todos/linux.md` — Linux-specific
-- `.claude/todos/mac.md` — macOS-specific
+- `.claude/todos/mac.md` — macOS-specific (created on-demand when a Mac TODO surfaces; absent when there are none)
 
 Each file is the canonical, in-repo source for its scope. Memory's `~/.claude/projects/-Users-zyst/memory/todos.md` mirrors items per the Sync rule above, but the in-repo files are the primary surface — they survive an OS hop, while memory is per-machine. Done items get deleted outright (see `feedback_todo_deletion.md` in memory).
 
