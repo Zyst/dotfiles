@@ -49,7 +49,7 @@ endif
 Plug 'sainnhe/everforest'
 " Plug 'savq/melange'
 Plug 'ap/vim-css-color'
-Plug 'vim-airline/vim-airline'
+Plug 'nvim-lualine/lualine.nvim'
 Plug 'tpope/vim-fugitive'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
@@ -251,10 +251,22 @@ colorscheme everforest
 
 " colorscheme melange
 
-let g:airline_section_b = ''
-let g:airline_section_x = ''
-let g:airline_section_y = ''
-let g:airline_section_z = ''
+lua << EOF
+require('lualine').setup({
+  options = {
+    icons_enabled = false,
+    theme = 'auto',
+  },
+  sections = {
+    lualine_a = { 'mode' },
+    lualine_b = {},
+    lualine_c = { 'filename' },
+    lualine_x = {},
+    lualine_y = {},
+    lualine_z = {},
+  },
+})
+EOF
 
 lua <<EOF
   require('gitsigns').setup {

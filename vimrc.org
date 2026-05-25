@@ -602,55 +602,33 @@ Adding [[https://github.com/ap/vim-css-color][ap/vim-css-color]] allows us to ha
   Plug 'ap/vim-css-color'
 #+END_SRC
 
-** Airline
+** Statusline
 
-We are going to add [[https://github.com/vim-airline/vim-airline][vim-airline/vim-airline]] which adds a nice status bar for us.
+We use [[https://github.com/nvim-lualine/lualine.nvim][nvim-lualine/lualine.nvim]] for our statusline. It's a Lua replacement for our previous vim-airline setup — the main win for us is theme integration, since lualine inherits from our colorscheme automatically while airline's themes are a separate ecosystem that tends to look dated. This is an experimental swap; if we don't end up liking it we revert the single commit and we're back on airline.
 
 #+BEGIN_SRC vimrc :tangle no :noweb-ref plug
-  Plug 'vim-airline/vim-airline'
+  Plug 'nvim-lualine/lualine.nvim'
 #+END_SRC
 
-We want to disable some of our sections to reduce our levels of noise.
-
-#+BEGIN_SRC
-+-----------------------------------------------------------------------------+
-|~                                                                            |
-|~                                                                            |
-|~                     VIM - Vi IMproved                                      |
-|~                                                                            |
-|~                       version 8.0                                          |
-|~                    by Bram Moolenaar et al.                                |
-|~           Vim is open source and freely distributable                      |
-|~                                                                            |
-|~           type :h :q<Enter>          to exit                               |
-|~           type :help<Enter> or <F1>  for on-line help                      |
-|~           type :help version8<Enter> for version info                      |
-|~                                                                            |
-|~                                                                            |
-+-----------------------------------------------------------------------------+
-| A | B |                     C                            X | Y | Z |  [...] |
-+-----------------------------------------------------------------------------+
-
-Where:
-
- section|meaning (example)
--------|------------------
-  A    | displays the mode + additional flags like crypt/spell/paste (INSERT)
-  B    | VCS information (branch, hunk summary) (master)
-  C    | filename + read-only flag (~/.vim/vimrc RO)
-  X    | filetype  (vim)
-  Y    | file encoding[fileformat] (utf-8[unix])
-  Z    | current position in the file
- [...] | additional sections (warning/errors/statistics) from external plugins (e.g. YCM, syntastic, ...)
-#+END_SRC
-
-We want to remove the VCS information, the filetype, the file encoding, and our current position in the file.
+We keep the section layout minimal: =mode= on the left and =filename= in the middle, matching the two sections we had visible on airline (with B/X/Y/Z all blanked there). Filetype icons are off, since we'd otherwise need to pull in =nvim-web-devicons= just to render a glyph in the corner.
 
 #+BEGIN_SRC vimrc
-let g:airline_section_b = ''
-let g:airline_section_x = ''
-let g:airline_section_y = ''
-let g:airline_section_z = ''
+  lua << EOF
+  require('lualine').setup({
+    options = {
+      icons_enabled = false,
+      theme = 'auto',
+    },
+    sections = {
+      lualine_a = { 'mode' },
+      lualine_b = {},
+      lualine_c = { 'filename' },
+      lualine_x = {},
+      lualine_y = {},
+      lualine_z = {},
+    },
+  })
+  EOF
 #+END_SRC
 
 ** Version control management
