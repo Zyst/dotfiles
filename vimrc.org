@@ -1102,47 +1102,41 @@ vim.lsp.enable(servers)
 EOF
 #+END_SRC
 
-*** Linter
+*** Formatter
 
-We use [[https://github.com/w0rp/ale][w0rp/ale]] for linting, and more. It integrates very nicely with LSP as well.
+We use [[https://github.com/stevearc/conform.nvim][stevearc/conform.nvim]] for formatting on demand.
 
 #+BEGIN_SRC vimrc :tangle no :noweb-ref plug
-  Plug 'w0rp/ale'
+  Plug 'stevearc/conform.nvim'
 #+END_SRC
 
-We add configuration for our fixers. First, we want every filetype to remove trailing lines, and whitespace on save. Another filetype we want to cover is JavaScript, where we run both =prettier=, and =eslint --fix= in that order.
+We set up a per-filetype formatter chain. Trimming whitespace and trailing newlines is built into conform, and we wire those under the =*= key so they run for every filetype. JavaScript and TypeScript get =prettier= first, then =eslint_d= which is faster than vanilla =eslint= for editor use.
 
 #+BEGIN_SRC vimrc
-  let g:ale_fixers = {
-  \   '*': ['remove_trailing_lines', 'trim_whitespace'],
-  \   'javascript': ['prettier', 'eslint'],
-  \   'typescript': ['prettier', 'eslint'],
-  \   'typescriptreact': ['prettier', 'eslint'],
-  \   'css': ['prettier'],
-  \   'scss': ['prettier'],
-  \   'html': ['prettier'],
-  \   'json': ['prettier'],
-  \}
+  lua << EOF
+  require('conform').setup({
+    formatters_by_ft = {
+      ['*'] = { 'trim_whitespace', 'trim_newlines' },
+      javascript = { 'prettier', 'eslint_d' },
+      typescript = { 'prettier', 'eslint_d' },
+      typescriptreact = { 'prettier', 'eslint_d' },
+      css = { 'prettier' },
+      scss = { 'prettier' },
+      html = { 'prettier' },
+      json = { 'prettier' },
+    },
+  })
+  EOF
 #+END_SRC
 
-We also want to configure linters, my JavaScript ones seem to work out of the box, but some other languages need a bit more config.
+We map =<Leader>f= to run the format chain on the current buffer. When conform has no formatter for the filetype, it falls back to the LSP's =vim.lsp.buf.format()=.
 
 #+BEGIN_SRC vimrc
-  let g:ale_linters = {
-        \ 'clojure': ['clj-kondo', 'joker']
-        \}
-#+END_SRC
-
-We make our formatting tool run on <Leader> and f.
-
-#+BEGIN_SRC vimrc
-  nmap <Leader>f <Plug>(ale_fix)
-#+END_SRC
-
-We also want to disable the built in LSP from ALE, since we're using the Neovim 0.5 integrated one.
-
-#+BEGIN_SRC vimrc
-  let g:ale_disable_lsp = 1
+  lua << EOF
+  vim.keymap.set('n', '<Leader>f', function()
+    require('conform').format({ async = false, lsp_format = 'fallback' })
+  end)
+  EOF
 #+END_SRC
 
 *** Autoclosing

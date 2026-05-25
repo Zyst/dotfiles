@@ -10,6 +10,7 @@ in
       cargo
       clojure
       eslint
+      eslint_d
       eza
       fastfetch
       ffmpeg

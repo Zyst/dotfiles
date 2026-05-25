@@ -57,7 +57,7 @@ Plug 'gfanto/fzf-lsp.nvim'
 Plug 'scrooloose/nerdtree'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'tpope/vim-projectionist'
-Plug 'w0rp/ale'
+Plug 'stevearc/conform.nvim'
 Plug 'jiangmiao/auto-pairs'
 Plug 'mattn/emmet-vim'
 Plug 'sheerun/vim-polyglot'
@@ -531,24 +531,26 @@ vim.lsp.config('*', { capabilities = capabilities })
 vim.lsp.enable(servers)
 EOF
 
-let g:ale_fixers = {
-\   '*': ['remove_trailing_lines', 'trim_whitespace'],
-\   'javascript': ['prettier', 'eslint'],
-\   'typescript': ['prettier', 'eslint'],
-\   'typescriptreact': ['prettier', 'eslint'],
-\   'css': ['prettier'],
-\   'scss': ['prettier'],
-\   'html': ['prettier'],
-\   'json': ['prettier'],
-\}
+lua << EOF
+require('conform').setup({
+  formatters_by_ft = {
+    ['*'] = { 'trim_whitespace', 'trim_newlines' },
+    javascript = { 'prettier', 'eslint_d' },
+    typescript = { 'prettier', 'eslint_d' },
+    typescriptreact = { 'prettier', 'eslint_d' },
+    css = { 'prettier' },
+    scss = { 'prettier' },
+    html = { 'prettier' },
+    json = { 'prettier' },
+  },
+})
+EOF
 
-let g:ale_linters = {
-      \ 'clojure': ['clj-kondo', 'joker']
-      \}
-
-nmap <Leader>f <Plug>(ale_fix)
-
-let g:ale_disable_lsp = 1
+lua << EOF
+vim.keymap.set('n', '<Leader>f', function()
+  require('conform').format({ async = false, lsp_format = 'fallback' })
+end)
+EOF
 
 let g:user_emmet_expandabbr_key = '<C-e>'
 
