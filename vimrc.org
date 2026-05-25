@@ -915,112 +915,138 @@ EOF
 
 ** General settings and modules
 
-*** nvim-compe
+*** nvim-cmp
 
-We want to add [[https://github.com/hrsh7th/nvim-compe][hrsh7th/nvim-compe]] for fancy LSP auto complete support with Neovim.
+We use [[https://github.com/hrsh7th/nvim-cmp][hrsh7th/nvim-cmp]] for fancy LSP auto complete support with Neovim. We lift the setup itself heavily from [[https://github.com/wincent/wincent/blob/main/aspects/nvim/files/.config/nvim/after/plugin/nvim-cmp.lua][wincent's nvim-cmp.lua]].
 
 #+BEGIN_SRC vimrc :tangle no :noweb-ref nvim plug
-  Plug 'hrsh7th/nvim-compe'
+  Plug 'hrsh7th/nvim-cmp'
+  Plug 'hrsh7th/cmp-nvim-lsp'
+  Plug 'hrsh7th/cmp-nvim-lua'
+  Plug 'hrsh7th/cmp-buffer'
+  Plug 'hrsh7th/cmp-path'
+  Plug 'hrsh7th/cmp-calc'
+  Plug 'hrsh7th/cmp-emoji'
 #+END_SRC
 
-We must set =completeopt= to =menuone,noselect=:
+We must set =completeopt= to =menuone,noselect= to keep the popup visible even when there's only one match so completions never silently auto-insert.
 
 #+BEGIN_SRC vimrc
   set completeopt=menuone,noselect
 #+END_SRC
 
-We setup the plugin options.
+We setup cmp with our sources, key mappings, bordered windows, and LSP-kind icons. The icon glyphs come from Kitty's bundled =SymbolsNerdFontMono-Regular.ttf=, which fills in for any character MonoLisa doesn't ship.
 
 #+BEGIN_SRC vimrc
-    lua << EOF
-    require'compe'.setup {
-      enabled = true;
-      autocomplete = true;
-      debug = false;
-      min_length = 1;
-      preselect = 'enable';
-      throttle_time = 80;
-      source_timeout = 200;
-      resolve_timeout = 800;
-      incomplete_delay = 400;
-      max_abbr_width = 100;
-      max_kind_width = 100;
-      max_menu_width = 100;
-      documentation = true;
+lua <<EOF
+local cmp = require('cmp')
+local luasnip = require('luasnip')
 
-      source = {
-        path = true;
-        buffer = true;
-        calc = true;
-        vsnip = true;
-        nvim_lsp = true;
-        nvim_lua = true;
-        spell = true;
-        tags = true;
-        snippets_nvim = true;
-        treesitter = false;
-      };
-    }
-    EOF
+local lsp_kinds = {
+  Class = ' ',
+  Color = ' ',
+  Constant = ' ',
+  Constructor = ' ',
+  Enum = ' ',
+  EnumMember = ' ',
+  Event = ' ',
+  Field = ' ',
+  File = ' ',
+  Folder = ' ',
+  Function = ' ',
+  Interface = ' ',
+  Keyword = ' ',
+  Method = ' ',
+  Module = ' ',
+  Operator = ' ',
+  Property = ' ',
+  Reference = ' ',
+  Snippet = ' ',
+  Struct = ' ',
+  Text = ' ',
+  TypeParameter = ' ',
+  Unit = ' ',
+  Value = ' ',
+  Variable = ' ',
+}
+
+cmp.setup({
+  snippet = {
+    expand = function(args)
+      luasnip.lsp_expand(args.body)
+    end,
+  },
+
+  mapping = cmp.mapping.preset.insert({
+    ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+    ['<C-f>'] = cmp.mapping.scroll_docs(4),
+    ['<C-e>'] = cmp.mapping.abort(),
+    ['<CR>'] = cmp.mapping.confirm({ select = false }),
+    ['<Tab>'] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        cmp.select_next_item()
+      elseif luasnip.expand_or_jumpable() then
+        luasnip.expand_or_jump()
+      else
+        fallback()
+      end
+    end, { 'i', 's' }),
+    ['<S-Tab>'] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        cmp.select_prev_item()
+      elseif luasnip.jumpable(-1) then
+        luasnip.jump(-1)
+      else
+        fallback()
+      end
+    end, { 'i', 's' }),
+  }),
+
+  formatting = {
+    format = function(entry, vim_item)
+      vim_item.kind = string.format('%s %s', lsp_kinds[vim_item.kind], vim_item.kind)
+      vim_item.menu = ({
+        nvim_lsp = '[LSP]',
+        nvim_lua = '[Lua]',
+        luasnip = '[Snip]',
+        buffer = '[Buf]',
+        path = '[Path]',
+        calc = '[Calc]',
+        emoji = '[Emoji]',
+      })[entry.source.name]
+      return vim_item
+    end,
+  },
+
+  completion = {
+    completeopt = 'menu,menuone,noinsert',
+  },
+
+  window = {
+    completion = cmp.config.window.bordered(),
+    documentation = cmp.config.window.bordered(),
+  },
+
+  sources = cmp.config.sources({
+    { name = 'luasnip' },
+    { name = 'nvim_lsp' },
+    { name = 'nvim_lua' },
+    { name = 'buffer' },
+    { name = 'calc' },
+    { name = 'emoji' },
+    { name = 'path' },
+  }),
+})
+EOF
 #+END_SRC
 
-Finally, we make the Tab, and Shift Tab bindings work to select options. This is copied from the compe README:
+*** LuaSnip
 
-#+BEGIN_SRC vimrc
-  lua << EOF
-  local t = function(str)
-    return vim.api.nvim_replace_termcodes(str, true, true, true)
-  end
-
-  local check_back_space = function()
-      local col = vim.fn.col('.') - 1
-      return col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') ~= nil
-  end
-
-  -- Use (s-)tab to:
-  --- move to prev/next item in completion menuone
-  --- jump to prev/next snippets placeholder
-  _G.tab_complete = function()
-    if vim.fn.pumvisible() == 1 then
-      return t "<C-n>"
-    elseif vim.fn['vsnip#available'](1) == 1 then
-      return t "<Plug>(vsnip-expand-or-jump)"
-    elseif check_back_space() then
-      return t "<Tab>"
-    else
-      return vim.fn['compe#complete']()
-    end
-  end
-  _G.s_tab_complete = function()
-    if vim.fn.pumvisible() == 1 then
-      return t "<C-p>"
-    elseif vim.fn['vsnip#jumpable'](-1) == 1 then
-      return t "<Plug>(vsnip-jump-prev)"
-    else
-      -- If <S-Tab> is not working in your terminal, change it to <C-h>
-      return t "<S-Tab>"
-    end
-  end
-
-  vim.api.nvim_set_keymap("i", "<Tab>", "v:lua.tab_complete()", {expr = true})
-  vim.api.nvim_set_keymap("s", "<Tab>", "v:lua.tab_complete()", {expr = true})
-  vim.api.nvim_set_keymap("i", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
-  vim.api.nvim_set_keymap("s", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
-  EOF
-#+END_SRC
-
-*** Float preview
-
-We want to add [[https://github.com/ncm2/float-preview.nvim][ncm2/float-preview.nvim]]. This allows us to have documentation popups be way nicer. I just saw this on a post from [[https://oli.me.uk/getting-started-with-clojure-neovim-and-conjure-in-minutes/][Oliver Caldwell]].
+We want [[https://github.com/L3MON4D3/LuaSnip][L3MON4D3/LuaSnip]] as our snippet engine. cmp hands snippet bodies off to it for expansion, and =cmp_luasnip= is the bridge that exposes LuaSnip as a cmp source.
 
 #+BEGIN_SRC vimrc :tangle no :noweb-ref nvim plug
-  Plug 'ncm2/float-preview.nvim'
-#+END_SRC
-
-This means we should disable the built in complete support, we'll be using the float stuff from Neovim.
-
-#+BEGIN_SRC vimrc
-  set completeopt-=preview
+  Plug 'L3MON4D3/LuaSnip', { 'do': 'make install_jsregexp' }
+  Plug 'saadparwaiz1/cmp_luasnip'
 #+END_SRC
 
 *** Language Server Protocol
