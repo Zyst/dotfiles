@@ -66,7 +66,7 @@ Full inventory below. Already-decided picks marked. Phase 2 categories carry can
 |---|---|---|---|---|
 | LSP wiring | Plumbing half-installed: `nvim-lspconfig` + `mason.nvim` present, `mason.setup()` ~ vimrc.org:1043, but no `lspconfig.<server>.setup{}` calls and Mason's package dir doesn't exist. **Zero clients attach.** | (a) **Add mason-lspconfig as bridge with `ensure_installed = {...}`** (most ergonomic); (b) skip Mason entirely, install LSP servers via apt/brew (wincent-style — simpler but per-machine imperative). Server baseline: lua_ls, ts_ls, pyright, gopls, rust_analyzer, nixd, clojure_lsp. Narrow to languages actually in daily use. | 🟢 | 1 |
 | Completion engine | `nvim-compe` — archived/deprecated by its author. | (a) **nvim-cmp** (wincent uses; de-facto standard with broad ecosystem); (b) **blink.cmp** (newer, Rust core, very popular 2024+; faster but younger). Claude pitch: nvim-cmp for maturity unless we want to bet on blink.cmp. | 🟢 | 1 |
-| Treesitter API | Pinned to legacy `master` branch (vimrc.org:888) with old `.configs.setup{}` API. Required to keep nvim-compe's treesitter source working. | New `main` branch + new API: drop `ensure_installed = "all"` from setup, use `:TSInstall <langs>` + a `FileType` autocmd calling `vim.treesitter.start()`. | 🟢 | 1 |
+| Treesitter API | **✅ Done 2026-05-25** (commit `5c9fd08a`). Migrated to `main` branch + new API. Parsers auto-install at startup via `require('nvim-treesitter').install({...})`; FileType autocmd calls `vim.treesitter.start()` to enable highlighting. nvim-compe `treesitter` source temporarily disabled — proper fix lands with the cmp migration (step 2 below). Required `pkgs.tree-sitter` in common.nix because the main branch compiles parsers from source. | — | 🟢 | 1 |
 | Linter / formatter | ALE — monolithic (LSP + lint + format in one). Works, but split-responsibility is cleaner with native LSP. | (a) Keep ALE (it works); (b) split: LSP handles diagnostics, **conform.nvim** for formatters, **nvim-lint** for non-LSP linters. | 🟡 | 2 |
 | Status line | vim-airline (Vimscript, slower, older). | (a) **lualine.nvim** (Lua, fast, themable, most popular); (b) hand-rolled in Lua à la wincent. | 🔵 | 2 |
 | File explorer | NERDTree. | (a) **oil.nvim** (edit directory as a buffer — paradigm shift, very popular); (b) **nvim-tree.lua** (drop-in NERDTree replacement); (c) **neo-tree.nvim** (more featureful, more knobs). Wincent runs nvim-tree + oil simultaneously. | 🔵 | 2 |
@@ -128,18 +128,20 @@ When making picks in Phase 2 and stuck between options, check wincent's `~/dev/w
 
 For Phase 1: walk it as one big change-stack in a single (or 2-3) session(s). Order:
 
-1. Migrate nvim-treesitter to `main` API. Drop legacy `master` pin. Re-tangle, switch, verify highlighting still works. Commit.
-2. Migrate nvim-compe → nvim-cmp + LuaSnip + cmp-* sources. Re-tangle, switch, verify completion in a few buffer types. Commit.
+1. ✅ Migrate nvim-treesitter to `main` API. **Done 2026-05-25, commit `5c9fd08a`.** Side-effects captured for follow-up: nvim-compe `treesitter` source temporarily set to `false` (fixed by step 2 below); `pkgs.tree-sitter` added to common.nix.
+2. Migrate nvim-compe → nvim-cmp + LuaSnip + cmp-* sources. Re-tangle, switch, verify completion in a few buffer types. Re-enable equivalent of compe's treesitter source via `cmp-treesitter` if we want it back. Commit.
 3. Wire up LSP properly — pick baseline servers, add mason-lspconfig with `ensure_installed`, write the setup-handlers loop. Re-tangle, switch, verify `:checkhealth vim.lsp` shows attached clients. Commit.
 4. Add minuet-ai.nvim with Anthropic provider. Configure API key via the secrets-management approach in use. Test ghost-text. Commit.
 5. Add the `lua/zyst/jj.lua` module with `:JJFiles` command, wire keybinding. Commit.
 
 For Phase 2: use the `didactic-upstream-diff-iteration` skill. Each category becomes one didactic-iteration session. Decisions logged back into this file's "Decisions" section as they land.
 
-## Resumption / Where we left off (2026-05-24)
+## Resumption / Where we left off (2026-05-25)
 
-- Project scoped and tiered. Phase 1 starts when the user is ready.
-- Decisions already made (plugin manager, AI completion plugin, jj approach, shellbot stance) captured above.
+- **Phase 1 step 1 done** (commit `5c9fd08a`, 2026-05-25): nvim-treesitter migrated to `main` branch + new API. Verified working — 15+ parsers compiled in background post-switch, `treesitter.highlighter.active` true on tested buffers.
+- **Side effects captured for follow-up:** `pkgs.tree-sitter` added to common.nix (main branch compiles parsers from source via the CLI). nvim-compe `treesitter` source set to `false` until step 2 lands — it required `nvim-treesitter.locals` which only existed on the master branch.
+- **Phase 1 step 2 is next**: nvim-compe → nvim-cmp + LuaSnip + cmp-* sources. While we're in there, re-enable a treesitter-aware completion source if cmp ships one (cmp-treesitter or similar) to restore what compe's source did.
+- Steps 3–5 (LSP wiring → minuet-ai → jj module) remain queued in order.
 - The existing TODOs in `.claude/todos/todos.md` (nvim-cmp/treesitter migration; LSP wiring) are now subsumed by Phase 1 here. Those entries should be replaced with one-line pointers to this file (deferred to whoever picks this up next, to keep this file's introduction self-contained).
 - **Resumption prompt — Claude should open the next session with this question, verbatim:**
-  > Ready to start Phase 1? It's a 5-step linear refactor of the primary plugin stack (treesitter → nvim-cmp → LSP wiring → minuet-ai → jj module). Each step gets a separate commit. Recommend doing the full bundle in one session if you can; otherwise we can checkpoint between steps.
+  > Ready to continue Phase 1? Step 2 (nvim-compe → nvim-cmp + LuaSnip + cmp-* sources) is queued next; steps 3–5 (LSP wiring, minuet-ai, jj module) follow. Recommend continuing in one session if you can; otherwise we can checkpoint between steps.
