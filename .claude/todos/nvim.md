@@ -25,11 +25,12 @@ Tier semantics used below:
 Phase split decided 2026-05-24:
 
 - **Phase 1 — deep initial refactor** (everything is coupled; do as one bundle, one commit per logical step inside it):
-  - Plugin manager swap (vim-plug → lazy.nvim)
   - LSP wiring (nvim-lspconfig setup calls + mason-lspconfig auto-install)
   - Completion engine swap (nvim-compe → nvim-cmp)
   - Treesitter migration to `main` branch + new API
   - Snippets engine (LuaSnip — required by nvim-cmp)
+  - AI tab completion via minuet-ai.nvim (Anthropic provider)
+  - Jujutsu integration module (`lua/zyst/jj.lua` with `:JJFiles`)
 - **Phase 2 — incremental modernizations** (each walked through with the `didactic-upstream-diff-iteration` skill, one category at a time, adopt/decline/test/commit):
   - File explorer (NERDTree → oil.nvim and/or nvim-tree.lua)
   - Status line (vim-airline → lualine.nvim)
@@ -48,7 +49,7 @@ Phase split decided 2026-05-24:
 
 ## Decisions made in this session (2026-05-24)
 
-- **Plugin manager:** lazy.nvim. Rationale: we're rewriting the plugin block anyway during Phase 1, so the cost of switching is amortized. lazy.nvim's spec format, lockfile, profiler UI, and lazy-loading defaults pay for themselves over the project. Counter-argument considered: vim-plug works fine and ~25 plugins isn't a startup-time problem. Decision is revertible if the new manager creates friction.
+- **Plugin manager:** stay on **vim-plug**. Initial recommendation was lazy.nvim ("we're refactoring anyway, amortize the cost"), but on pushback that's sunk-cost framing. User has no complaint with vim-plug and explicitly noted startup speed isn't a pain point — which eliminates lazy.nvim's load-bearing benefit. vim-plug is more likely to "outlast" in raw-existence terms (10+ years old, single-file vimscript, near-zero surface area for breakage, still actively maintained by junegunn). Real friction with vim-plug today: occasional copy-paste from docs that ship lazy.nvim spec format (mechanical conversion). Revisit only if (a) vim-plug stops being maintained, or (b) a wanted plugin effectively requires lazy.nvim.
 - **AI completion approach:** tab-completion via the Anthropic API (NOT agentic plugins like avante.nvim). Plugin candidate: **minuet-ai.nvim** — provider-agnostic, supports Anthropic, easy provider-swap later. Honest caveat: Claude's API isn't latency-optimized like Copilot/Supermaven, so ghost-text will feel slower. If latency annoys after a week of use, swap the provider config (same plugin) to Supermaven or similar. Cost is per-token on a separate Anthropic API key (Claude Code subscription does not include API access).
 - **Shell-out commands (wincent's `shellbot.lua` pattern, e.g. `:Claude` on visual selection):** SKIP for now. User's existing tmux + Claude Code flow already covers the "consult Claude about this code" use case. Add later only if the copy-paste-to-tmux pattern becomes annoying enough to justify a plugin.
 - **Jujutsu integration:** roll-our-own. No mature jj nvim plugin exists today (the few that do are single-maintainer / sparsely-documented and don't meet our stability bar). The user's must-have is a `:GFiles?` equivalent for jj-tracked changes. ~25 lines of Lua wrapping `jj diff --name-only` piped to a picker. Slot in a `lua/zyst/jj.lua` module. More commands (`:JJLog`, `:JJBlame`-from-buffer-line) added only if/when the workflow calls for them — nice-to-have, not blockers.
@@ -70,7 +71,7 @@ Full inventory below. Already-decided picks marked. Phase 2 categories carry can
 | Status line | vim-airline (Vimscript, slower, older). | (a) **lualine.nvim** (Lua, fast, themable, most popular); (b) hand-rolled in Lua à la wincent. | 🔵 | 2 |
 | File explorer | NERDTree. | (a) **oil.nvim** (edit directory as a buffer — paradigm shift, very popular); (b) **nvim-tree.lua** (drop-in NERDTree replacement); (c) **neo-tree.nvim** (more featureful, more knobs). Wincent runs nvim-tree + oil simultaneously. | 🔵 | 2 |
 | Fuzzy finder | fzf + fzf.vim + fzf-lsp.nvim. Used heavily; fast on large repos. | (a) Keep fzf (mature, faster than Telescope on huge codebases); (b) **Telescope** (Lua, deeper LSP/treesitter integration, themable but slower); (c) **fzf-lua** (Telescope's API ergonomics with fzf's speed). | 🟡 | 2 |
-| Plugin manager | vim-plug. | **lazy.nvim** — DECIDED 2026-05-24, see above. | 🟢 | 1 |
+| Plugin manager | vim-plug. | **Stay on vim-plug** — DECIDED 2026-05-24, see Decisions section above. lazy.nvim was initially recommended and reversed after honest reassessment. | ⚫ | n/a |
 | Surround | vim-surround (tpope, vimscript, works). | (a) **mini.surround** (wincent uses; part of mini family); (b) **nvim-surround** (standalone Lua). Marginal. | ⚪ | 2 |
 | Comment | vim-commentary (tpope, vimscript, works). | (a) **Comment.nvim**; (b) nvim's **builtin commentary** (since 0.10 via `gc`). Marginal — builtin makes the plugin redundant. | ⚪ | 2 |
 | Auto-pairs | jiangmiao/auto-pairs. | **nvim-autopairs** (better LSP integration; closes brackets with awareness of completion context). Marginal. | ⚪ | 2 |
@@ -127,12 +128,11 @@ When making picks in Phase 2 and stuck between options, check wincent's `~/dev/w
 
 For Phase 1: walk it as one big change-stack in a single (or 2-3) session(s). Order:
 
-1. Land the plugin manager swap (vim-plug → lazy.nvim) in a vacuum — convert existing `Plug 'foo'` lines to lazy.nvim specs, **don't add or remove any plugin yet**. Re-tangle, switch, verify nvim still starts with the same plugin set. Commit.
-2. Migrate nvim-treesitter to `main` API. Drop legacy `master` pin. Re-tangle, switch, verify highlighting still works. Commit.
-3. Migrate nvim-compe → nvim-cmp + LuaSnip + cmp-* sources. Re-tangle, switch, verify completion in a few buffer types. Commit.
-4. Wire up LSP properly — pick baseline servers, add mason-lspconfig with `ensure_installed`, write the setup-handlers loop. Re-tangle, switch, verify `:checkhealth vim.lsp` shows attached clients. Commit.
-5. Add minuet-ai.nvim with Anthropic provider. Configure API key via the secrets-management approach in use. Test ghost-text. Commit.
-6. Add the `lua/zyst/jj.lua` module with `:JJFiles` command, wire keybinding. Commit.
+1. Migrate nvim-treesitter to `main` API. Drop legacy `master` pin. Re-tangle, switch, verify highlighting still works. Commit.
+2. Migrate nvim-compe → nvim-cmp + LuaSnip + cmp-* sources. Re-tangle, switch, verify completion in a few buffer types. Commit.
+3. Wire up LSP properly — pick baseline servers, add mason-lspconfig with `ensure_installed`, write the setup-handlers loop. Re-tangle, switch, verify `:checkhealth vim.lsp` shows attached clients. Commit.
+4. Add minuet-ai.nvim with Anthropic provider. Configure API key via the secrets-management approach in use. Test ghost-text. Commit.
+5. Add the `lua/zyst/jj.lua` module with `:JJFiles` command, wire keybinding. Commit.
 
 For Phase 2: use the `didactic-upstream-diff-iteration` skill. Each category becomes one didactic-iteration session. Decisions logged back into this file's "Decisions" section as they land.
 
@@ -142,4 +142,4 @@ For Phase 2: use the `didactic-upstream-diff-iteration` skill. Each category bec
 - Decisions already made (plugin manager, AI completion plugin, jj approach, shellbot stance) captured above.
 - The existing TODOs in `.claude/todos/todos.md` (nvim-cmp/treesitter migration; LSP wiring) are now subsumed by Phase 1 here. Those entries should be replaced with one-line pointers to this file (deferred to whoever picks this up next, to keep this file's introduction self-contained).
 - **Resumption prompt — Claude should open the next session with this question, verbatim:**
-  > Ready to start Phase 1? It's a 6-step linear refactor of the primary plugin stack (lazy.nvim → treesitter → nvim-cmp → LSP wiring → minuet-ai → jj module). Each step gets a separate commit. Recommend doing the full bundle in one session if you can; otherwise we can checkpoint between steps. Or — different framing? Step 0 is a vim-plug → lazy.nvim conversion that touches every plugin line.
+  > Ready to start Phase 1? It's a 5-step linear refactor of the primary plugin stack (treesitter → nvim-cmp → LSP wiring → minuet-ai → jj module). Each step gets a separate commit. Recommend doing the full bundle in one session if you can; otherwise we can checkpoint between steps.
