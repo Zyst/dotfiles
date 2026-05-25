@@ -37,6 +37,7 @@ if has('nvim')
       Plug 'saadparwaiz1/cmp_luasnip'
       Plug 'neovim/nvim-lspconfig'
       Plug 'williamboman/mason.nvim'
+      Plug 'williamboman/mason-lspconfig.nvim'
       Plug 'Olical/conjure'
 else
   call plug#begin('~/.vim/plugged')
@@ -496,8 +497,38 @@ cmp.setup({
 })
 EOF
 
-lua << EOF
-  require("mason").setup()
+lua <<EOF
+local servers = {
+  'bashls',
+  'clojure_lsp',
+  'cssls',
+  'gopls',
+  'html',
+  'jsonls',
+  'lua_ls',
+  'nixd',
+  'pyright',
+  'rust_analyzer',
+  'ts_ls',
+  'yamlls',
+}
+
+-- nixd isn't in mason's registry, so we install it via home-manager
+-- (=pkgs.nixd= in common.nix) and skip it in mason-lspconfig's ensure_installed.
+-- Everything else comes from mason.
+local mason_servers = vim.tbl_filter(function(s) return s ~= 'nixd' end, servers)
+
+require('mason').setup()
+require('mason-lspconfig').setup({ ensure_installed = mason_servers })
+
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+local has_cmp_nvim_lsp, cmp_nvim_lsp = pcall(require, 'cmp_nvim_lsp')
+if has_cmp_nvim_lsp then
+  capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
+end
+
+vim.lsp.config('*', { capabilities = capabilities })
+vim.lsp.enable(servers)
 EOF
 
 let g:ale_fixers = {

@@ -1051,24 +1051,55 @@ We want [[https://github.com/L3MON4D3/LuaSnip][L3MON4D3/LuaSnip]] as our snippet
 
 *** Language Server Protocol
 
-We add [[https://github.com/neovim/nvim-lspconfig][neovim/nvim-lspconfig]] for our primary LSP configuration.
+We add [[https://github.com/neovim/nvim-lspconfig][neovim/nvim-lspconfig]] for our LSP server configurations.
 
 #+BEGIN_SRC vimrc :tangle no :noweb-ref nvim plug
   Plug 'neovim/nvim-lspconfig'
 #+END_SRC
 
-We are using [[https://github.com/williamboman/mason.nvim][williamboman/mason.nvim]] to install LSP servers. It has a slick UI, and a bunch of really cool features.
+We use [[https://github.com/williamboman/mason.nvim][williamboman/mason.nvim]] to install LSP servers locally. It's got a slick UI, declarative server list. =mason-lspconfig= is the bridge plugin that hands mason an =ensure_installed= list and tells it which servers to fetch.
 
 #+BEGIN_SRC vimrc :tangle no :noweb-ref nvim plug
   Plug 'williamboman/mason.nvim'
+  Plug 'williamboman/mason-lspconfig.nvim'
 #+END_SRC
 
-We configure our LSP Install configuration, and some hotkeys.
+We configure mason to fetch our baseline server list, merge cmp's completion capabilities into the default config so LSP completions flow into nvim-cmp, and enable each server. Adding a new language is just adding its server name to the =servers= list.
 
 #+BEGIN_SRC vimrc
-  lua << EOF
-    require("mason").setup()
-  EOF
+lua <<EOF
+local servers = {
+  'bashls',
+  'clojure_lsp',
+  'cssls',
+  'gopls',
+  'html',
+  'jsonls',
+  'lua_ls',
+  'nixd',
+  'pyright',
+  'rust_analyzer',
+  'ts_ls',
+  'yamlls',
+}
+
+-- nixd isn't in mason's registry, so we install it via home-manager
+-- (=pkgs.nixd= in common.nix) and skip it in mason-lspconfig's ensure_installed.
+-- Everything else comes from mason.
+local mason_servers = vim.tbl_filter(function(s) return s ~= 'nixd' end, servers)
+
+require('mason').setup()
+require('mason-lspconfig').setup({ ensure_installed = mason_servers })
+
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+local has_cmp_nvim_lsp, cmp_nvim_lsp = pcall(require, 'cmp_nvim_lsp')
+if has_cmp_nvim_lsp then
+  capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
+end
+
+vim.lsp.config('*', { capabilities = capabilities })
+vim.lsp.enable(servers)
+EOF
 #+END_SRC
 
 *** Linter

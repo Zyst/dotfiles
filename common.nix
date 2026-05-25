@@ -7,6 +7,7 @@ in
   home = {
     packages = (with pkgs; [
       bat
+      cargo
       clojure
       eslint
       eza
@@ -14,6 +15,7 @@ in
       ffmpeg
       fortune
       git-quick-stats
+      go
       gtypist
       htop
       http-server
@@ -21,16 +23,20 @@ in
       joker
       jq
       leiningen
+      luarocks
       ncdu
+      nixd
       nodejs_22
       noti
       prettier
       ranger
       ripgrep
+      rustc
       termdown
       tmux
       tree
       tree-sitter
+      wget
       xdelta
       yarn
       yt-dlp
