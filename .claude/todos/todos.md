@@ -34,15 +34,9 @@ When picking an item, walk it didactically (one change at a time, adopt/decline,
 
 ---
 
-## Migrate `nvim-compe` → `nvim-cmp`, and `nvim-treesitter` to the new `main` API
+## Neovim modernization
 
-- **Status (as of 2026-05-13):** `nvim-treesitter` is pinned to its legacy `master` branch in `~/dev/dotfiles/vimrc.org:888` so the old `require'nvim-treesitter.configs'.setup{}` API still works and `nvim-compe`'s internal `compe_treesitter` source still loads. `nvim-compe` is archived/deprecated by its author in favor of `hrsh7th/nvim-cmp`.
-- **Why it matters:** Eventually the `master` branch of `nvim-treesitter` will bitrot and the workaround stops working.
-- **How to apply:** Two coupled changes in `vimrc.org`:
-  1. Replace the `Plug 'hrsh7th/nvim-compe'` block and `require'compe'.setup{…}` config with `nvim-cmp` + sources (`cmp-nvim-lsp`, `cmp-buffer`, `cmp-path`, etc.) and a snippet engine like `LuaSnip`.
-  2. Drop the legacy `master` pin on `nvim-treesitter` and migrate the `setup{}` call to the new API — `:TSInstall <langs>` (no more `ensure_installed = "all"` in setup) plus a `FileType` autocmd calling `vim.treesitter.start()`.
-
-  Then: re-tangle → `home-manager switch` → `rm -rf` the affected plugin dirs → `:PlugInstall`. See the vim-plug branch-change note in CLAUDE.md.
+All nvim-related items (LSP wiring, nvim-compe → nvim-cmp, nvim-treesitter `main` API, AI tab completion, jj integration, file explorer / status line / fuzzy finder upgrades, theme refresh, etc.) consolidated into the per-project tracking file at [`nvim.md`](./nvim.md).
 
 ---
 
@@ -56,24 +50,6 @@ When picking an item, walk it didactically (one change at a time, adopt/decline,
   - Decide policy: always reattach (might be jarring if the prior conversation is stale), or reattach only when continuum-restore fires within N minutes of save (continuum saves a timestamp; we can gate on freshness).
   - Sanity-check: does pane content (the visible scrollback) come back via `pane_contents.tar.gz`? If yes, even without true session reattach, the previous transcript is at least visible.
   - Document the final mechanism here once it's wired up so the next reader doesn't have to re-derive it.
-
----
-
-## Wire up nvim LSP properly (Mason install + nvim-lspconfig setup calls)
-
-- **Status (investigated 2026-05-23):** Plumbing is half-installed. `vimrc.org` has `Plug 'neovim/nvim-lspconfig'`, `Plug 'williamboman/mason.nvim'`, and `require("mason").setup()` (~line 1043), but no `lspconfig.<server>.setup{}` calls anywhere — and Mason's packages directory (`~/.local/share/nvim/mason/packages/`) doesn't exist on Mac, meaning no servers were ever actually installed. Net result: zero LSP clients attach to any buffer. nvim-compe's `nvim_lsp = true` source has nothing to draw from; completion is buffer/path/treesitter-only. Also: `:LspInfo` is gone in modern nvim-lspconfig — use `:checkhealth vim.lsp` or `:lua =vim.lsp.get_clients()` instead.
-- **Why:** Real LSP (go-to-definition, hover, diagnostics, server-backed completion) is missing across every language. The user noticed while testing autocomplete on `autoload.lua`; it's been broken-by-omission for a while, not a recent regression.
-- **How to apply:**
-  1. Decide whether to add `Plug 'williamboman/mason-lspconfig.nvim'` (the bridge plugin that auto-installs servers listed in lspconfig + auto-attaches them) — strongly recommended; it makes the rest of the wiring declarative.
-  2. Pick a baseline server list. Likely candidates given the languages the user touches: `lua_ls` (vimrc / nvim configs), `tsserver` or `ts_ls` (JS/TS — current name varies by lspconfig version), `pyright` (Python), `gopls` (Go), `rust_analyzer` (Rust), `nil` or `nixd` (Nix), `clojure_lsp` (Clojure — ALE is doing some of this already). Narrow to what's actually in use.
-  3. In `vimrc.org`'s LSP section, after `require("mason").setup()`, add `require("mason-lspconfig").setup{ ensure_installed = { ... } }` followed by a default-handler loop or explicit per-server setups, e.g.:
-     ```lua
-     require("mason-lspconfig").setup_handlers({
-       function(server) require("lspconfig")[server].setup{} end,
-     })
-     ```
-  4. Re-tangle (`emacs --batch ...`), `home-manager switch`, then `:MasonInstall` will fire automatically on first nvim launch via mason-lspconfig. Verify with `:checkhealth vim.lsp` — clients should be attached on a Lua / TS / Python buffer.
-  5. Consider also adding `cmp-nvim-lsp` once the `nvim-compe → nvim-cmp` migration TODO (above) lands; nvim-compe's LSP source still works but is on the deprecated track.
 
 ---
 
