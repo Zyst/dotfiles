@@ -19,6 +19,12 @@ This repo ships to multiple machines (macOS, Linux, WSL) with different `$HOME` 
 
 Existing references like `~/dev/dotfiles/` are technically machine-specific too and should migrate toward "the dotfiles repo root" phrasing over time.
 
+## Privacy: keep professional/workplace context out of tracked files
+
+This repo is **public** (`github.com/Zyst/dotfiles`); anything committed is visible to anyone, indefinitely. **Never speculate about or reference the user's professional context** in tracked files. Frame blockers and motivations as neutral surface facts: state *what* is uncertain or pending, not *who* gates it or *why* it might be gated.
+
+Even negative examples (e.g. a "don't write X" entry that quotes X) inscribe the leaking phrasing into the public file and are not safe — describe the rule abstractly rather than illustrating with a concrete bad version. If a fact only makes sense with workplace context attached, it doesn't belong in a tracked file at all. Such context can still inform *conversational* reasoning, and per-machine memory under `~/.claude/projects/-Users-zyst/memory/` is a fine home for it.
+
 ## Source of truth
 
 - Repo: `https://github.com/Zyst/dotfiles`, cloned to `~/dev/dotfiles/`.
