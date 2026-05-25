@@ -891,22 +891,23 @@ Finally, we map =<Leader>= and =a= to go to our alternate file.
 We want [[https://github.com/nvim-treesitter/nvim-treesitter][nvim-treesitter/nvim-treesitter]], which we'll primarily use to make our highlights look better.
 
 #+BEGIN_SRC vimrc :tangle no :noweb-ref nvim plug
-  Plug 'nvim-treesitter/nvim-treesitter', {'branch': 'master', 'do': ':TSUpdate'}
+  Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 #+END_SRC
 
-We enable treesitter highlight groups, and ensure that the language support entries we install are being maintained.
-
-We skip a couple of parsers that fail to install in this setup. =norg= needs libstdc++ which our Nix-built nvim can't find on non-NixOS Linux, and =ipkg='s upstream repo is abandoned so the tarball URL 404s. Add more here as they bitrot.
+The install call is async, and already installed parsers get skipped, the rest fetch in the background. Add or remove languages as we pick them up. The FileType autocmd turns highlighting on per buffer; the =pcall= wrap keeps buffers without an installed parser quiet rather than complaining every time we open one.
 
 #+BEGIN_SRC vimrc
 lua <<EOF
-require'nvim-treesitter.configs'.setup {
-  ensure_installed = "all",
-  ignore_install = { "norg", "ipkg" },
-  highlight = {
-    enable = true,
-  },
-}
+require('nvim-treesitter').install({
+  'bash', 'c', 'clojure', 'css', 'diff', 'fish', 'go',
+  'html', 'javascript', 'json', 'lua', 'markdown', 'markdown_inline',
+  'nix', 'python', 'query', 'rust', 'toml', 'tsx', 'typescript',
+  'vim', 'vimdoc', 'yaml',
+})
+
+vim.api.nvim_create_autocmd("FileType", {
+  callback = function() pcall(vim.treesitter.start) end,
+})
 EOF
 #+END_SRC
 
@@ -957,7 +958,7 @@ We setup the plugin options.
         spell = true;
         tags = true;
         snippets_nvim = true;
-        treesitter = true;
+        treesitter = false;
       };
     }
     EOF

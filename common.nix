@@ -30,6 +30,7 @@ in
       termdown
       tmux
       tree
+      tree-sitter
       xdelta
       yarn
       yt-dlp

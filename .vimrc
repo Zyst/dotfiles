@@ -25,7 +25,7 @@ if has('nvim')
   call plug#begin('~/.config/nvim/plugged')
       Plug 'nvim-lua/plenary.nvim'
       Plug 'lewis6991/gitsigns.nvim'
-      Plug 'nvim-treesitter/nvim-treesitter', {'branch': 'master', 'do': ':TSUpdate'}
+      Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
       Plug 'hrsh7th/nvim-compe'
       Plug 'ncm2/float-preview.nvim'
       Plug 'neovim/nvim-lspconfig'
@@ -374,13 +374,16 @@ endfor
 nnoremap <Leader>a :A<CR>
 
 lua <<EOF
-require'nvim-treesitter.configs'.setup {
-  ensure_installed = "all",
-  ignore_install = { "norg", "ipkg" },
-  highlight = {
-    enable = true,
-  },
-}
+require('nvim-treesitter').install({
+  'bash', 'c', 'clojure', 'css', 'diff', 'fish', 'go',
+  'html', 'javascript', 'json', 'lua', 'markdown', 'markdown_inline',
+  'nix', 'python', 'query', 'rust', 'toml', 'tsx', 'typescript',
+  'vim', 'vimdoc', 'yaml',
+})
+
+vim.api.nvim_create_autocmd("FileType", {
+  callback = function() pcall(vim.treesitter.start) end,
+})
 EOF
 
 set completeopt=menuone,noselect
@@ -411,7 +414,7 @@ require'compe'.setup {
     spell = true;
     tags = true;
     snippets_nvim = true;
-    treesitter = true;
+    treesitter = false;
   };
 }
 EOF
