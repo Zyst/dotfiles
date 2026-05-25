@@ -604,13 +604,13 @@ Adding [[https://github.com/ap/vim-css-color][ap/vim-css-color]] allows us to ha
 
 ** Statusline
 
-We use [[https://github.com/nvim-lualine/lualine.nvim][nvim-lualine/lualine.nvim]] for our statusline. It's a Lua replacement for our previous vim-airline setup — the main win for us is theme integration, since lualine inherits from our colorscheme automatically while airline's themes are a separate ecosystem that tends to look dated. This is an experimental swap; if we don't end up liking it we revert the single commit and we're back on airline.
+We use [[https://github.com/nvim-lualine/lualine.nvim][nvim-lualine/lualine.nvim]] for our statusline.
 
 #+BEGIN_SRC vimrc :tangle no :noweb-ref plug
   Plug 'nvim-lualine/lualine.nvim'
 #+END_SRC
 
-We keep the section layout minimal: =mode= on the left and =filename= in the middle, matching the two sections we had visible on airline (with B/X/Y/Z all blanked there). Filetype icons are off, since we'd otherwise need to pull in =nvim-web-devicons= just to render a glyph in the corner.
+We keep the layout fairly tight: =mode= on the left, =filename= in the middle, and on the right we surface two signals — =diff= (added/modified/removed line counts via gitsigns), and =diagnostics= (LSP error/warning counts). We also strip the section and component separators.
 
 #+BEGIN_SRC vimrc
   lua << EOF
@@ -618,12 +618,14 @@ We keep the section layout minimal: =mode= on the left and =filename= in the mid
     options = {
       icons_enabled = false,
       theme = 'auto',
+      section_separators = '',
+      component_separators = '',
     },
     sections = {
       lualine_a = { 'mode' },
       lualine_b = {},
       lualine_c = { 'filename' },
-      lualine_x = {},
+      lualine_x = { 'diff', 'diagnostics' },
       lualine_y = {},
       lualine_z = {},
     },
