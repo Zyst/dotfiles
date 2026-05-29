@@ -187,7 +187,7 @@ set splitbelow
 set splitright
 
 set wrap
-set textwidth=80
+set textwidth=0
 
 set showmatch
 
@@ -263,7 +263,7 @@ require('lualine').setup({
     lualine_a = { 'mode' },
     lualine_b = {},
     lualine_c = { 'filename' },
-    lualine_x = { 'diff', 'diagnostics', 'searchcount' },
+    lualine_x = { 'diff', 'diagnostics' },
     lualine_y = {},
     lualine_z = {},
   },

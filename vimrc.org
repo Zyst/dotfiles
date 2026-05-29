@@ -363,11 +363,11 @@ set expandtab
   set splitright
 #+END_SRC
 
-- Visually wraps lines that go past a limit, we also automatically set the corresponding wrap setting to 80 characters.
+- Visually wraps long lines with =wrap=, but we don't want Nvim hard-breaking lines for us, so =textwidth=0= stops it from auto-inserting newlines as we type. Git/JJ commit buffers are the exception, and they take care of themselves: Nvim's built-in =gitcommit= and =jjdescription= ftplugins re-set a 72-column limit per buffer, which is the width that keeps =git log= readable.
 
 #+BEGIN_SRC vimrc
   set wrap
-  set textwidth=80
+  set textwidth=0
 #+END_SRC
 
 - Highlights matching items like ({[]}).
