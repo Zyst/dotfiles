@@ -25,7 +25,7 @@ if has('nvim')
   call plug#begin('~/.config/nvim/plugged')
       Plug 'nvim-lua/plenary.nvim'
       Plug 'lewis6991/gitsigns.nvim'
-      Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+      Plug 'nvim-treesitter/nvim-treesitter', {'branch': 'main', 'do': ':TSUpdate'}
       Plug 'hrsh7th/nvim-cmp'
       Plug 'hrsh7th/cmp-nvim-lsp'
       Plug 'hrsh7th/cmp-nvim-lua'

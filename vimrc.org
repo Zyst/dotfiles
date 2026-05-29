@@ -868,10 +868,10 @@ Finally, we map =<Leader>= and =a= to go to our alternate file.
 
 ** Tree Sitter
 
-We want [[https://github.com/nvim-treesitter/nvim-treesitter][nvim-treesitter/nvim-treesitter]], which we'll primarily use to make our highlights look better.
+We want [[https://github.com/nvim-treesitter/nvim-treesitter][nvim-treesitter/nvim-treesitter]], which we'll primarily use to make our highlights look better. We pin =branch: 'main'= because the rewrite (with the =require('nvim-treesitter').install()= API we use below) lives there, while the legacy =master= branch has neither — leaving the branch unpinned just inherits whatever the remote default happens to be, which isn't portable across machines.
 
 #+BEGIN_SRC vimrc :tangle no :noweb-ref nvim plug
-  Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+  Plug 'nvim-treesitter/nvim-treesitter', {'branch': 'main', 'do': ':TSUpdate'}
 #+END_SRC
 
 The install call is async, and already installed parsers get skipped, the rest fetch in the background. Add or remove languages as we pick them up. The FileType autocmd turns highlighting on per buffer; the =pcall= wrap keeps buffers without an installed parser quiet rather than complaining every time we open one.
