@@ -51,6 +51,8 @@ in
         recursive = true;
       };
 
+      ".claude/themes/high-contrast-badge.json".source = "${dotfiles}/claude-themes/high-contrast-badge.json";
+
       ".config/ranger/rc.conf".source = "${dotfiles}/ranger/rc.conf";
 
       ".config/mpv" = {

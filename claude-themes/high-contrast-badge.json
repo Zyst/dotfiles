@@ -1,0 +1,7 @@
+{
+  "name": "High contrast badge",
+  "base": "dark",
+  "overrides": {
+    "inverseText": "#fafafa"
+  }
+}
