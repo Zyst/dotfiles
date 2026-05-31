@@ -90,7 +90,7 @@ Full inventory below. Already-decided picks marked. Phase 2 categories carry can
 | Folding | Smarter folds via LSP/treesitter. | **nvim-ufo**. | 🟡 | 2 |
 | Indent guides | Visual hierarchy. | **indent-blankline.nvim** (wincent uses). | 🟡 | 2 |
 | Better git diff | Side-by-side diff inside nvim. | **diffview.nvim** (wincent uses; pairs with fugitive). | 🟡 | 2 |
-| Theme refresh | Aesthetic; current `everforest` is fine but 4y old. | **Kanagawa** / **Rose Pine** noted as user-interesting. Also: catppuccin, tokyonight, kanagawa, gruvbox-material. | ⚪ | 2 |
+| Theme refresh | **✅ Done 2026-05-31** (commit `c044a0c6` for nvim, `d927e90c` for kitty). Swapped active theme from `everforest` to **Kanagawa Dragon** via `rebelot/kanagawa.nvim`. **Rose Pine Moon** is wired in as an inactive alternative (Plug + colorscheme both commented; the Plug line uses `{ 'as': 'rose-pine' }` so it clones to `plugged/rose-pine/` instead of the misleading `plugged/neovim/`). End-to-end terminal-editor match: kitty's `Normal` bg (`#181616` via `kitty-themes/kanagawa-dragon.conf`) === nvim's `Normal` hl bg. Old `everforest` section preserved in `vimrc.org` but all three lines commented out (Plug, `let g:everforest_enable_italic`, colorscheme) — same shape as the existing Melange placeholder; uncomment all three to swap back. Companion kitty theme work shipped earlier: `kitty.conf` slimmed via `include kitty-themes/<file>.conf` directives (`kitty-themes/` houses egoist-one + everforest + gruvbox + kanagawa-dragon + rose-pine-moon, with egoist-one loaded first as a 19-slot fallback below the active theme). Also adjacent: `claude-themes/high-contrast-badge.json` overrides Claude Code's `inverseText` to `#fafafa` for legible badge text on the teal `claude` accent — particularly noticeable on Kanagawa Dragon's darker palette. | — | ⚪ | 2 |
 | Notifications / cmdline overhaul | Replace cmdline + search + messages with floating UI. | **noice.nvim** (very aesthetic, more moving parts); **fidget.nvim** (just LSP progress, minimal). | ⚪ | 2 |
 | Outline / structure | Symbol tree of current file. | **aerial.nvim**. | ⚪ | 2 |
 | Shell-out commands (`:Claude`-style) | Send buffer/selection to Claude CLI from nvim. | Wincent's **shellbot** pattern. SKIP for now per 2026-05-24 decision — covered by user's tmux+claude flow. | ⚫ | n/a |
@@ -144,13 +144,14 @@ For Phase 2: use the `didactic-upstream-diff-iteration` skill. Each category bec
 - **Step 4 (jj module) — temporarily skipped (`f5339b29`).** `:GFiles?` already covers the daily flow on jj-managed repos because jj keeps the git working tree in sync with `@`. Re-evaluate if concrete pain surfaces during day-to-day jj work; the ~25-line design still stands when needed.
 - **Step 5 (minuet-ai.nvim) — deferred, may never land.** Lower priority; pending confirmation that an Anthropic API key is available. Fallback options if unavailable: drop the category entirely, or switch provider (Supermaven / Copilot / Codeium).
 
-### Phase 2 progress this session
+### Phase 2 progress (cumulative across sessions)
 
-Three categories handled:
+Four categories handled:
 
 - **Linter / formatter (✅ done, commit `30758328`).** Retired ALE for **conform.nvim** only. Setup mirrors ALE's old surface: `*` runs `trim_whitespace`+`trim_newlines`; JS/TS/TSX run `prettier` then `eslint_d` (added to `common.nix`); CSS/SCSS/HTML/JSON run `prettier`. `<Leader>f` triggers the chain with `lsp_format = 'fallback'`. `nvim-lint` was skipped — the linting load post-LSP was minimal. `clojure-lsp` covers clj-kondo internally, so ALE's Clojure linters were dropped; `joker` dropped outright (can come back via `nvim-lint` if missed).
 - **Diagnostic UI (⏸ passed, commit `d1d02b0b`).** Walked the trouble.nvim pitch and declined — native nvim 0.11+ diagnostics already cover the workflow (`[d`/`]d`, `vim.diagnostic.open_float()` on CursorHold, `vim.diagnostic.setqflist()` for workspace-wide → quickfix, references/definitions also land in quickfix). trouble.nvim is panel polish, not new capability. Wincent skips it too. Re-evaluate if a concrete pain point emerges.
-- **Status line (✅ done; commits `36b6dfe6` + this one).** Replaced vim-airline with lualine. See Phase 2 inventory row above for the full config rationale (separators off, `diff` + `diagnostics` added on the right — `searchcount` was added too but removed 2026-05-29 as disliked, icons off, theme `auto` for everforest integration). Was framed as experimental on the first commit; close-out commit (this one) folds in the tuning + marks the category done.
+- **Status line (✅ done; commits `36b6dfe6` + `864b110f`).** Replaced vim-airline with lualine. See Phase 2 inventory row above for the full config rationale (separators off, `diff` + `diagnostics` added on the right — `searchcount` was added too but removed 2026-05-29 as disliked, icons off, theme `auto` for everforest/kanagawa integration).
+- **Theme refresh (✅ done 2026-05-31; commit `c044a0c6` for nvim, `d927e90c` for kitty themes catalog, `3116afa0` for kitty everforest cleanup).** Active theme swapped to **Kanagawa Dragon** via `rebelot/kanagawa.nvim`. **Rose Pine Moon** wired in as an inactive alternative (Plug commented; uses `{ 'as': 'rose-pine' }` so it would clone to `plugged/rose-pine/` instead of the misleading `plugged/neovim/`). End-to-end terminal-editor match: kitty Kanagawa Dragon `#181616` background === nvim `Normal` hl background. Old `everforest` section preserved in `vimrc.org` but all three lines commented out — same shape as the existing Melange placeholder; uncomment all three to swap back. See Phase 2 inventory row for the kitty-themes/ companion reorg and the Claude Code `high-contrast-badge.json` overlay (`inverseText` → `#fafafa` for legible badge text on Kanagawa Dragon).
 
 ### Next-up
 
@@ -158,7 +159,7 @@ Remaining Phase 2 candidates, by tier:
 
 - 🔵 **File explorer** — NERDTree → oil.nvim ± nvim-tree.lua. Wincent runs both. Biggest cognitive shift of the 🔵 items.
 - 🟡 Fuzzy finder (fzf vs Telescope vs fzf-lua), Movement (flash/leap), Quick-nav marks (harpoon), Folding (nvim-ufo), Indent guides (indent-blankline), Better git diff UI (diffview.nvim).
-- ⚪ Theme refresh (Kanagawa / Rose Pine), cmdline overhaul (noice / fidget), outline (aerial), marginal trio (surround/comment/pairs).
+- ⚪ cmdline overhaul (noice / fidget), outline (aerial), marginal trio (surround/comment/pairs). (Theme refresh landed 2026-05-31 — see inventory row above.)
 
 Stopped here intentionally — letting the LSP + conform + lualine + native-diagnostics setup soak before picking the next category.
 
@@ -170,4 +171,4 @@ The existing TODOs in `.claude/todos/todos.md` (nvim-cmp/treesitter migration; L
 
 ### Resumption prompt — Claude should open the next session with this question, verbatim
 
-> Phase 1 is effectively done; three Phase 2 categories landed last session (linter/formatter → conform.nvim, status line → lualine with diff+diagnostics (searchcount tried, removed 2026-05-29), diagnostic UI → passed in favor of native). Ready to continue Phase 2? The remaining 🔵 is file explorer (NERDTree → oil.nvim ± nvim-tree.lua) — biggest cognitive shift of the 🔵 items. Other options are the 🟡 row (fuzzy finder, movement, harpoon, folding, indent guides, diffview) or the ⚪ taste-driven set (theme refresh, marginal trio, etc.). Which category should we walk?
+> Phase 1 is effectively done; four Phase 2 categories landed across the last two sessions (linter/formatter → conform.nvim, status line → lualine with diff+diagnostics, diagnostic UI → passed in favor of native, theme refresh → Kanagawa Dragon end-to-end with Rose Pine Moon queued as alternative). Ready to continue Phase 2? The remaining 🔵 is file explorer (NERDTree → oil.nvim ± nvim-tree.lua) — biggest cognitive shift of the 🔵 items. Other options are the 🟡 row (fuzzy finder, movement, harpoon, folding, indent guides, diffview) or the ⚪ taste-driven set (cmdline overhaul, outline, marginal trio). Which category should we walk?
