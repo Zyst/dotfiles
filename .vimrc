@@ -46,7 +46,9 @@ endif
 
 " Plug 'Zyst/egoist-one.vim'
 " Plug 'sainnhe/edge'
-Plug 'sainnhe/everforest'
+" Plug 'sainnhe/everforest'
+Plug 'rebelot/kanagawa.nvim'
+" Plug 'rose-pine/neovim', { 'as': 'rose-pine' }
 " Plug 'savq/melange'
 Plug 'ap/vim-css-color'
 Plug 'nvim-lualine/lualine.nvim'
@@ -245,9 +247,13 @@ endfunction
 
 " colorscheme edge
 
-let g:everforest_enable_italic = 1
+" let g:everforest_enable_italic = 1
 
-colorscheme everforest
+" colorscheme everforest
+
+colorscheme kanagawa-dragon
+
+" colorscheme rose-pine-moon
 
 " colorscheme melange
 

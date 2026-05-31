@@ -565,15 +565,43 @@ We set the theme to edge, and set some self explanatory configuration variables.
 This one is [[https://github.com/sainnhe/everforest][sainnhe/everforest]]. My favorite green theme ever.
 
 #+BEGIN_SRC vimrc :tangle no :noweb-ref plug
-  Plug 'sainnhe/everforest'
+  " Plug 'sainnhe/everforest'
 #+END_SRC
 
 We set the theme to everforest, and set some self explanatory configuration variables.
 
 #+BEGIN_SRC vimrc
-  let g:everforest_enable_italic = 1
+  " let g:everforest_enable_italic = 1
 
-  colorscheme everforest
+  " colorscheme everforest
+#+END_SRC
+
+*** Kanagawa Dragon
+
+[[https://github.com/rebelot/kanagawa.nvim][rebelot/kanagawa.nvim]] is a Hokusai-inspired colorscheme; we're on the Dragon variant (darkest of Wave/Dragon/Lotus).
+
+#+BEGIN_SRC vimrc :tangle no :noweb-ref plug
+  Plug 'rebelot/kanagawa.nvim'
+#+END_SRC
+
+We set the theme to kanagawa with the Dragon variant.
+
+#+BEGIN_SRC vimrc
+  colorscheme kanagawa-dragon
+#+END_SRC
+
+*** Rose Pine Moon
+
+[[https://github.com/rose-pine/neovim][rose-pine/neovim]] is a soft mauve/pink dark theme; Moon sits between Main (default dark) and Dawn (light).
+
+#+BEGIN_SRC vimrc :tangle no :noweb-ref plug
+  " Plug 'rose-pine/neovim', { 'as': 'rose-pine' }
+#+END_SRC
+
+We set the theme to rose-pine with the Moon variant.
+
+#+BEGIN_SRC vimrc
+  " colorscheme rose-pine-moon
 #+END_SRC
 
 *** Melange
@@ -584,7 +612,7 @@ We set the theme to everforest, and set some self explanatory configuration vari
   " Plug 'savq/melange'
 #+END_SRC
 
-We set the theme to everforest, and set some self explanatory configuration variables.
+We set the theme to melange, and set some self explanatory configuration variables.
 
 #+BEGIN_SRC vimrc
   " colorscheme melange
