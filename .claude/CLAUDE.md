@@ -176,6 +176,16 @@ Both modes are gated on `@continuum-boot 'on'`. With it off, neither systemd aut
   systemctl --user is-enabled tmux.service    # should print: not-found
   ```
   If anything ever flips `@continuum-boot` back to `'on'`, continuum's `systemd_enable.sh` will rewrite the unit file with the same broken template — that's an upstream design flaw, not patched locally.
+- **macOS counterpart — `Tmux.Start.plist` launch agent.** On macOS, tmux-continuum installs a LaunchAgent at `~/Library/LaunchAgents/Tmux.Start.plist` (label literally `Tmux.Start.plist`, not reverse-DNS) pointing at `~/.tmux/plugins/tmux-continuum/scripts/handle_tmux_automatic_start/osx_terminal_start_tmux.sh`. The script auto-starts tmux when Terminal.app/Kitty/iTerm launches at login — same role as the Linux systemd unit, same boot-race exposure when `@continuum-boot 'on'`. Two failure shapes to watch:
+  1. **File deleted but launchctl still tracks it.** Removing the `.plist` from disk doesn't unload it — `launchctl list | grep -i tmux` will still show `Tmux.Start.plist` until you explicitly `bootout`. Symptom: file is gone but the agent fires anyway on next login.
+  2. **File still present.** `find ~/Library /Library 2>/dev/null -iname '*tmux*plist'` shows where it lives.
+  Removal procedure:
+  ```
+  launchctl bootout gui/$(id -u)/Tmux.Start.plist 2>/dev/null    # exit 0 even if file already gone
+  rm -f ~/Library/LaunchAgents/Tmux.Start.plist
+  launchctl list | grep -i tmux                                  # should print nothing
+  ```
+  Same upstream caveat as Linux: if `@continuum-boot` flips back to `'on'`, the agent gets reinstalled with the same template.
 - **What does NOT help, so skip these as a first move:** reinstalling all plugins (`prefix + I` / `prefix + alt + u`), clearing `~/.tmux/plugins/`, rebuilding tmux, restarting the display manager. If `last` is the corruption, none of these touch it; if `last` is fine, look elsewhere.
 
 ### Stray `pmset: command not found` on Linux
