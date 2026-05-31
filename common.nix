@@ -46,6 +46,11 @@ in
     file = {
       ".config/kitty/kitty.conf".source = "${dotfiles}/kitty.conf";
 
+      ".config/kitty/kitty-themes" = {
+        source = "${dotfiles}/kitty-themes";
+        recursive = true;
+      };
+
       ".config/ranger/rc.conf".source = "${dotfiles}/ranger/rc.conf";
 
       ".config/mpv" = {
