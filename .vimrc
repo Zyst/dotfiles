@@ -106,6 +106,8 @@ nmap <Esc><Esc> :noh<CR><Esc>
 
 nnoremap <Leader>ev :vsp ~/.vimrc<CR>
 
+nnoremap <Leader>er :source $MYVIMRC<CR>
+
 xnoremap <C-h> <C-w>h
 xnoremap <C-j> <C-w>j
 xnoremap <C-k> <C-w>k
@@ -330,6 +332,9 @@ nnoremap <Leader>g :GFiles?<cr>
 nnoremap gr :References<cr>
 nnoremap <Leader>ed :Diagnostics<cr>
 nnoremap <Leader>eD :DiagnosticsAll<cr>
+
+nnoremap gh :lua vim.diagnostic.open_float()<cr>
+nnoremap gH :lua vim.diagnostic.setloclist()<cr>
 
 let g:fzf_action = {
   \ 'ctrl-t': 'tab split',

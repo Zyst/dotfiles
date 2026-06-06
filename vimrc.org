@@ -159,6 +159,12 @@ Steal stuff from https://github.com/wincent/wincent/blob/master/roles/dotfiles/f
   nnoremap <Leader>ev :vsp ~/.vimrc<CR>
 #+END_SRC
 
+- =<Leader> + e + r= reloads our vimrc, handy after editing it.
+
+#+BEGIN_SRC vimrc
+  nnoremap <Leader>er :source $MYVIMRC<CR>
+#+END_SRC
+
 ** Visual
 
 - Move between panes in visual mode, same as other modes.
@@ -765,6 +771,15 @@ We want to add some hotkeys for opening files, buffers, and similar items:
   nnoremap gr :References<cr>
   nnoremap <Leader>ed :Diagnostics<cr>
   nnoremap <Leader>eD :DiagnosticsAll<cr>
+#+END_SRC
+
+The pickers above list one truncated line per diagnostic — handy for jumping, less so for reading a wordy message. For that we use Neovim's native =vim.diagnostic= floats. =gh= borrows the VS Code Vim plugin's convention of surfacing whatever's under the cursor:
+  - =gh= - float the full diagnostic(s) under the cursor
+  - =gH= - send every diagnostic in the file to the location list to step through
+
+#+BEGIN_SRC vimrc
+  nnoremap gh :lua vim.diagnostic.open_float()<cr>
+  nnoremap gH :lua vim.diagnostic.setloclist()<cr>
 #+END_SRC
 
 My hotkeys for opening in separate tabs, splits, and vertical splits will use =Ctrl + t=, =Ctrl + s=, and =Ctrl + v= respectively.
