@@ -162,7 +162,7 @@ Steal stuff from https://github.com/wincent/wincent/blob/master/roles/dotfiles/f
 - =<Leader> + e + r= reloads our vimrc, handy after editing it.
 
 #+BEGIN_SRC vimrc
-  nnoremap <Leader>er :source $MYVIMRC<CR>
+  nnoremap <Leader>er :source $MYVIMRC<Bar>echo "Nvim config reloaded!"<CR>
 #+END_SRC
 
 ** Visual

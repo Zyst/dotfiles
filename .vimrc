@@ -106,7 +106,7 @@ nmap <Esc><Esc> :noh<CR><Esc>
 
 nnoremap <Leader>ev :vsp ~/.vimrc<CR>
 
-nnoremap <Leader>er :source $MYVIMRC<CR>
+nnoremap <Leader>er :source $MYVIMRC<Bar>echo "Nvim config reloaded!"<CR>
 
 xnoremap <C-h> <C-w>h
 xnoremap <C-j> <C-w>j
