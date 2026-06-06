@@ -193,6 +193,18 @@ Both modes are gated on `@continuum-boot 'on'`. With it off, neither systemd aut
 
 Unrelated but adjacent — tmux-continuum invokes `pmset` (macOS-only) on every interval and on certain hooks, visible as `/bin/bash: line 1: pmset: command not found` in output captured from non-TTY tmux invocations on Linux. Harmless noise. Worth flagging because it shows up in any captured-output debug session and looks alarming; it is not the culprit for startup failures.
 
+## AeroSpace (macOS) — native-fullscreen workspace-switch gotcha
+
+`programs.aerospace` in `home-mac.nix` drives the Mac tiling WM. One known behavior, **investigated 2026-06-06 and accepted as won't-fix:**
+
+**Symptom:** with a window in *macOS native* fullscreen (green button / `Ctrl+Cmd+F` / F11 — e.g. a fullscreened Chrome), the `cmd-N` workspace binding (`home-mac.nix:79-88`) needs **two presses** to land on that workspace. The first press jumps to the wrong workspace (another window); a second `cmd-N` in quick succession resolves it.
+
+**Root cause (not a config bug):** macOS native fullscreen moves the window into its own dedicated macOS *Space*. AeroSpace deliberately emulates all its workspaces inside a *single* macOS Space and avoids native Spaces, because native Space-switching has a slow animation macOS won't let you fully disable. So a native-fullscreen window lives outside AeroSpace's model — the first `cmd-N` races against the macOS Space-switch animation and mis-lands; the second press completes once it settles. Confirmed against the [AeroSpace guide](https://nikitabobko.github.io/AeroSpace/guide) ("native macOS Spaces have a lot of problems … animations that cannot be fully disabled").
+
+**Space-free alternative (already bound):** `alt-f = "fullscreen"` (`home-mac.nix:103`) is AeroSpace's *in-workspace* fullscreen — fills the workspace with no separate Space, so `cmd-N` stays single-press. **But** it's geometry-only: it can't tell Chrome to hide its toolbar/tab strip, which is why native fullscreen was preferred here. The only ways to get a chromeless Chrome window *without* native fullscreen are app-mode windows (`--app=URL` / "Install as app" — no tab strip, tiles normally) or accepting the toolbar. The user weighed both and chose to **keep native fullscreen and live with the double-tap** rather than switch to app-mode windows.
+
+**Mitigations:** Reduce Motion (System Settings → Accessibility → Display) is **already enabled** and shortens the Space-switch animation — the double-tap persists anyway, so it's a property of the native-Space transition itself, not just the animation length. The remaining untried lever is disabling "Displays have separate Spaces" on multi-monitor (Desktop & Dock → Mission Control, needs logout) per AeroSpace's recommendation; not applied today.
+
 ## home-manager options reference
 
 Gold-standard reference: <https://nix-community.github.io/home-manager/options.xhtml>
