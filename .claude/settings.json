@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(jj status *)",
+      "Bash(nix-instantiate --eval *)",
+      "Bash(jj log *)",
+      "Bash(jj diff *)",
+      "Bash(tmux list-keys *)",
+      "Bash(gist list *)",
+      "Bash(defaults read *)"
+    ]
+  }
+}
