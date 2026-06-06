@@ -796,18 +796,75 @@ My hotkeys for opening in separate tabs, splits, and vertical splits will use =C
   endif
 #+END_SRC
 
-** Nerdtree
+** File explorer
 
-[[https://github.com/scrooloose/nerdtree][scrooloose/nerdtree]] is added for visual project exploration.
+We use [[https://github.com/nvim-tree/nvim-tree.lua][nvim-tree/nvim-tree.lua]] for the sidebar file explorer. It renders LSP diagnostics and git status inline in the tree.
+
+Filetype icons stay off — we don't pull in =nvim-web-devicons=.
 
 #+BEGIN_SRC vimrc :tangle no :noweb-ref plug
-  Plug 'scrooloose/nerdtree'
+  Plug 'nvim-tree/nvim-tree.lua'
 #+END_SRC
 
-We make <Leader> and n open up nerdtree.
+The =on_attach= hook applies all default mappings then strips the ones that clash with vim natives — =f= / =F=, =s= / =S=, =J= / =K=, =<C-]>=, =<C-r>=, etc.
 
 #+BEGIN_SRC vimrc
-  nmap <Leader>n :NERDTreeFind<CR>
+  lua << EOF
+  require('nvim-tree').setup({
+    renderer = {
+      icons = {
+        show = {
+          file   = false,   -- no per-file icons (no =nvim-web-devicons= dep)
+          folder = false,   -- no folder glyphs either
+        },
+        web_devicons = {
+          file   = { enable = false },
+          folder = { enable = false },
+        },
+      },
+    },
+    filters = { dotfiles = false },
+    diagnostics = { enable = true },
+    git = { enable = true },
+    actions = {
+      remove_file = {
+        close_window = false,  -- keep the window holding the deleted file; let nvim fall back to a previous buffer
+      },
+    },
+    on_attach = function(bufnr)
+      local api = require('nvim-tree.api')
+      api.config.mappings.default_on_attach(bufnr)
+      -- Restore vim natives by removing nvim-tree's overrides
+      for _, lhs in ipairs({
+        'f', 'F',                        -- find char / backward find char
+        's', 'S',                        -- substitute char / line
+        'J', 'K',                        -- join lines / lookup under cursor
+        'R',                             -- replace mode
+        'Y',                             -- yank line
+        '<C-]>', '<C-r>', '<C-t>',       -- tag jump / redo / pop tag
+        '<C-x>', '<C-v>', '<C-e>',       -- decrement / visual-block / scroll
+      }) do
+        pcall(vim.keymap.del, 'n', lhs, { buffer = bufnr })
+      end
+    end,
+  })
+
+  -- Smart-toggle: close only if cursor is in the tree, otherwise focus + reveal current file.
+  function _G.NvimTreeSmartToggle()
+    local api = require('nvim-tree.api')
+    if vim.bo.filetype == 'NvimTree' then
+      api.tree.close()
+    else
+      api.tree.find_file({ open = true, focus = true })
+    end
+  end
+  EOF
+#+END_SRC
+
+We bind =<Leader>n= to the smart-toggle defined above: when the cursor is in the tree buffer, it closes; otherwise it opens the tree if needed, focuses it, and reveals the current file.
+
+#+BEGIN_SRC vimrc
+  nnoremap <Leader>n <Cmd>lua NvimTreeSmartToggle()<CR>
 #+END_SRC
 
 ** Editor config
@@ -1149,10 +1206,21 @@ We map =<Leader>f= to run the format chain on the current buffer. When conform h
 
 *** Autoclosing
 
-[[https://github.com/jiangmiao/auto-pairs][jiangmiao/auto-pairs]] closes tags for us, like ({[]})
+[[https://github.com/windwp/nvim-autopairs][windwp/nvim-autopairs]] closes tags for us, like ({[]}).
 
 #+BEGIN_SRC vimrc :tangle no :noweb-ref plug
-  Plug 'jiangmiao/auto-pairs'
+  Plug 'windwp/nvim-autopairs'
+#+END_SRC
+
+We use the defaults, plus a small =nvim-cmp= integration that appends trailing parens when we confirm a function-call completion.
+
+#+BEGIN_SRC vimrc
+  lua << EOF
+  require('nvim-autopairs').setup({})
+  local cmp = require('cmp')
+  local cmp_autopairs = require('nvim-autopairs.completion.cmp')
+  cmp.event:on('confirm_done', cmp_autopairs.on_confirm_done())
+  EOF
 #+END_SRC
 
 *** Emmet

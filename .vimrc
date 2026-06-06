@@ -56,11 +56,11 @@ Plug 'tpope/vim-fugitive'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'gfanto/fzf-lsp.nvim'
-Plug 'scrooloose/nerdtree'
+Plug 'nvim-tree/nvim-tree.lua'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'tpope/vim-projectionist'
 Plug 'stevearc/conform.nvim'
-Plug 'jiangmiao/auto-pairs'
+Plug 'windwp/nvim-autopairs'
 Plug 'mattn/emmet-vim'
 Plug 'sheerun/vim-polyglot'
 Plug 'dmix/elvish.vim', { 'on_ft': ['elvish']}
@@ -344,7 +344,58 @@ if executable('rg')
   let g:rg_derive_root='true'
 endif
 
-nmap <Leader>n :NERDTreeFind<CR>
+lua << EOF
+require('nvim-tree').setup({
+  renderer = {
+    icons = {
+      show = {
+        file   = false,   -- no per-file icons (no =nvim-web-devicons= dep)
+        folder = false,   -- no folder glyphs either
+      },
+      web_devicons = {
+        file   = { enable = false },
+        folder = { enable = false },
+      },
+    },
+  },
+  filters = { dotfiles = false },
+  diagnostics = { enable = true },
+  git = { enable = true },
+  actions = {
+    remove_file = {
+      close_window = false,  -- keep the window holding the deleted file; let nvim fall back to a previous buffer
+    },
+  },
+  on_attach = function(bufnr)
+    local api = require('nvim-tree.api')
+    api.config.mappings.default_on_attach(bufnr)
+    -- Restore vim natives by removing nvim-tree's overrides
+    for _, lhs in ipairs({
+      'f', 'F',                        -- find char / backward find char
+      's', 'S',                        -- substitute char / line
+      'J', 'K',                        -- join lines / lookup under cursor
+      'R',                             -- replace mode
+      'Y',                             -- yank line
+      '<C-]>', '<C-r>', '<C-t>',       -- tag jump / redo / pop tag
+      '<C-x>', '<C-v>', '<C-e>',       -- decrement / visual-block / scroll
+    }) do
+      pcall(vim.keymap.del, 'n', lhs, { buffer = bufnr })
+    end
+  end,
+})
+
+-- Smart-toggle: close only if cursor is in the tree, otherwise focus + reveal current file.
+function _G.NvimTreeSmartToggle()
+  local api = require('nvim-tree.api')
+  if vim.bo.filetype == 'NvimTree' then
+    api.tree.close()
+  else
+    api.tree.find_file({ open = true, focus = true })
+  end
+end
+EOF
+
+nnoremap <Leader>n <Cmd>lua NvimTreeSmartToggle()<CR>
 
 let g:projectionist_heuristics = {
 \   '*': {
@@ -570,6 +621,13 @@ lua << EOF
 vim.keymap.set('n', '<Leader>f', function()
   require('conform').format({ async = false, lsp_format = 'fallback' })
 end)
+EOF
+
+lua << EOF
+require('nvim-autopairs').setup({})
+local cmp = require('cmp')
+local cmp_autopairs = require('nvim-autopairs.completion.cmp')
+cmp.event:on('confirm_done', cmp_autopairs.on_confirm_done())
 EOF
 
 let g:user_emmet_expandabbr_key = '<C-e>'
