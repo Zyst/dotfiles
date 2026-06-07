@@ -248,12 +248,6 @@ Steal stuff from https://github.com/wincent/wincent/blob/master/roles/dotfiles/f
   autocmd BufRead,BufNewFile *.jjdescription setfiletype jjdescription
 #+END_SRC
 
-- We force =.org= files to the =org= filetype on read so =nvim-orgmode= picks them up reliably.
-
-#+BEGIN_SRC vimrc
-  autocmd BufReadPost,BufNewFile *.org set filetype=org
-#+END_SRC
-
 - We =set hidden= which does some operations around renames, and others. Also lets us hide buffers with unsaved changes without being promted.
 
 #+BEGIN_SRC vimrc
@@ -1325,17 +1319,6 @@ It helps with Clojure Development, but ties into more LISPs as well.
 #+END_SRC
 
 ** Programming languages
-
-*** Polyglot
-
-Our main language handler is [[https://github.com/sheerun/vim-polyglot][sheerun/vim-polyglot]] which helps us program in a [[https://github.com/sheerun/vim-polyglot#language-packs][variety of languages]] with minimal performance impact, since plugins are loaded on-demand. I'm giving this a try, rather than using individual packages.
-
-We exclude the =org= pack — [[https://github.com/nvim-orgmode/orgmode][nvim-orgmode]] handles org files end-to-end (filetype, syntax, fold expression). =g:polyglot_disabled= has to be set before =plug#end()= runs, so we slot it inside this same plug block above the =Plug= line.
-
-#+BEGIN_SRC vimrc :tangle no :noweb-ref plug
-  let g:polyglot_disabled = ['org']
-  Plug 'sheerun/vim-polyglot'
-#+END_SRC
 
 *** Elvish
 

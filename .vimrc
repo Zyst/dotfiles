@@ -63,8 +63,6 @@ Plug 'tpope/vim-projectionist'
 Plug 'stevearc/conform.nvim'
 Plug 'windwp/nvim-autopairs'
 Plug 'mattn/emmet-vim'
-let g:polyglot_disabled = ['org']
-Plug 'sheerun/vim-polyglot'
 Plug 'dmix/elvish.vim', { 'on_ft': ['elvish']}
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
@@ -142,8 +140,6 @@ augroup numbertoggle
 augroup END
 
 autocmd BufRead,BufNewFile *.jjdescription setfiletype jjdescription
-
-autocmd BufReadPost,BufNewFile *.org set filetype=org
 
 set hidden
 
