@@ -23,6 +23,7 @@ endif
 
 if has('nvim')
   call plug#begin('~/.config/nvim/plugged')
+      Plug 'nvim-orgmode/orgmode'
       Plug 'nvim-lua/plenary.nvim'
       Plug 'lewis6991/gitsigns.nvim'
       Plug 'nvim-treesitter/nvim-treesitter', {'branch': 'main', 'do': ':TSUpdate'}
@@ -62,6 +63,7 @@ Plug 'tpope/vim-projectionist'
 Plug 'stevearc/conform.nvim'
 Plug 'windwp/nvim-autopairs'
 Plug 'mattn/emmet-vim'
+let g:polyglot_disabled = ['org']
 Plug 'sheerun/vim-polyglot'
 Plug 'dmix/elvish.vim', { 'on_ft': ['elvish']}
 Plug 'tpope/vim-commentary'
@@ -140,6 +142,8 @@ augroup numbertoggle
 augroup END
 
 autocmd BufRead,BufNewFile *.jjdescription setfiletype jjdescription
+
+autocmd BufReadPost,BufNewFile *.org set filetype=org
 
 set hidden
 
@@ -226,6 +230,10 @@ endif
 if (g:os == "Linux") || (g:os == "Darwin")
     
 endif
+
+lua << EOF
+require('orgmode').setup()
+EOF
 
 if (has("termguicolors"))
   set termguicolors
