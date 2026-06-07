@@ -375,6 +375,7 @@ require('nvim-tree').setup({
     },
     highlight_git = 'icon',   -- tint the bar only; filename stays neutral
     indent_markers = { enable = true },
+    special_files = {},       -- no bold highlight on README.md / Makefile / etc.
   },
   filters = { dotfiles = false },
   diagnostics = { enable = true },
@@ -402,11 +403,14 @@ require('nvim-tree').setup({
   end,
 })
 
--- Match the gitsigns gutter palette: copy only the fg color from each =GitSigns*=
--- group onto the corresponding =NvimTreeGit*Icon=, leaving bg unset so the bar
--- blends with the tree row (both the resting row and the cursor-highlighted one).
--- Re-applied on ColorScheme so colorscheme switches keep the link.
-local function nvim_tree_git_hl_to_gitsigns()
+-- nvim-tree highlight overrides:
+--   - Match the gitsigns gutter palette: copy only the fg color from each =GitSigns*=
+--     group onto the corresponding =NvimTreeGit*Icon=, leaving bg unset so the bar
+--     blends with the tree row (resting and cursor-highlighted).
+--   - Clear =NvimTreeExecFile= so files with the exec bit don't render green;
+--     we don't need that signal in the tree.
+-- Re-applied on ColorScheme so colorscheme switches keep the overrides.
+local function nvim_tree_apply_hl_overrides()
   local mapping = {
     NvimTreeGitDirtyIcon   = 'GitSignsChange',
     NvimTreeGitDeletedIcon = 'GitSignsDelete',
@@ -422,9 +426,10 @@ local function nvim_tree_git_hl_to_gitsigns()
       vim.api.nvim_set_hl(0, target, { fg = src.fg })
     end
   end
+  vim.api.nvim_set_hl(0, 'NvimTreeExecFile', {})
 end
-nvim_tree_git_hl_to_gitsigns()
-vim.api.nvim_create_autocmd('ColorScheme', { callback = nvim_tree_git_hl_to_gitsigns })
+nvim_tree_apply_hl_overrides()
+vim.api.nvim_create_autocmd('ColorScheme', { callback = nvim_tree_apply_hl_overrides })
 
 -- Smart-toggle: close only if cursor is in the tree, otherwise focus + reveal current file.
 function _G.NvimTreeSmartToggle()
