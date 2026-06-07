@@ -361,7 +361,19 @@ require('nvim-tree').setup({
         file   = { enable = false },
         folder = { enable = false },
       },
+      glyphs = {
+        git = {
+          unstaged  = '┃',
+          staged    = '┃',
+          unmerged  = '┃',
+          renamed   = '┃',
+          untracked = '┃',
+          deleted   = '┃',
+          ignored   = '┃',
+        },
+      },
     },
+    highlight_git = 'icon',   -- tint the bar only; filename stays neutral
   },
   filters = { dotfiles = false },
   diagnostics = { enable = true },
@@ -388,6 +400,30 @@ require('nvim-tree').setup({
     end
   end,
 })
+
+-- Match the gitsigns gutter palette: copy only the fg color from each =GitSigns*=
+-- group onto the corresponding =NvimTreeGit*Icon=, leaving bg unset so the bar
+-- blends with the tree row (both the resting row and the cursor-highlighted one).
+-- Re-applied on ColorScheme so colorscheme switches keep the link.
+local function nvim_tree_git_hl_to_gitsigns()
+  local mapping = {
+    NvimTreeGitDirtyIcon   = 'GitSignsChange',
+    NvimTreeGitDeletedIcon = 'GitSignsDelete',
+    NvimTreeGitNewIcon     = 'GitSignsUntracked',
+    NvimTreeGitStagedIcon  = 'GitSignsStagedAdd',
+    NvimTreeGitRenamedIcon = 'GitSignsChange',
+    NvimTreeGitMergeIcon   = 'GitSignsDelete',
+    NvimTreeGitIgnoredIcon = 'Comment',
+  }
+  for target, source in pairs(mapping) do
+    local src = vim.api.nvim_get_hl(0, { name = source, link = false })
+    if src.fg then
+      vim.api.nvim_set_hl(0, target, { fg = src.fg })
+    end
+  end
+end
+nvim_tree_git_hl_to_gitsigns()
+vim.api.nvim_create_autocmd('ColorScheme', { callback = nvim_tree_git_hl_to_gitsigns })
 
 -- Smart-toggle: close only if cursor is in the tree, otherwise focus + reveal current file.
 function _G.NvimTreeSmartToggle()
