@@ -823,7 +823,7 @@ Filetype icons stay off — we don't pull in =nvim-web-devicons=.
 
 The =on_attach= hook applies all default mappings then strips the ones that clash with vim natives — =f= / =F=, =s= / =S=, =J= / =K=, =<C-]>=, =<C-r>=, etc.
 
-The git column matches our =gitsigns.nvim= gutter — every status renders as a single =┃= (heavy vertical) bar character, and =highlight_git = 'icon'= keeps the tint on the bar while the filename stays neutral. The =NvimTreeGit*Icon= highlights link to the corresponding =GitSigns*= groups so the colors stay in lockstep with whatever the active colorscheme paints in the gutter.
+The git column matches our =gitsigns.nvim= gutter — every status renders as a single =│= bar character (same weight as the indent markers, so the two columns read as a unified visual system), and =highlight_git = 'icon'= keeps the tint on the bar while the filename stays neutral. The =NvimTreeGit*Icon= highlights link to the corresponding =GitSigns*= groups so the colors stay in lockstep with whatever the active colorscheme paints in the gutter.
 
 #+BEGIN_SRC vimrc
   lua << EOF
@@ -840,17 +840,18 @@ The git column matches our =gitsigns.nvim= gutter — every status renders as a 
         },
         glyphs = {
           git = {
-            unstaged  = '┃',
-            staged    = '┃',
-            unmerged  = '┃',
-            renamed   = '┃',
-            untracked = '┃',
-            deleted   = '┃',
-            ignored   = '┃',
+            unstaged  = '│',
+            staged    = '│',
+            unmerged  = '│',
+            renamed   = '│',
+            untracked = '│',
+            deleted   = '│',
+            ignored   = '│',
           },
         },
       },
       highlight_git = 'icon',   -- tint the bar only; filename stays neutral
+      indent_markers = { enable = true },
     },
     filters = { dotfiles = false },
     diagnostics = { enable = true },
