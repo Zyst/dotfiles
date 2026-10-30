@@ -1,5 +1,7 @@
 # Audit Brief — home.nix / home-mac.nix idiomaticity
 
+This brief and its report describe the original May 2026 audit. Before resuming, read `AGENTS.md` for the current shared-module architecture and `state.md` for accepted/declined findings. Verify the active platform and configuration locally; do not treat the original machine observations below as current state.
+
 ## Context
 
 The user maintains their dotfiles at `~/dev/dotfiles` via Nix + home-manager. Two top-level home-manager configs drive everything: `home.nix` (Linux) and `home-mac.nix` (macOS, currently active). Both have grown organically — adding packages to `home.packages` and writing config files via `home.file."…".source` — without consistently reaching for the first-class `programs.<name>` modules home-manager exposes. The user wants an AI agent to audit both files and produce a written report identifying where the configs could become more idiomatic to home-manager, citing the official options reference for each finding.
@@ -156,10 +158,10 @@ Cap the report at ~30 findings unless something compelling pushes past that.
 
 ## Background context the agent should load
 
-- Memory: `~/.claude/projects/-Users-zyst/memory/user_dotfiles.md` — the dotfiles + home-manager flow, special cases (vimrc tangling, the `~/.config/home-manager/home.nix` symlink). Read this before starting.
-- Memory: `~/.claude/projects/-Users-zyst/memory/reference_home_manager_options.md` — the docs URL and the verification methodology mirrored above.
-- The user's git config currently uses SSH for github (`gh auth status` shows `Git operations protocol: ssh`), so HTTPS credential-helper wiring is forward-looking rather than load-bearing — relevant if the audit touches credential settings.
-- `home-mac.nix` is the file currently linked from `~/.config/home-manager/home.nix` (symlink, set up 2026-05-13). Changes there are what would actually run on this machine.
+- `AGENTS.md` — shared project conventions, platform entrypoints, vimrc tangling, and Home Manager option verification.
+- `state.md` — accepted/declined findings; read before proposing any historical recommendation again.
+- Verify the current GitHub protocol with `gh auth status` if credential-helper wiring is in scope.
+- Inspect `~/.config/home-manager/home.nix` to identify the active platform entrypoint instead of assuming the original Mac setup.
 
 ## Verification the report is good
 

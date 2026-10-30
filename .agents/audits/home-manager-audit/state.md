@@ -1,6 +1,6 @@
 # home-manager audit iteration state — 2026-05-23
 
-Tracks adopt/decline decisions on findings from `report-2026-05-23.md` so the didactic walk doesn't re-surface already-decided items.
+Tracks adopt/decline decisions on findings from `report.md` so the didactic walk doesn't re-surface already-decided items.
 
 ## Pending
 
@@ -11,7 +11,7 @@ Structural (separate decision):
 
 ## Adopted
 
-- **M4 — `programs.neovim`** (adopted 2026-05-23, both files). `pkgs.neovim` + `pkgs.neovim-node-client` replaced by `programs.neovim = { enable = true; withNodeJs = true; withPython3 = false; withRuby = false; extraConfig = …; }`. The `withPython3`/`withRuby = false` decision was explicit (matches pre-M4 provider surface; legacy default would have wrapped both in). A note about flipping them back to `true` if a plugin needs python3/ruby providers lives in `.claude/CLAUDE.md` § Special case — Nvim plugins requiring python3 / ruby providers. The bootstrap `init.vim` content was absorbed into `extraConfig`; module writes `~/.config/nvim/init.lua` (modern API) which sources the extraConfig vimscript blob from the nix store. The `~/.vimrc` symlink stays (vimrc tangling out of audit scope). Verified: new wrapper PATH-prepends only nodejs; `vim.g.node_host_prog` set, python3/ruby providers explicitly disabled.
+- **M4 — `programs.neovim`** (adopted 2026-05-23, both files). `pkgs.neovim` + `pkgs.neovim-node-client` replaced by `programs.neovim = { enable = true; withNodeJs = true; withPython3 = false; withRuby = false; extraConfig = …; }`. The `withPython3`/`withRuby = false` decision was explicit (matches pre-M4 provider surface; legacy default would have wrapped both in). A note about flipping them back to `true` if a plugin needs python3/ruby providers lives in `AGENTS.md` § Special case — Nvim plugins requiring python3 / ruby providers. The bootstrap `init.vim` content was absorbed into `extraConfig`; module writes `~/.config/nvim/init.lua` (modern API) which sources the extraConfig vimscript blob from the nix store. The `~/.vimrc` symlink stays (vimrc tangling out of audit scope). Verified: new wrapper PATH-prepends only nodejs; `vim.g.node_host_prog` set, python3/ruby providers explicitly disabled.
 
 - **H2 — `programs.gh` + credential helper management** (adopted 2026-05-23, both files). Mac verified end-to-end: gh binary still on PATH, `co` alias preserved (captured into `programs.gh.settings.aliases.co`), gh auth status untouched (SSH protocol, keyring intact), global credential.helper trimmed to `[osxkeychain]`/`[libsecret]`, scoped `credential.https://github.com.helper` + `credential.https://gist.github.com.helper` auto-emitted by the module pointing at an absolute nix-store path. Pre-existing `~/.config/gh/config.yml` saved to `.pre-gh-module` as backup.
 

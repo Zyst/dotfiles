@@ -253,7 +253,7 @@ in builtins.attrNames hm.options.programs.<NAME>
 ### [LOW] L2 — `programs.jujutsu.enableFishIntegration` is hidden/deprecated; user correctly does NOT set it
 
 - **File(s):** N/A — not set.
-- **Live-tree verified:** Yes. The option still exists in the option tree but is `visible = false`. Integration is automatic when `programs.jujutsu.enable` and `programs.fish.enable` are both `true`. Confirms CLAUDE.md's claim.
+- **Live-tree verified:** Yes. The option still exists in the option tree but is `visible = false`. Integration is automatic when `programs.jujutsu.enable` and `programs.fish.enable` are both `true`. Confirms AGENTS.md's claim.
 - **Parity note:** Both files already correct.
 
 ---
@@ -364,4 +364,4 @@ in builtins.attrNames hm.options.programs.<NAME>
 
 ## Iteration tracking
 
-This file is the source-of-truth for the audit findings. Adoptions/declines are tracked in a sibling `report-2026-05-23-state.md` so re-runs of the didactic walk don't re-prompt for already-decided findings.
+This file is the source-of-truth for the historical audit findings. Adoptions/declines are tracked in the sibling `state.md` so re-runs of the didactic walk don't re-prompt for already-decided findings. Read `AGENTS.md` for the current repository architecture.

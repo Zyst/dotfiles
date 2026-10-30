@@ -4,7 +4,7 @@
 
 ## Context
 
-The dotfiles repo's `tmux.conf` is heavily lifted from `wincent/wincent` — see the "tmux.conf upstream reference" section of `.claude/CLAUDE.md` for the lineage and the rationale. Goal of this audit: **deliberately track upstream without bulk-importing**. New tmux bindings compete with muscle memory, so each candidate gets tested individually before it stays.
+The dotfiles repo's `tmux.conf` is heavily lifted from `wincent/wincent` — see the "tmux.conf upstream reference" section of `.agents/notes/tmux.md` for the lineage and the rationale. Goal of this audit: **deliberately track upstream without bulk-importing**. New tmux bindings compete with muscle memory, so each candidate gets tested individually before it stays.
 
 ## Mission
 
@@ -21,7 +21,7 @@ Produce a candidates list against wincent's upstream `tmux.conf`, then run the `
 
 ## Rejected-list path
 
-Sibling file: `./rejected.md` (i.e. `.claude/agents/tmux-upstream-audit/rejected.md`).
+Sibling file: `./rejected.md` (i.e. `.agents/audits/tmux-upstream-audit/rejected.md`).
 
 Read this file **before** generating candidates and filter out anything already rejected unless the upstream snippet has materially changed since the rejection date. Append to it as decisions happen during the loop.
 
@@ -71,7 +71,7 @@ On future runs, cross-reference `./rejected.md` first. **Never re-add an entry t
 
 ## Pending candidates
 
-Seeded from the "Patterns the user hasn't yet adopted but may want to" list in `.claude/CLAUDE.md`. Future runs may add NEW / POLISHED candidates surfaced by re-diffing against upstream — when doing so, cross-reference `./rejected.md` first.
+Seeded from the "Patterns the user hasn't yet adopted but may want to" list in `.agents/notes/tmux.md`. Future runs may add NEW / POLISHED candidates surfaced by re-diffing against upstream — when doing so, cross-reference `./rejected.md` first.
 
 ### `o` / `i` prompt-navigation pair
 

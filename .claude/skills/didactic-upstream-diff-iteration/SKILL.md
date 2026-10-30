@@ -64,4 +64,4 @@ When stopping mid-queue, leave the pending source as-is; resuming later picks up
 
 ## Anchor
 
-This skill is the procedure only. The caller's domain-specific prompt (e.g. `.claude/agents/tmux-upstream-audit/agent-prompt.md` in the dotfiles repo) supplies the actual candidates, the upstream source URL, the rejected-list path, and the reload recipe.
+This skill is the procedure only. The caller's domain-specific prompt (e.g. `.agents/audits/tmux-upstream-audit/agent-prompt.md` in the dotfiles repo) supplies the actual candidates, the upstream source URL, the rejected-list path, and the reload recipe.

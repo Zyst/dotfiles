@@ -13,4 +13,4 @@ Bootstrap a new machine to the point where `home-manager switch` can take over t
 
 On WSL, install the Kitty application separately. Home Manager supplies its configuration and themes from `kitty/`.
 
-After that, Claude or further manual edits can handle the rest. See `.claude/CLAUDE.md` for the full project context.
+After that, an agent or further manual edits can handle the rest. See [AGENTS.md](AGENTS.md) for shared project instructions, `.agents/` for notes, TODOs, and audits, and `.claude/` for Claude-specific instructions, skills, and settings.

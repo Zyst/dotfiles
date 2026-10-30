@@ -5,17 +5,17 @@ Non-platform-specific repo-wide items affecting shared config (vimrc.org, tmux.c
 - `linux.md` — Linux-specific
 - `mac.md` — macOS-specific
 
-Memory's `~/.claude/projects/-Users-zyst/memory/todos.md` mirrors items per the sync rule in CLAUDE.md, but **this file is the canonical, in-repo source** — it survives an OS hop, while memory is per-machine.
+Agent-local memory may mirror these items, but **this file is the canonical, in-repo source** — it survives a change of machine or coding agent.
 
-When picking an item, walk it didactically (one change at a time, adopt/decline, test, commit). Done items get deleted from this file outright — see the `feedback_todo_deletion.md` memory entry for the rule.
+When picking an item, walk it didactically (one change at a time, adopt/decline, test, commit). Done items get deleted from this file outright; preserve lasting decisions in the relevant notes or audit state.
 
 ---
 
 ## Audit upstream wincent `tmux.conf` for new / polished patterns via didactic-upstream-diff-iteration
 
-- **Status:** Not started. Audit prompt lives at the repo-relative path `.claude/agents/tmux-upstream-audit/agent-prompt.md`; rejection state at the sibling `rejected.md`.
-- **Why:** `tmux.conf` is heavily lifted from `wincent/wincent` (see CLAUDE.md "tmux.conf upstream reference"), and there are known unadopted patterns — but new bindings compete with muscle memory, so each candidate needs to be tested individually before it stays. The audit drives the `didactic-upstream-diff-iteration` skill over a seeded candidate list (one-at-a-time review, no bulk import).
-- **How to apply:** Open the agent prompt at `.claude/agents/tmux-upstream-audit/agent-prompt.md` and ask Claude to follow it. The first instruction in that prompt is to load the `didactic-upstream-diff-iteration` skill (symlinked into `$HOME/.claude/skills/` via home-manager); the skill then walks the seeded "Pending candidates" section one entry at a time. Declines land in `./rejected.md` so they don't re-surface on later runs.
+- **Status:** Not started. Audit prompt lives at the repo-relative path `.agents/audits/tmux-upstream-audit/agent-prompt.md`; rejection state at the sibling `rejected.md`.
+- **Why:** `tmux.conf` is heavily lifted from `wincent/wincent` (see `.agents/notes/tmux.md`, "tmux.conf upstream reference"), and there are known unadopted patterns — but new bindings compete with muscle memory, so each candidate needs to be tested individually before it stays. The audit drives the `didactic-upstream-diff-iteration` skill over a seeded candidate list (one-at-a-time review, no bulk import).
+- **How to apply:** Open the agent prompt at `.agents/audits/tmux-upstream-audit/agent-prompt.md` and ask the coding agent to follow it. The first instruction in that prompt is to read the `didactic-upstream-diff-iteration` skill source in the repository (also symlinked into `$HOME/.claude/skills/` for Claude via home-manager); the skill then walks the seeded "Pending candidates" section one entry at a time. Declines land in `./rejected.md` so they don't re-surface on later runs.
 
 ---
 
@@ -29,8 +29,8 @@ When picking an item, walk it didactically (one change at a time, adopt/decline,
 - **How to apply:**
   1. Pick the vendoring mechanism (submodule is simplest; subtree avoids the `.gitmodules` dance and keeps clones single-step). Vendor `wincent/wincent` under a repo-relative path like `upstream/wincent/`.
   2. Build a new skill (likely `.claude/skills/sync-upstream-wincent/SKILL.md`) that performs an on-demand fetch + fast-forward (or merge), reports what changed since the last sync, and highlights diffs that touched files we mirror locally (`tmux.conf` first; later anything else we borrow from).
-  3. Add the authority-vs-staleness rule to `.claude/CLAUDE.md` (probably under the existing "tmux.conf upstream reference" section, generalized): when consulting a vendored upstream file, check the file's recent commit activity first; if it looks abandoned, treat it as a historical reference rather than canonical.
-  4. Once vendored, repoint `.claude/agents/tmux-upstream-audit/agent-prompt.md` at the local checkout instead of the GitHub URL — the audit gets faster and works offline.
+  3. Add the authority-vs-staleness rule to `.agents/notes/tmux.md` (under "tmux.conf upstream reference", generalized): when consulting a vendored upstream file, check the file's recent commit activity first; if it looks abandoned, treat it as a historical reference rather than canonical.
+  4. Once vendored, repoint `.agents/audits/tmux-upstream-audit/agent-prompt.md` at the local checkout instead of the GitHub URL — the audit gets faster and works offline.
 
 ---
 
@@ -68,11 +68,11 @@ All nvim-related items (LSP wiring, nvim-compe → nvim-cmp, nvim-treesitter `ma
 
 ## Manage Logseq plugin set + per-plugin settings via home-manager (or confirm Logseq Sync covers it natively)
 
-- **Status:** Not started. Surfaced 2026-05-23 as a follow-on to the queued "delete empty Logseq daily journals" cleanup (which introduces the first concrete plugin — `Cologler/logseq-remove-empty-blocks-typescript`, see global `todos.md` at `~/.claude/projects/-Users-zyst/memory/todos.md`).
+- **Status:** Not started. Surfaced 2026-05-23 as a follow-on to the queued "delete empty Logseq daily journals" cleanup (which introduces the first concrete plugin — `Cologler/logseq-remove-empty-blocks-typescript`, see the user's private global TODOs if available).
 - **Why:** Logseq plugins are installed per-app, with state in the graph dir (`<graph>/logseq/`) and/or `~/.logseq/` — all outside `~/dev/dotfiles/`. A fresh machine starts with zero plugins and zero settings, which breaks the rest-of-the-repo posture of "rebuild a machine from the dotfiles repo." **Open question first:** Logseq Sync (separate TODO in global `todos.md`) may already sync `<graph>/logseq/`, in which case this TODO collapses to "verify and document." Worth answering before doing any home-manager work.
 - **How to apply:**
   1. Test the Sync path first — install a plugin on the Mac, run Logseq Sync, then on a second machine (or in a sandbox graph) confirm whether the plugin auto-installs with its settings preserved.
-  2. If Sync covers it: document the finding here and in `~/.claude/projects/-Users-zyst/memory/todos.md`, then close.
+  2. If Sync covers it: document the finding here and mirror it to the user's private global TODOs if available, then close.
   3. If Sync does NOT cover it: identify which Logseq files are canonical plugin config (likely `<graph>/logseq/config.edn` and parts of `<graph>/logseq/plugins/` — distinguish from cached plugin binaries we don't want to vendor) and wire them into `home.nix` via `home.file."…".source = ${dotfiles}/logseq/…;`, matching how other per-app configs are managed. Decide whether plugin binaries themselves are (a) re-downloaded by Logseq on first run from a synced plugin list, (b) vendored in the repo, or (c) Nix-packaged (unlikely for niche community plugins).
   4. Mirror the resolution back to global `todos.md` so both indexes stay in sync.
 

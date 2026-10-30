@@ -5,9 +5,9 @@ Canonical list of Linux-only TODOs. See sibling files for other scopes:
 - `todos.md` — generic / cross-platform dotfile TODOs
 - `mac.md` — macOS-specific
 
-Memory's `~/.claude/projects/-Users-zyst/memory/todos.md` mirrors items per the sync rule in CLAUDE.md, but **this file is the canonical, in-repo source** — it survives an OS hop, while memory is per-machine.
+Agent-local memory may mirror these items, but **this file is the canonical, in-repo source** — it survives a change of machine or coding agent.
 
-Mix of long-form exploration items (Wayland switch, Sway from-scratch — decision-pending) and concrete tasks (Logseq Sync, Tailscale, etc. — actionable). When picking an item, walk it didactically (one change at a time, adopt/decline, test, commit). Done items get deleted from this file outright — see `feedback_todo_deletion.md` memory entry for the rule. Speculative items below are tagged as such; don't implement without asking.
+Mix of long-form exploration items (Wayland switch, Sway from-scratch — decision-pending) and concrete tasks (Logseq Sync, Tailscale, etc. — actionable). When picking an item, walk it didactically (one change at a time, adopt/decline, test, commit). Done items get deleted from this file outright; preserve lasting decisions in the relevant notes or audit state. Speculative items below are tagged as such; don't implement without asking.
 
 ---
 
