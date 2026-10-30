@@ -15,7 +15,7 @@ The reverse also applies: if you add a new dotfiles fact to this file (or to `.c
 
 ## Path conventions
 
-This repo ships to multiple machines (macOS, Linux, WSL) with different `$HOME` values, hostnames, and project locations. Anything written into a repo-versioned file must use **abstract paths** — `$HOME`, `~`, the `${dotfiles}` Nix let-binding, repo-relative paths, or prose ("Claude's memory directory," "this prompt's sibling file"). Hardcoded `/Users/<name>/...` or machine-specific project IDs do not belong in tracked files (the `home.homeDirectory` value in each `home-*.nix` entrypoint is the deliberate exception — that's the machine-specific anchor; everything else, including the `${dotfiles}` path itself, is derived from it. `home-wsl.nix` still hardcodes its own `let dotfiles = "..."` until it adopts `common.nix`).
+This repo ships to multiple machines (macOS, Linux, WSL) with different `$HOME` values, hostnames, and project locations. Anything written into a repo-versioned file must use **abstract paths** — `$HOME`, `~`, the `${dotfiles}` Nix let-binding, repo-relative paths, or prose ("Claude's memory directory," "this prompt's sibling file"). Hardcoded `/Users/<name>/...` or machine-specific project IDs do not belong in tracked files (the `home.homeDirectory` value in each `home-*.nix` entrypoint is the deliberate exception — that's the machine-specific anchor; everything else, including the `${dotfiles}` path itself, is derived from it).
 
 Existing references like `~/dev/dotfiles/` are technically machine-specific too and should migrate toward "the dotfiles repo root" phrasing over time.
 
@@ -28,7 +28,7 @@ Even negative examples (e.g. a "don't write X" entry that quotes X) inscribe the
 ## Source of truth
 
 - Repo: `https://github.com/Zyst/dotfiles`, cloned to `~/dev/dotfiles/`.
-- Managed via Nix + home-manager (`nix-shell` + `home.nix`).
+- Managed via Nix + Home Manager, using the platform entrypoint linked at `~/.config/home-manager/home.nix`.
 - Files in `$HOME` (`~/.vimrc`, `~/.zshrc`, `~/.config/...`) are read-only symlinks/copies produced by home-manager. **Never edit them directly** — they will be overwritten on the next rebuild, and most are literally read-only.
 - When diagnosing: read from `$HOME` (that's the live config), but make the fix in `~/dev/dotfiles/` and cite line numbers from the source.
 - When suggesting a tool install, frame it as a home-manager package addition, not `brew install` or similar.
@@ -249,12 +249,14 @@ Guidelines:
 
 ## Per-platform entrypoints
 
-- `common.nix` — shared module imported by the Mac and Linux entrypoints. Holds packages, `home.file`, `programs.*`, etc. that are identical across both. Derives `dotfiles = "${config.home.homeDirectory}/dev/dotfiles"` from `home.homeDirectory`, so it stays portable across the differing `$HOME` paths.
+- `common.nix` — shared module imported by the Mac, Linux, and WSL entrypoints. Holds shared packages, `home.file`, and `programs.*` settings. Derives `dotfiles = "${config.home.homeDirectory}/dev/dotfiles"` from `home.homeDirectory`, so it stays portable across the differing `$HOME` paths.
 - `home.nix` — Linux entrypoint. `imports = [ ./common.nix ]` plus Linux-only deltas: `home.homeDirectory`, Linux-only packages (`wl-clipboard`, `xclip`), Linux-only `home.file` entries (awesome / regolith / `.xinitrc` / `environment.d`), `targets.genericLinux.enable`, `programs.git.settings.credential.helper = [ "libsecret" ]`.
 - `home-mac.nix` — macOS entrypoint (symlinked into `~/.config/home-manager/home.nix` on the current Mac). `imports = [ ./common.nix ]` plus Mac-only deltas: `home.homeDirectory`, `caffeine` package + `Applications/Caffeine.app` link, `programs.aerospace`, `programs.git.settings.credential.helper = [ "osxkeychain" ]`.
-- `home-wsl.nix` — WSL entrypoint. **Still standalone** — does not yet `imports` `common.nix` (deferred per the WSL catch-up TODO).
+- `home-wsl.nix` — WSL entrypoint. `imports = [ ./common.nix ]` plus `home.homeDirectory`, `targets.genericLinux.enable`, and packages: `gcc` for Treesitter parser compilation, `gnumake` for LuaSnip build hooks, `unzip` for Mason downloads, `typescript`, `wl-clipboard`, and `xclip`. GitHub HTTPS credentials use the shared `programs.gh` helper; no Windows Git credential-manager path is required.
 
-Mac and Linux are now `imports`-chained through `common.nix`; WSL remains a standalone config until its own catch-up pass adopts the same shape. When adding a package or option, prefer putting it in `common.nix` unless it's genuinely platform-specific. Platform-conflicting options (e.g. git's `credential.helper`, which is a list-merged attribute) must stay in the platform files only — adding them to `common.nix` would concatenate both helpers on every platform.
+All three platform entrypoints import `common.nix`. When adding a package or option, prefer putting it in `common.nix` unless it's genuinely platform-specific. Platform-conflicting options (e.g. git's `credential.helper`, which is a list-merged attribute) must stay in the platform files only — adding them to `common.nix` would concatenate both helpers on every platform.
+
+On WSL, **keep the Kitty application outside Nix/Home Manager**; the manual installation is an intentional exception due to prior GPU-driver problems. Home Manager manages its configuration, themes, and paste hook through the `kitty/` directory. Fish is installed/configured by the shared module; registering it in `/etc/shells` and changing the account login shell with `chsh` are separate system-level bootstrap steps.
 
 ## Open dotfile-related TODOs
 
