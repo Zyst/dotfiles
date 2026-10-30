@@ -44,10 +44,8 @@ in
     ]);
 
     file = {
-      ".config/kitty/kitty.conf".source = "${dotfiles}/kitty.conf";
-
-      ".config/kitty/kitty-themes" = {
-        source = "${dotfiles}/kitty-themes";
+      ".config/kitty" = {
+        source = "${dotfiles}/kitty";
         recursive = true;
       };
 
