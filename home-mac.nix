@@ -21,6 +21,7 @@
   programs = {
     git.settings.credential.helper = [ "osxkeychain" ];
 
+    # Known quirks and rejected fixes: .agents/notes/aerospace.md
     aerospace = {
       enable = true;
       launchd.enable = true;

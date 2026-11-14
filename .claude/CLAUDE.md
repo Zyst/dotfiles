@@ -4,9 +4,17 @@
 
 Shared project instructions live in `AGENTS.md`. Shared notes, TODOs, audit prompts, and decision records live in `.agents/`. Keep this file for Claude-specific behavior.
 
-## Memory synchronization
+## Memory
 
-Use Claude's actual per-project memory directory for the current checkout; do not copy a machine-specific project ID into repository instructions. When that memory is configured, mirror shared dotfile facts between it and the appropriate repository file in the same edit, and maintain its `MEMORY.md` index. `AGENTS.md`, `.agents/notes/`, `.agents/todos/`, and `.agents/audits/` remain authoritative across machines and agents. Keep private facts out of repository files.
+**The repository is the only home for dotfile facts.** Conventions, gotchas, TODOs, and decisions go in `AGENTS.md` or `.agents/` (or this file, if Claude-specific) — never into Claude's auto-memory, and never mirrored between the two.
+
+**Why:** `AGENTS.md` is imported above, so it's already in context every session; a memory copy only loads the same facts twice and drifts. Memory is also per-machine, so anything that lives only there is lost on a new laptop and invisible to other agents.
+
+**How to apply:**
+
+- When a dotfile fact surfaces mid-session, write it to the repo file that owns it (see "Durable notes and task scope" in `AGENTS.md`), not to memory.
+- Memory is for things that must *not* be in this public repo: private or workplace context, and cross-project preferences unrelated to dotfiles. Before moving anything from memory into a tracked file, strip it per the privacy rules in `AGENTS.md` and show the user the exact text first.
+- Never reference memory file names, memory directory paths, or machine-specific project IDs from tracked files.
 
 ## Claude Code — fullscreen TUI renderer breaks tmux scrollback (gotcha)
 
@@ -31,4 +39,4 @@ Use Claude's actual per-project memory directory for the current checkout; do no
 
 Reusable Claude Code interaction skills live under `.claude/skills/` in this repo and are symlinked into `$HOME/.claude/skills/` via home-manager (look for the matching `home.file` entry in each `home-*.nix`). They are available to every Claude Code session regardless of working directory.
 
-- **`didactic-upstream-diff-iteration`** (`.claude/skills/didactic-upstream-diff-iteration/SKILL.md`) — one-at-a-time review pattern for upstream-config audits and similar batched-change tasks. Per-candidate Adopt / Decline / Skip prompts, confirm-or-back-out on adopt, persistent rejection list so declined items don't re-surface. Used by `.agents/audits/tmux-upstream-audit/agent-prompt.md`.
+- **`didactic-upstream-diff-iteration`** (`.claude/skills/didactic-upstream-diff-iteration/SKILL.md`) — one-at-a-time review pattern for upstream-config audits and similar batched-change tasks. Per-candidate Adopt / Decline / Skip prompts, confirm-or-back-out on adopt, persistent rejection list so declined items don't re-surface. Used by `.agents/audits/tmux-upstream-audit/agent-prompt.md`. Invoke it whenever more than two candidate changes are queued (upstream audits, plugin batches, opt-in feature lists) — never bulk-import.

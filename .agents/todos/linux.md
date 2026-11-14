@@ -5,7 +5,7 @@ Canonical list of Linux-only TODOs. See sibling files for other scopes:
 - `todos.md` — generic / cross-platform dotfile TODOs
 - `mac.md` — macOS-specific
 
-Agent-local memory may mirror these items, but **this file is the canonical, in-repo source** — it survives a change of machine or coding agent.
+**This file is the canonical source** — it survives a change of machine or coding agent. Don't duplicate these items into agent-local memory.
 
 Mix of long-form exploration items (Wayland switch, Sway from-scratch — decision-pending) and concrete tasks (Logseq Sync, Tailscale, etc. — actionable). When picking an item, walk it didactically (one change at a time, adopt/decline, test, commit). Done items get deleted from this file outright; preserve lasting decisions in the relevant notes or audit state. Speculative items below are tagged as such; don't implement without asking.
 
@@ -54,13 +54,13 @@ Mix of long-form exploration items (Wayland switch, Sway from-scratch — decisi
 ## Set up Logseq Sync on Linux and verify round-trip with Mac / iOS
 
 - **Status:** Not started. Logseq Sync verified working Mac ↔ iOS as of 2026-05-23; Linux is the remaining device.
-- **Why:** Dotfiles repo ships to Linux (and WSL) — user wants the Logseq graph available on the Linux machine too with the same Sync setup so all devices stay consistent. This TODO lives in the dotfiles repo (rather than purely in global memory) because the Linux side has a real dotfiles component: Logseq is not currently in `home.nix`, so the first step is a home-manager package addition.
+- **Why:** Dotfiles repo ships to Linux (and WSL) — user wants the Logseq graph available on the Linux machine too with the same Sync setup so all devices stay consistent. This TODO lives in the dotfiles repo (rather than outside it) because the Linux side has a real dotfiles component: Logseq is not currently in `home.nix`, so the first step is a home-manager package addition.
 - **How to apply:**
   1. Verify the Logseq attribute on the locally-pinned nixpkgs (likely `pkgs.logseq` — confirm via `nix-instantiate --eval -E '(import <nixpkgs> {}).logseq.meta.position'` or by searching the pinned channel). Add it to `home.nix` (the Linux entrypoint / shared base — keep out of `home-mac.nix` if Mac's existing non-Nix install should stay authoritative there). If Logseq isn't packaged for Linux in nixpkgs, fall back to AppImage / Flatpak and document the chosen mechanism here. Avoid imperative installs that don't survive a fresh-machine rebuild.
   2. `home-manager switch`.
   3. Launch Logseq on Linux, sign in with the same account used on Mac / iOS, enable Sync, pull the synced graph.
   4. Round-trip a test edit Linux → Mac (or iOS) and back to confirm both directions before treating this as done.
-  5. While on this, opportunistically test the **plugin-sync open question** from the global `todos.md` "Bring Logseq plugin set..." entry: does the `Cologler/logseq-remove-empty-blocks-typescript` plugin (once installed on Mac) auto-appear on Linux after Sync? Answering it here unblocks the plugin-sync TODO.
+  5. While on this, opportunistically test the **plugin-sync open question** from the "Manage Logseq plugin set..." entry in `todos.md`: does the `Cologler/logseq-remove-empty-blocks-typescript` plugin (once installed on Mac) auto-appear on Linux after Sync? Answering it here unblocks the plugin-sync TODO.
 
 ---
 

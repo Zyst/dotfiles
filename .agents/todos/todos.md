@@ -5,7 +5,7 @@ Non-platform-specific repo-wide items affecting shared config (vimrc.org, tmux.c
 - `linux.md` — Linux-specific
 - `mac.md` — macOS-specific
 
-Agent-local memory may mirror these items, but **this file is the canonical, in-repo source** — it survives a change of machine or coding agent.
+**This file is the canonical source** — it survives a change of machine or coding agent. Don't duplicate these items into agent-local memory.
 
 When picking an item, walk it didactically (one change at a time, adopt/decline, test, commit). Done items get deleted from this file outright; preserve lasting decisions in the relevant notes or audit state.
 
@@ -68,11 +68,10 @@ All nvim-related items (LSP wiring, nvim-compe → nvim-cmp, nvim-treesitter `ma
 
 ## Manage Logseq plugin set + per-plugin settings via home-manager (or confirm Logseq Sync covers it natively)
 
-- **Status:** Not started. Surfaced 2026-05-23 as a follow-on to the queued "delete empty Logseq daily journals" cleanup (which introduces the first concrete plugin — `Cologler/logseq-remove-empty-blocks-typescript`, see the user's private global TODOs if available).
-- **Why:** Logseq plugins are installed per-app, with state in the graph dir (`<graph>/logseq/`) and/or `~/.logseq/` — all outside `~/dev/dotfiles/`. A fresh machine starts with zero plugins and zero settings, which breaks the rest-of-the-repo posture of "rebuild a machine from the dotfiles repo." **Open question first:** Logseq Sync (separate TODO in global `todos.md`) may already sync `<graph>/logseq/`, in which case this TODO collapses to "verify and document." Worth answering before doing any home-manager work.
+- **Status:** Not started. Surfaced 2026-05-23 as a follow-on to the queued "delete empty Logseq daily journals" cleanup (which introduces the first concrete plugin — `Cologler/logseq-remove-empty-blocks-typescript`).
+- **Why:** Logseq plugins are installed per-app, with state in the graph dir (`<graph>/logseq/`) and/or `~/.logseq/` — all outside `~/dev/dotfiles/`. A fresh machine starts with zero plugins and zero settings, which breaks the rest-of-the-repo posture of "rebuild a machine from the dotfiles repo." **Open question first:** Logseq Sync (see "Set up Logseq Sync on Linux" in `linux.md`) may already sync `<graph>/logseq/`, in which case this TODO collapses to "verify and document." Worth answering before doing any home-manager work.
 - **How to apply:**
   1. Test the Sync path first — install a plugin on the Mac, run Logseq Sync, then on a second machine (or in a sandbox graph) confirm whether the plugin auto-installs with its settings preserved.
-  2. If Sync covers it: document the finding here and mirror it to the user's private global TODOs if available, then close.
+  2. If Sync covers it: document the finding in the Logseq Sync TODO in `linux.md`, then close this one.
   3. If Sync does NOT cover it: identify which Logseq files are canonical plugin config (likely `<graph>/logseq/config.edn` and parts of `<graph>/logseq/plugins/` — distinguish from cached plugin binaries we don't want to vendor) and wire them into `home.nix` via `home.file."…".source = ${dotfiles}/logseq/…;`, matching how other per-app configs are managed. Decide whether plugin binaries themselves are (a) re-downloaded by Logseq on first run from a synced plugin list, (b) vendored in the repo, or (c) Nix-packaged (unlikely for niche community plugins).
-  4. Mirror the resolution back to global `todos.md` so both indexes stay in sync.
 

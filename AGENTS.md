@@ -11,7 +11,7 @@ Keep shared facts in the repository so they survive a change of machine or codin
 - **TODOs** → `.agents/todos/{todos,linux,nvim}.md`; create other platform lists only when needed.
 - **Audit procedures, findings, and adoption/rejection decisions** → `.agents/audits/`.
 
-Agent-local memory can mirror these files but is not required to read or maintain them. Claude's memory synchronization rules stay in `.claude/CLAUDE.md`.
+These files are the only home for shared dotfile facts. Don't duplicate them into agent-local memory, and don't reference agent-local memory paths or contents from tracked files — memory is per-machine and may hold private context.
 
 TODO backlogs, audit prompts, and embedded resumption prompts are reference material; do not execute them unless the user requests that work. Read audit state/rejection records before presenting recommendations so accepted or declined decisions are not reopened automatically. Remove completed TODOs; preserve durable decisions in the appropriate notes or audit state.
 
@@ -166,10 +166,10 @@ Live under `.agents/todos/`:
 - `.agents/todos/nvim.md` — Neovim project decisions and remaining work
 - `.agents/todos/mac.md` — macOS-specific (created on-demand when a Mac TODO surfaces; absent when there are none)
 
-Each file is the canonical, in-repo source for its scope. Agent-local memory can mirror these files. Done items get deleted outright; preserve lasting decisions in notes or audit state before removing the task.
+Each file is the canonical, in-repo source for its scope. Done items get deleted outright — don't rewrite them into smaller "verified on X, Y remaining" residuals unless the remainder is a real task on its own merits. Preserve lasting decisions or gotchas in notes or audit state before removing the task.
 
 ## Related repo conventions
 
 - Per-app config dirs (`alacritty.yml`, `kitty/`, `i3.config`, `espanso/`, `mpv/`, `awesome/`, `openmw/`, `BAR/`, etc.) are wired up via home-manager — check the relevant `home*.nix` to see how a given file lands in `$HOME`.
 - **X11-era WM configs are semi-abandoned** as of 2026-05-24: `i3.config`, `awesome/`, `Xresources-regolith`, `.xinitrc`. The Linux side is migrating to Sway from-scratch (see `.agents/todos/linux.md`); when porting bindings to the new Sway config, **Regolith's upstream Sway/i3 configs are the canonical reference**, not the local files. Local `i3.config` is consulted only for the Colemak-DH directional bindings (`i3.config:112-116, 171-175`) that Regolith doesn't ship.
-- **Notification primitive is `noti`** (adopted 2026-05-24). Installed cross-platform via `home.packages` in `home.nix` + `home-mac.nix`. Bypasses terminal-escape protocols (OSC 9 / OSC 99 / `kitten notify`) entirely — those don't reliably traverse tmux+Kitty on macOS even with `allow-passthrough all` (known issues: [kitty#8090](https://github.com/kovidgoyal/kitty/issues/8090), [kitty#8086](https://github.com/kovidgoyal/kitty/issues/8086), [claude-code#19976](https://github.com/anthropics/claude-code/issues/19976)). `noti` calls macOS's UserNotifications and Linux's libnotify natively. CLI: `noti -t Title -m Message` or `noti some-long-command` to fire on completion.
+- **Notification primitive is `noti`** (adopted 2026-05-24). Installed cross-platform via `home.packages` in `common.nix`. Bypasses terminal-escape protocols (OSC 9 / OSC 99 / `kitten notify`) entirely — those don't reliably traverse tmux+Kitty on macOS even with `allow-passthrough all` (known issues: [kitty#8090](https://github.com/kovidgoyal/kitty/issues/8090), [kitty#8086](https://github.com/kovidgoyal/kitty/issues/8086), [claude-code#19976](https://github.com/anthropics/claude-code/issues/19976)). `noti` calls macOS's UserNotifications and Linux's libnotify natively. CLI: `noti -t Title -m Message` or `noti some-long-command` to fire on completion.
