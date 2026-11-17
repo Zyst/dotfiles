@@ -18,6 +18,14 @@
     };
   };
 
+  # Hot corners off; 1 is what the System Settings "–" option writes.
+  targets.darwin.defaults."com.apple.dock" = {
+    wvous-tl-corner = 1;
+    wvous-tr-corner = 1;
+    wvous-bl-corner = 1;
+    wvous-br-corner = 1;
+  };
+
   programs = {
     git.settings.credential.helper = [ "osxkeychain" ];
 
