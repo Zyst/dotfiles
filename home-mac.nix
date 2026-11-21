@@ -94,7 +94,6 @@
           cmd-7 = "workspace 7";
           cmd-8 = "workspace 8";
           cmd-9 = "workspace 9";
-          cmd-0 = "workspace 10";
 
           # Combined send-to-workspace + follow (matches skhdrc alt+cmd-N)
           alt-cmd-1 = [ "move-node-to-workspace 1" "workspace 1" ];
@@ -106,7 +105,6 @@
           alt-cmd-7 = [ "move-node-to-workspace 7" "workspace 7" ];
           alt-cmd-8 = [ "move-node-to-workspace 8" "workspace 8" ];
           alt-cmd-9 = [ "move-node-to-workspace 9" "workspace 9" ];
-          alt-cmd-0 = [ "move-node-to-workspace 10" "workspace 10" ];
 
           # Layout toggles
           alt-f = "fullscreen";
